@@ -1,0 +1,66 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+
+
+    <h:head>
+
+        <f:facet name="first">
+            <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+            <title>GetItDone</title>
+        </f:facet>     
+
+        <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"/>
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <!--        <link href="css/style.css" rel="stylesheet" type="text/css"/>-->
+        <h:outputStylesheet name="main/css/style_1.css" />  
+        <script src='https://www.google.com/recaptcha/api.js'></script>
+    </h:head>
+    <h:body>
+        <h:form>
+            <p:messages showDetail="true"/>
+
+            <div class="container register">
+                <div class="row">
+                    <div class="col-md-3 register-left">
+                        <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt=""/>
+                        <h3>Welcome</h3>
+                        <p>We at GetItDone give you unparallel service with few button clicks  !</p>                       
+                    </div>
+                    <div class="col-md-9 register-right">                    
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                <h3 class="register-heading">Register and start making requests</h3>
+                                <div class="row register-form">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <p:inputText placeholder="First name" class="form-control"/>                                          
+                                        </div>
+                                        <div class="form-group">
+                                            <p:inputText placeholder="Last Name" class="form-control"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <p:inputText placeholder="Phone Number" class="form-control"/>
+                                        </div>
+                                        <p:commandButton class="btnRegister" value="Next"/>                                        
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </h:form>
+    </h:body>
+</html>
