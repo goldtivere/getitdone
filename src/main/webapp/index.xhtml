@@ -21,37 +21,62 @@
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <!--        <link href="css/style.css" rel="stylesheet" type="text/css"/>-->
         <h:outputStylesheet name="main/css/style_1.css" />  
-        <script src='https://www.google.com/recaptcha/api.js'></script>
+        <script src="https://www.google.com/recaptcha/api.js"></script>
     </h:head>
     <h:body>
         <h:form>
-            <p:messages showDetail="true"/>
+            <p:growl showDetail="true" id="msg"/>
 
             <div class="container register">
                 <div class="row">
                     <div class="col-md-3 register-left">
                         <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt=""/>
                         <h3>Welcome</h3>
-                        <p>We at GetItDone give you unparallel service with few button clicks  !</p>                       
+                        <p>We at GetItDone give you unparallel service with few button clicks  !</p>   
+                        <p:commandButton value="Log In"/>  
                     </div>
                     <div class="col-md-9 register-right">                    
                         <div class="tab-content" id="myTabContent">
                             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                                 <h3 class="register-heading">Register and start making requests</h3>
-                                <div class="row register-form">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <p:inputText placeholder="First name" class="form-control"/>                                          
-                                        </div>
-                                        <div class="form-group">
-                                            <p:inputText placeholder="Last Name" class="form-control"/>
-                                        </div>
-                                        <div class="form-group">
-                                            <p:inputText placeholder="Phone Number" class="form-control"/>
-                                        </div>
-                                        <p:commandButton class="btnRegister" value="Next"/>                                        
 
+                                <div class="row register-form">
+
+                                    <div class="col-md-6">
+                                        <p:panel visible="#{registration.firstPanel}" id="fpanel" style="border: none;">
+                                            <div class="form-group">
+                                                <p:inputText placeholder="First name" required="true" requiredMessage="First Name is required" id="fname" class="form-control"/>                                          
+
+                                            </div>
+                                            <div class="form-group">
+                                                <p:inputText placeholder="Last Name" id="lname" required="true" requiredMessage="Last Name is required" class="form-control"/>
+
+                                            </div>
+                                            <div class="form-group">
+                                                <p:inputText placeholder="Phone Number" id="pnum" required="true" requiredMessage="Phone number is required" class="form-control"/>
+
+                                            </div>                                      
+                                            <div class="g-recaptcha" data-sitekey="6LfX8HkUAAAAAEegb_Mvrc5PDgi56894Olgat4eG"></div>
+                                            <p:commandButton class="btnRegister" actionListener="#{registration.nextPage()}" process="@this fname,lname,pnum" update="fpanel,spanel,msg" value="Next"/>                                        
+                                        </p:panel>
+                                        <p:panel visible="#{registration.secondPanel}" id="spanel" style="border: none;">
+                                            <div class="form-group">
+                                                <p:outputLabel value="Please enter code sent to your number" for="code"/>
+                                                <p:inputText placeholder="Verification code" required="true" requiredMessage="Verification code is required" id="code" class="form-control"/>                                          
+
+                                            </div>
+                                            <div class="form-group">
+                                                <p:password placeholder="Enter Password" id="pass" required="true" requiredMessage="Pssword is required" class="form-control"/>
+
+                                            </div>
+                                            <div class="form-group">
+                                                <p:inputText placeholder="Retype Password" id="repass" required="true" requiredMessage="Password is required" class="form-control"/>
+
+                                            </div>                                            
+                                            <p:commandButton value="Submit" action="#{registration.submit()}" />
+                                        </p:panel>
                                     </div>
+
 
                                 </div>
                             </div>
