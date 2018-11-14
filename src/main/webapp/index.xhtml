@@ -57,7 +57,7 @@
 
                                             </div>                                      
                                             <div class="g-recaptcha" data-sitekey="6LfX8HkUAAAAAEegb_Mvrc5PDgi56894Olgat4eG"></div>
-                                            <p:commandButton class="btnRegister" actionListener="#{registration.nextPage()}" process="@this fname,lname,pnum" update="fpanel,spanel,msg" value="Next"/>                                        
+                                            <p:commandButton class="btnRegister" actionListener="#{registration.testResult()}" process="@this fname,lname,pnum" update="fpanel,spanel,msg" value="Next"/>                                        
                                         </p:panel>
                                         <p:panel visible="#{registration.secondPanel}" id="spanel" style="border: none;">
                                             <div class="form-group">

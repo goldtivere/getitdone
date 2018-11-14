@@ -5,7 +5,6 @@
  */
 package BackGroundManager;
 
-
 import com.git.dbcon.DateManipulation;
 import com.git.dbcon.DbConnectionX;
 import java.io.BufferedReader;
@@ -46,7 +45,7 @@ public class ThreadRunner implements Runnable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }    
+    }
 
     public List<MessageModel> doTransaction() throws Exception {
 
@@ -55,42 +54,42 @@ public class ThreadRunner implements Runnable {
         ResultSet rs = null;
         PreparedStatement pstmt = null;
         String sms_url;
-
+        System.out.println("Hello Boy");
         try {
 
             con = dbCon.mySqlDBconnection();
 
             //
             List<MessageModel> mode = new ArrayList<>();
-            for (String dbname : dbname()) {
-                String querySMSDetails = "select * from tbtempregistration "
-                        + "where verified=?";
-                //
-                pstmt = con.prepareStatement(querySMSDetails);
-                pstmt.setBoolean(1, false);
-                rs = pstmt.executeQuery();
+            String querySMSDetails = "select * from tbtempregistration "
+                    + "where verified=?";
+            //
+            pstmt = con.prepareStatement(querySMSDetails);
+            pstmt.setBoolean(1, false);
+            rs = pstmt.executeQuery();
 
-                //
-                String _val = null;
+            //
+            String _val = null;
 
-                while (rs.next()) {
-                    MessageModel messageModel = new MessageModel();
-                    String value =" Please enter this code "+ rs.getString("code")+ " to complete your registration on GetItDone.";
-                    _val = value.replace(" ", "%20");
-                    _val = _val.replace(",", "%2C");
-                    _val = _val.replace(":", "%3A");
-                    _val = _val.replace(";", "%3B");
-                    _val = _val.replace("'", "%27");
-                    _val = _val.replace("(", "%28");
-                    _val = _val.replace(")", "%29");
-                    _val = _val.replace("#", "%23");                    
-                    messageModel.setPhonenumber(rs.getString("phonenumber"));  
-                    messageModel.setMessage(_val);
-                    setValueGet(true);
-                    mode.add(messageModel);
+            while (rs.next()) {
+                MessageModel messageModel = new MessageModel();
+                System.out.println(rs.getString("verificationcode") + "  ok");
+                String value = " Please enter this code " + rs.getString("verificationcode") + " to complete your registration on GetItDone.";
+                _val = value.replace(" ", "%20");
+                _val = _val.replace(",", "%2C");
+                _val = _val.replace(":", "%3A");
+                _val = _val.replace(";", "%3B");
+                _val = _val.replace("'", "%27");
+                _val = _val.replace("(", "%28");
+                _val = _val.replace(")", "%29");
+                _val = _val.replace("#", "%23");
+                messageModel.setPhonenumber(rs.getString("phonenumber"));
+                messageModel.setMessage(_val);
+                setValueGet(true);
+                mode.add(messageModel);
 
-                }
             }
+
             return mode;
 
         } catch (Exception e) {
@@ -117,7 +116,7 @@ public class ThreadRunner implements Runnable {
 
     }//end doTransaction...
 
-    public void updateSmsTable(String statusCode, String description,String phonenumber) {
+    public void updateSmsTable(String statusCode, String description, String phonenumber) {
         DbConnectionX dbConnections = new DbConnectionX();
         Connection con = null;
         ResultSet rs = null;
@@ -128,7 +127,7 @@ public class ThreadRunner implements Runnable {
             pstmt = con.prepareStatement(updateSmsTable);
             pstmt.setBoolean(1, true);
             pstmt.setString(2, statusCode);
-            pstmt.setString(3, description);        
+            pstmt.setString(3, description); 
             pstmt.setString(4, DateManipulation.dateAndTime());
             pstmt.setString(5, phonenumber);
             pstmt.executeUpdate();
@@ -148,7 +147,7 @@ public class ThreadRunner implements Runnable {
 
                 String val = null;
                 String sender = "GetItDone";
-                URL url = new URL("http://www.bulksmslive.com/tools/geturl/Sms.php?username=goldtive@gmail.com&password=GoldTivere94&sender=" + sender + "&message=" + messageModel.getMessage()+ "&flash=1&sendtime=" + DateManipulation.dateAlone() + "&listname=friends&recipients=" + messageModel.getPhonenumber());
+                URL url = new URL("http://www.bulksmslive.com/tools/geturl/Sms.php?username=goldtive@gmail.com&password=GoldTivere94&sender=" + sender + "&message=" + messageModel.getMessage() + "&flash=1&sendtime=" + DateManipulation.dateAlone() + "&listname=friends&recipients=" + messageModel.getPhonenumber());
                 //http://www.bulksmslive.com/tools/geturl/Sms.php?username=abc&password=xyz&sender="+sender+"&message="+message+"&flash=0&sendtime=2009-10- 18%2006:30&listname=friends&recipients="+recipient; 
                 //URL gims_url = new URL("http://smshub.lubredsms.com/hub/xmlsmsapi/send?user=loliks&pass=GJP8wRTs&sender=nairabox&message=Acct%3A5073177777%20Amt%3ANGN1%2C200.00%20CR%20Desc%3ATesting%20alert%20Avail%20Bal%3ANGN%3A1%2C342%2C158.36&mobile=08065711040&flash=0");
                 final String USER_AGENT = "Mozilla/5.0";
@@ -196,6 +195,7 @@ public class ThreadRunner implements Runnable {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("this one nor suppose affect am now");
             Thread.currentThread().interrupt();
 
         }
