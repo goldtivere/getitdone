@@ -62,18 +62,18 @@
                                         <p:panel visible="#{registration.secondPanel}" id="spanel" style="border: none;">
                                             <div class="form-group">
                                                 <p:outputLabel value="Please enter code sent to your number" for="code"/>
-                                                <p:inputText placeholder="Verification code" required="true" requiredMessage="Verification code is required" id="code" class="form-control"/>                                          
+                                                <p:inputText placeholder="Verification code" required="true" value="#{registration.verCode}" requiredMessage="Verification code is required" id="code" class="form-control"/>                                          
 
                                             </div>
                                             <div class="form-group">
-                                                <p:password placeholder="Enter Password" id="pass" required="true" requiredMessage="Pssword is required" class="form-control"/>
+                                                <p:password placeholder="Enter Password" id="pass" match="repass" validatorMessage="Password do not match" required="true" value="#{registration.pwd}" requiredMessage="Pssword is required" class="form-control"/>
 
                                             </div>
                                             <div class="form-group">
-                                                <p:inputText placeholder="Retype Password" id="repass" required="true" requiredMessage="Password is required" class="form-control"/>
+                                                <p:password placeholder="Retype Password" id="repass" required="true" value="#{registration.pwd}" requiredMessage="Password is required" class="form-control"/>
 
                                             </div>                                            
-                                            <p:commandButton value="Submit" action="#{registration.submit()}" />
+                                            <p:commandButton value="Submit" action="#{registration.register()}" />
                                         </p:panel>
                                     </div>
 
