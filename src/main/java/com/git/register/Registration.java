@@ -9,6 +9,7 @@ import BackGroundManager.MessageModel;
 import com.git.dbcon.AESencrp;
 import com.git.dbcon.DateManipulation;
 import com.git.dbcon.DbConnectionX;
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -19,31 +20,46 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.NavigationHandler;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Gold
  */
 @ManagedBean
-public class Registration {
+@SessionScoped
+public class Registration implements Serializable {
 
     private boolean firstPanel;
     private boolean secondPanel;
+    private boolean thirdPanel;
+    private String logUsername;
+    private String logPassword;
     private String fname;
     private String lname;
     private String pnum;
     private String verCode;
     private String pwd;
+    private UserDetails dto = new UserDetails();
 
     @PostConstruct
     public void init() {
         setFirstPanel(true);
         setSecondPanel(false);
+        setThirdPanel(false);
     }
 
     public void tempPhone() {
 
+    }
+
+    public void getIn() {
+        setThirdPanel(true);
+        setFirstPanel(false);
+        setSecondPanel(false);
     }
 
     public boolean submit() {
@@ -66,7 +82,128 @@ public class Registration {
         }
     }
 
+//takes you back to registration page by making panels true or false
+    public String backtoRegister() {
+        return "/index.xhtml?faces-redirect=true";
+    }
+
+    //login code
+    public void login() throws Exception {
+        FacesContext context = FacesContext.getCurrentInstance();
+
+        DbConnectionX dbConnections = new DbConnectionX();
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+
+            con = dbConnections.mySqlDBconnection();
+
+            String queryProfile = "select * from tbregistration "
+                    + "where phonenumber=? and Password=? and isdeleted=?";
+
+            //encrypt the password entered and then compared with what you have in the DB
+            String doEncPwd = AESencrp.encrypt(getLogPassword());
+            //
+
+            pstmt = con.prepareStatement(queryProfile);
+            pstmt.setString(1, getLogUsername());
+            pstmt.setString(2, doEncPwd);
+            pstmt.setBoolean(3, false);
+
+            //System.out.println(getUsername() + "," + doEncPwd  + "<>" + getPassword() );
+            //pstmt.setString(2, "ok");
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                dto.setId(rs.getInt("id"));
+                dto.setFname(rs.getString("firstname"));
+                dto.setLname(rs.getString("lastname"));
+                dto.setFullname(rs.getString("fullname"));
+                dto.setPnum(rs.getString("phonenumber"));
+
+                context.getExternalContext().getSessionMap().put("sessn_nums", getDto());
+                System.out.println(getDto().getFullname());
+
+                NavigationHandler nav = context.getApplication().getNavigationHandler();
+
+                String url_ = "/pages/home/homepage.xhtml?faces-redirect=true";
+                nav.handleNavigation(context, null, url_);
+                context.renderResponse();
+
+            } else {
+
+                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Invalid login details", "Invalid login details"));
+
+                //System.out.println("Failed.");
+            }
+        } catch (NullPointerException e) {
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, e.getMessage().toString(), "System unavailable111, please try again later."));
+        } catch (Exception e) {
+
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, e.getMessage().toString(), "System unavailable, please try again later."));
+            e.printStackTrace();
+
+        } finally {
+
+            if (!(con == null)) {
+                con.close();
+                con = null;
+            }
+            if (!(pstmt == null)) {
+                pstmt.close();
+                pstmt = null;
+            }
+
+        }
+
+    }
+
+    public void noactivity(ActionEvent evt) {
+        getLogout();
+    }
+
+    public boolean getLogout() {
+
+        FacesContext context = FacesContext.getCurrentInstance();
+
+        try {
+
+            HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+            session.invalidate();
+
+            // pageMover.setValue01("page1.xhtml");
+            //context.getExternalContext().getSessionMap().clear();
+            NavigationHandler nav = context.getApplication().getNavigationHandler();
+
+            nav.handleNavigation(context, null, "/index.xhtml?faces-redirect=true");
+            //nav.handleNavigation(context, null, "/../../login.xhtml?faces-redirect=true");
+
+            context.renderResponse();
+
+            if (context.getExternalContext().getSessionMap().isEmpty()) {
+
+                //System.out.println("Why:" + dto.getUsername());
+                return true;
+
+            } else {
+
+                context.addMessage(null, new FacesMessage("App. cannot close at this time,try later."));
+                //System.out.println("Why:" + dto.getUsername());
+                return false;
+            }
+
+        } catch (Exception e) {
+
+            context.addMessage(null, new FacesMessage("System Unavailable."));
+            e.printStackTrace();
+            return false;
+
+        }
+
+    }//end getLogout
     //check if verCodeExist
+
     public boolean checkIfVerExists() {
         DbConnectionX dbConnections = new DbConnectionX();
         Connection con = null;
@@ -125,8 +262,8 @@ public class Registration {
 
             String pass = AESencrp.encrypt(getPwd());
             if (checkIfVerExists()) {
-                String insert = "insert into tbregistration (firstname,lastname,fullname,phonenumber,password,datecreated)"
-                        + "values(?,?,?,?,?,?)";
+                String insert = "insert into tbregistration (firstname,lastname,fullname,phonenumber,password,datecreated,isdeleted)"
+                        + "values(?,?,?,?,?,?,?)";
                 pstmt = con.prepareStatement(insert);
 
                 pstmt.setString(1, getFname());
@@ -135,6 +272,7 @@ public class Registration {
                 pstmt.setString(4, getPnum());
                 pstmt.setString(5, pass);
                 pstmt.setString(6, DateManipulation.dateAndTime());
+                pstmt.setBoolean(7, false);
                 pstmt.executeUpdate();
 
                 String update = "update tbtempregistration set phoneverified=? where phonenumber=? and verificationcode=? order by createdon desc limit 1";
@@ -291,6 +429,38 @@ public class Registration {
 
     public void setPwd(String pwd) {
         this.pwd = pwd;
+    }
+
+    public boolean isThirdPanel() {
+        return thirdPanel;
+    }
+
+    public void setThirdPanel(boolean thirdPanel) {
+        this.thirdPanel = thirdPanel;
+    }
+
+    public String getLogUsername() {
+        return logUsername;
+    }
+
+    public void setLogUsername(String logUsername) {
+        this.logUsername = logUsername;
+    }
+
+    public String getLogPassword() {
+        return logPassword;
+    }
+
+    public void setLogPassword(String logPassword) {
+        this.logPassword = logPassword;
+    }
+
+    public UserDetails getDto() {
+        return dto;
+    }
+
+    public void setDto(UserDetails dto) {
+        this.dto = dto;
     }
 
 }

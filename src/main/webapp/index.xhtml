@@ -33,7 +33,7 @@
                         <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt=""/>
                         <h3>Welcome</h3>
                         <p>We at GetItDone give you unparallel service with few button clicks  !</p>   
-                        <p:commandButton value="Log In"/>  
+                        <p:commandButton value="Log In" action="#{registration.getIn()}" process="@this" update="fpanel,spanel,tpanel"/>  
                     </div>
                     <div class="col-md-9 register-right">                    
                         <div class="tab-content" id="myTabContent">
@@ -73,7 +73,20 @@
                                                 <p:password placeholder="Retype Password" id="repass" required="true" value="#{registration.pwd}" requiredMessage="Password is required" class="form-control"/>
 
                                             </div>                                            
-                                            <p:commandButton value="Submit" action="#{registration.register()}" />
+                                            <p:commandButton value="Submit" action="#{registration.register()}" process="@this code,repass,pass"/>
+                                        </p:panel>
+                                        <p:panel visible="#{registration.thirdPanel}" id="tpanel" style="border: none;">
+                                            <div class="form-group">
+
+                                                <p:inputText placeholder="Phone Number" required="true" value="#{registration.logUsername}" requiredMessage="Phone number is required" id="phone" class="form-control"/>                                          
+
+                                            </div>
+                                            <div class="form-group">
+                                                <p:password placeholder="Enter Password" id="password" required="true" value="#{registration.logPassword}" requiredMessage="Pssword is required" class="form-control"/>
+
+                                            </div>                                                                                   
+                                            <p:commandButton value="Login" action="#{registration.login()}" process="@this phone,password" update="msg" />
+                                            <p:commandLink value="New here? Register" action="#{registration.backtoRegister()}" process="@this" update="fpanel,spanel,tpanel"/>
                                         </p:panel>
                                     </div>
 

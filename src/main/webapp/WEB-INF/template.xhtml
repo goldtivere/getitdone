@@ -34,29 +34,23 @@
                     <div class="sidebar-collapse">
                         <ul class="nav metismenu" id="side-menu">
                             <li class="nav-header">
-                                <div class="dropdown profile-element"> <span>
-                                        <h:outputLink target="_blank" >
-                                            <p:graphicImage class="img img-circle img-responsive " width="50" height="50" value="#{login.dto.imageId}"></p:graphicImage>
-                                        </h:outputLink>                                        
-
-                                    </span>
-                                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                                        <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">
-                                                    <h:outputText styleClass="outputLabel" value= "#{login.dto.first_name} #{login.dto.last_name}"/>
-                                                </strong>
-                                            </span></span> </a>                                   
+                                <div class="dropdown profile-element"> 
+                                    <span class="block m-t-xs"> <strong class="font-bold">
+                                            <h:outputText styleClass="outputLabel" value= "#{registration.dto.fullname}"/>                                            
+                                        </strong>
+                                    </span>                                  
                                 </div>
 
                             </li>
                             <li>
                             <h:outputLink value="#{request.contextPath}/faces/pages/home/homepage.xhtml">
-                                <i class="fa fa-home"></i> <span class="nav-label">Make Transaction</span>
+                                <i class="fa fa-home"></i> <span class="nav-label">Cart</span>
                             </h:outputLink>                                                             
                             </li>
 
                             <li>  
                             <h:outputLink  value="#{request.contextPath}/faces/pages/register/registration.xhtml">
-                                <i class="fa fa-user-plus"></i> <span class="nav-label">View Transaction</span>
+                                <i class="fa fa-user-plus"></i> <span class="nav-label">Requests</span>
                             </h:outputLink>                             
                             </li>
                             <li>  
@@ -78,32 +72,10 @@
                             </div>                            
                             <ul class="nav navbar-top-links navbar-right">
 
-                                <li>
-                                <h:outputLink rendered="#{login.roleAssigned}" value="#{request.contextPath}/faces/pages/register/staffManagement.xhtml">
-                                    <i class="fa fa-user-plus"></i>
-
-                                </h:outputLink>                               
-                                </li>
-                                <li>
-                                <h:outputLink rendered="#{login.roleAssigned}" value="#{request.contextPath}/faces/pages/mail/mail.xhtml">
-                                    <div>
-                                        <i class="fa fa-envelope fa-fw"></i>
-                                    </div>
-
-                                </h:outputLink>
-                                </li>
-                                <li>
-                                <h:outputLink rendered="#{login.cansendtext}" value="#{request.contextPath}/faces/pages/mail/mail.xhtml">
-                                    <div>
-                                        <i class="fa fa-envelope fa-fw"></i>
-                                    </div>
-
-                                </h:outputLink>
-                                </li>
 
                                 <li>
 
-                                <p:commandLink id="nonAjax" actionListener="#{login.noactivity}" immediate="true" ajax="false">
+                                <p:commandLink id="nonAjax" actionListener="#{registration.noactivity}" immediate="true" ajax="false">
                                     <i class="fa fa-sign-out"></i><h:outputText value=" Log out" />
                                 </p:commandLink>  
 
