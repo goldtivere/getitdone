@@ -122,8 +122,7 @@ public class Registration implements Serializable {
                 dto.setFullname(rs.getString("fullname"));
                 dto.setPnum(rs.getString("phonenumber"));
 
-                context.getExternalContext().getSessionMap().put("sessn_nums", getDto());
-                System.out.println(getDto().getFullname());
+                context.getExternalContext().getSessionMap().put("sessn_nums", getDto());                
 
                 NavigationHandler nav = context.getApplication().getNavigationHandler();
 
