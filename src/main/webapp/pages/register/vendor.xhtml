@@ -19,25 +19,25 @@
         <p:messages id="messages" closable="true" />
         <div class="col-md-12">
             <div class="col-md-4">
-               
+                <p:panel style="border:none;" id="Ppanel">
                     <div class="form-group">
                         <p:outputLabel value="First Name: "/>
                         <p:inputText id="vendorFname" value="#{vendor.vendor.fname}" required="true" requiredMessage="First Name is required" class="form-control"/>
-                  
+
                         <p:outputLabel value="Middle Name: " />
                         <p:inputText id="vendorMname" value="#{vendor.vendor.mname}" class="form-control" />
                     </div>
                     <div class="form-group">
                         <p:outputLabel value="Last Name: "/>
                         <p:inputText id="vendorLname" required="true" value="#{vendor.vendor.lname}" requiredMessage="Last Name is required" class="form-control"/>
-                   
+
                         <p:outputLabel value="Business Name: "/>
                         <p:inputText id="business" required="true" value="#{vendor.vendor.bname}" requiredMessage="Business Name is required" class="form-control"/>
                     </div>
                     <div class="form-group">
                         <p:outputLabel value="Address: "/>
                         <p:inputTextarea id="adds" required="true" value="#{vendor.vendor.baddress}" requiredMessage="Address is required" class="form-control" />   
-                   
+
                         <p:outputLabel value="Account Number: "/>                    
                         <p:inputText id="acctNum" class="form-control" value="#{vendor.vendor.acctNum}" />
                     </div>
@@ -45,9 +45,9 @@
                         <p:outputLabel value="Account Name: "/>
                         <p:inputText id="acctName" class="form-control" value="#{vendor.vendor.acctName}"/>
                     </div>
-                
-                <p:commandButton value="Register" process="@this vendorFname,vendorMname,vendorLname,business,adds,acctNum,acctName" update="messages"/>
 
+                    <p:commandButton value="Register" action="#{vendor.registerVendor()}" process="@this vendorFname,vendorMname,vendorLname,business,adds,acctNum,acctName" update="messages,Ppanel"/>
+                </p:panel>
             </div>
         </div>
     </ui:define>
