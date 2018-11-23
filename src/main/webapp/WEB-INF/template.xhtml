@@ -57,7 +57,12 @@
                             <h:outputLink  value="#{request.contextPath}/faces/pages/register/registration.xhtml">
                                 <i class="fa fa-user-plus"></i> <span class="nav-label">Profile</span>
                             </h:outputLink>                             
-                            </li>                           
+                            </li> 
+                            <li>  
+                            <h:outputLink  value="#{request.contextPath}/faces/pages/register/vendor.xhtml">
+                                <i class="fa fa-user-plus"></i> <span class="nav-label">Profile</span>
+                            </h:outputLink>                             
+                            </li> 
                         </ul>
 
                     </div>
@@ -93,7 +98,8 @@
 
                         </div>
                     </div>
-                    <div class="wrapper wrapper-content animated fadeInRight">                        
+                    <div class="wrapper wrapper-content animated fadeInRight">  
+                        <p:growl id="growl" showSummary="true"/>
                         <ui:insert name="content" />
 
                     </div>

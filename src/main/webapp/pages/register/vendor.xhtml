@@ -1,0 +1,55 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+
+
+
+    <ui:define name="title">
+        Register Vendor
+    </ui:define>
+
+    <ui:define name="Subtitle">
+        Register Vendor
+    </ui:define>
+    <ui:define name="content">  
+        <p:messages id="messages" closable="true" />
+        <div class="col-md-12">
+            <div class="col-md-4">
+               
+                    <div class="form-group">
+                        <p:outputLabel value="First Name: "/>
+                        <p:inputText id="vendorFname" value="#{vendor.vendor.fname}" required="true" requiredMessage="First Name is required" class="form-control"/>
+                  
+                        <p:outputLabel value="Middle Name: " />
+                        <p:inputText id="vendorMname" value="#{vendor.vendor.mname}" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <p:outputLabel value="Last Name: "/>
+                        <p:inputText id="vendorLname" required="true" value="#{vendor.vendor.lname}" requiredMessage="Last Name is required" class="form-control"/>
+                   
+                        <p:outputLabel value="Business Name: "/>
+                        <p:inputText id="business" required="true" value="#{vendor.vendor.bname}" requiredMessage="Business Name is required" class="form-control"/>
+                    </div>
+                    <div class="form-group">
+                        <p:outputLabel value="Address: "/>
+                        <p:inputTextarea id="adds" required="true" value="#{vendor.vendor.baddress}" requiredMessage="Address is required" class="form-control" />   
+                   
+                        <p:outputLabel value="Account Number: "/>                    
+                        <p:inputText id="acctNum" class="form-control" value="#{vendor.vendor.acctNum}" />
+                    </div>
+                    <div class="form-group">
+                        <p:outputLabel value="Account Name: "/>
+                        <p:inputText id="acctName" class="form-control" value="#{vendor.vendor.acctName}"/>
+                    </div>
+                
+                <p:commandButton value="Register" process="@this vendorFname,vendorMname,vendorLname,business,adds,acctNum,acctName" update="messages"/>
+
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>
