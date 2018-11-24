@@ -11,7 +11,8 @@ import java.io.Serializable;
  *
  * @author Gold
  */
-public class VendorModel implements Serializable{
+public class VendorModel implements Serializable {
+
     private int id;
     private String fname;
     private String mname;
@@ -21,6 +22,7 @@ public class VendorModel implements Serializable{
     private String baddress;
     private String acctNum;
     private String acctName;
+    private String rcnum;
 
     public int getId() {
         return id;
@@ -93,6 +95,13 @@ public class VendorModel implements Serializable{
     public void setAcctName(String acctName) {
         this.acctName = acctName;
     }
-    
-    
+
+    public String getRcnum() {
+        return rcnum;
+    }
+
+    public void setRcnum(String rcnum) {
+        this.rcnum = rcnum;
+    }
+
 }

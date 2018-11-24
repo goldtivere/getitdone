@@ -45,10 +45,53 @@ public class vendor {
         vendor.setFname("");
         vendor.setLname("");
         vendor.setMname("");
+        vendor.setRcnum("");
 
     }
 
-    public boolean checkRcExist() {
+    public boolean checkRcExist(String rcnum) {
+        DbConnectionX dbConnections = new DbConnectionX();
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        con = dbConnections.mySqlDBconnection();
+        try {
+            String queryProfile = "select * from tbvendor "
+                    + "where rcnumber=? and isdeleted=?";
+            pstmt = con.prepareStatement(queryProfile);
+            pstmt.setString(1, rcnum);
+            pstmt.setBoolean(2, false);
+            rs = pstmt.executeQuery();
+
+            return rs.next();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
+    }
+
+    public boolean checkBusinessExist(String business) {
+        DbConnectionX dbConnections = new DbConnectionX();
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        con = dbConnections.mySqlDBconnection();
+        try {
+            String queryProfile = "select * from tbvendor "
+                    + "where corporatename=? and isdeleted=?";
+            pstmt = con.prepareStatement(queryProfile);
+            pstmt.setString(1, business);
+            pstmt.setBoolean(2, false);
+            rs = pstmt.executeQuery();
+
+            return rs.next();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
 
     }
 
@@ -70,27 +113,41 @@ public class vendor {
                         getMessangerOfTruth(), getMessangerOfTruth());
                 context.addMessage(null, msg);
             }
-            String insert = "insert into tbvendor (firstname,middlename,lastname,fullname,phonenumber,corporatename,accountnumber,accountname,address,createdby,datecreated,isdeleted)"
-                    + "values(?,?,?,?,?,?,?,?,?,?,?,?)";
-            pstmt = con.prepareStatement(insert);
+            System.out.println(checkBusinessExist(vendor.getBname()) + "and" + checkRcExist(vendor.getRcnum()));
+            if (checkBusinessExist(vendor.getBname())) {
 
-            pstmt.setString(1, vendor.getFname());
-            pstmt.setString(2, vendor.getMname());
-            pstmt.setString(3, vendor.getLname());
-            pstmt.setString(4, vendor.getLname() + " " + vendor.getMname() + " " + vendor.getFname());
-            pstmt.setString(5, vendor.getBpnum());
-            pstmt.setString(6, vendor.getBname());
-            pstmt.setString(7, vendor.getAcctNum());
-            pstmt.setString(8, vendor.getAcctName());
-            pstmt.setString(9, vendor.getBaddress());
-            pstmt.setInt(10, userObj.getId());
-            pstmt.setString(11, DateManipulation.dateAndTime());
-            pstmt.setBoolean(12, false);
-            pstmt.executeUpdate();
-            refresh();
-            setMessangerOfTruth("Vendor Created!!");
-            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, getMessangerOfTruth(), getMessangerOfTruth());
-            context.addMessage(null, msg);
+                setMessangerOfTruth("Business name already exists!!");
+                msg = new FacesMessage(FacesMessage.SEVERITY_INFO, getMessangerOfTruth(), getMessangerOfTruth());
+                context.addMessage(null, msg);
+
+            } else if (checkRcExist(vendor.getRcnum())) {
+                setMessangerOfTruth("RC Number already exists!!");
+                msg = new FacesMessage(FacesMessage.SEVERITY_INFO, getMessangerOfTruth(), getMessangerOfTruth());
+                context.addMessage(null, msg);
+            } else {
+                String insert = "insert into tbvendor (firstname,middlename,lastname,fullname,phonenumber,corporatename,accountnumber,accountname,address,createdby,datecreated,isdeleted,rcnumber)"
+                        + "values(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                pstmt = con.prepareStatement(insert);
+
+                pstmt.setString(1, vendor.getFname());
+                pstmt.setString(2, vendor.getMname());
+                pstmt.setString(3, vendor.getLname());
+                pstmt.setString(4, vendor.getLname() + " " + vendor.getMname() + " " + vendor.getFname());
+                pstmt.setString(5, vendor.getBpnum());
+                pstmt.setString(6, vendor.getBname());
+                pstmt.setString(7, vendor.getAcctNum());
+                pstmt.setString(8, vendor.getAcctName());
+                pstmt.setString(9, vendor.getBaddress());
+                pstmt.setInt(10, userObj.getId());
+                pstmt.setString(11, DateManipulation.dateAndTime());
+                pstmt.setBoolean(12, false);
+                pstmt.setString(13, vendor.getRcnum());
+                pstmt.executeUpdate();
+                refresh();
+                setMessangerOfTruth("Vendor Created!!");
+                msg = new FacesMessage(FacesMessage.SEVERITY_INFO, getMessangerOfTruth(), getMessangerOfTruth());
+                context.addMessage(null, msg);
+            }
 
         } catch (Exception e) {
             e.printStackTrace();

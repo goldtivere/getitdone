@@ -33,6 +33,9 @@
 
                         <p:outputLabel value="Business Name: "/>
                         <p:inputText id="business" required="true" value="#{vendor.vendor.bname}" requiredMessage="Business Name is required" class="form-control"/>
+
+                        <p:outputLabel value="Rc Number: "/>
+                        <p:inputText id="rcnum" value="#{vendor.vendor.rcnum}" class="form-control"/>                        
                     </div>
                     <div class="form-group">
                         <p:outputLabel value="Address: "/>
@@ -46,7 +49,31 @@
                         <p:inputText id="acctName" class="form-control" value="#{vendor.vendor.acctName}"/>
                     </div>
 
-                    <p:commandButton value="Register" action="#{vendor.registerVendor()}" process="@this vendorFname,vendorMname,vendorLname,business,adds,acctNum,acctName" update="messages,Ppanel"/>
+                    <p:commandButton value="Register" action="#{vendor.registerVendor()}" process="@this vendorFname,vendorMname,vendorLname,business,adds,acctNum,acctName,rcnum" update="messages,Ppanel"/>
+                </p:panel>
+            </div>
+            <div class="col-md-8">
+                <p:panel style="border:none;">
+                    <fieldset>
+                        <legend>Register Vendor Item</legend>
+                        <div class="form-group">
+                            <p:outputLabel value="Catergory: "/>
+                            <p:inputText id="cat" class="form-control" value="#{vendor.vendor.acctName}"/>
+                        </div>
+                        <div class="form-group">
+                            <p:outputLabel value="Item name: "/>
+                            <p:inputText id="itemName" class="form-control" value="#{vendor.vendor.acctName}" required="true" requiredMessage=" Item name is required"/>
+                        </div>   
+                        <div class="form-group">
+                            <p:outputLabel value="Price per unit: "/>
+                            <p:inputNumber id="punit" class="form-control" value="#{vendor.vendor.acctName}"/>
+                        </div>
+                        <div class="form-group">
+                            <p:outputLabel value="Upload Image: "/>
+                            <p:inputText id="upImg" class="form-control" value="#{vendor.vendor.acctName}"/>
+                        </div>
+                        <p:commandButton value="Save"/>
+                    </fieldset>
                 </p:panel>
             </div>
         </div>
