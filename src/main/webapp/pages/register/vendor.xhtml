@@ -18,7 +18,7 @@
     <ui:define name="content">  
         <p:messages id="messages" closable="true" />
         <div class="col-md-12">
-            <div class="col-md-4">
+            <div class="col-md-8">
                 <p:panel style="border:none;" id="Ppanel">
                     <div class="form-group">
                         <p:outputLabel value="First Name: "/>
@@ -52,7 +52,7 @@
                     <p:commandButton value="Register" action="#{vendor.registerVendor()}" process="@this vendorFname,vendorMname,vendorLname,business,adds,acctNum,acctName,rcnum" update="messages,Ppanel"/>
                 </p:panel>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-4">
                 <p:panel style="border:none;">
                     <fieldset>
                         <legend>Register Vendor Item</legend>

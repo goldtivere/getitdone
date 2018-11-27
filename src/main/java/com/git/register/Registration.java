@@ -6,6 +6,7 @@
 package com.git.register;
 
 import BackGroundManager.MessageModel;
+import com.git.core.ApiConnection;
 import com.git.dbcon.AESencrp;
 import com.git.dbcon.DateManipulation;
 import com.git.dbcon.DbConnectionX;
@@ -129,6 +130,7 @@ public class Registration implements Serializable {
                 String url_ = "/pages/home/homepage.xhtml?faces-redirect=true";
                 nav.handleNavigation(context, null, url_);
                 context.renderResponse();
+                 ApiConnection cons= new ApiConnection("hi");
 
             } else {
 
