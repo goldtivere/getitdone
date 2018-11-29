@@ -32,7 +32,7 @@ public class SelectOptionMenu {
         try
         {
         mode=dropCategory();
-        bankMode.dropBank();
+        bankMode=dropBank();
         }
         catch(Exception e)
         {
