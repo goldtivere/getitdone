@@ -36,8 +36,7 @@ public class ApiConnection {
         Keys keys = new Keys();
 
         try {
-            keys.initKeys();
-            System.out.println(keys.getTEST_PUBLIC_KEY()+ " hey boss "+ keys.getTEST_SECRET_KEY());
+            keys.initKeys();           
             
         } catch (FileNotFoundException e) {
             System.out.print("Required Keys.json file could not be found.");

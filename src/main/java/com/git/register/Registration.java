@@ -129,8 +129,8 @@ public class Registration implements Serializable {
 
                 String url_ = "/pages/home/homepage.xhtml?faces-redirect=true";
                 nav.handleNavigation(context, null, url_);
-                context.renderResponse();
-                 ApiConnection cons= new ApiConnection("hi");
+                context.renderResponse();                 
+                 
 
             } else {
 

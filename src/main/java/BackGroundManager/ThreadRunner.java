@@ -53,7 +53,7 @@ public class ThreadRunner implements Runnable {
         ResultSet rs = null;
         PreparedStatement pstmt = null;
         String sms_url;
-        System.out.println("Hello Boy");
+        
         try {
 
             con = dbCon.mySqlDBconnection();
