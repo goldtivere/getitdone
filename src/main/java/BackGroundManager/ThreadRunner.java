@@ -105,8 +105,7 @@ public class ThreadRunner implements Runnable {
         DbConnectionX dbCon = new DbConnectionX();
         ResultSet rs = null;
         PreparedStatement pstmt = null;
-        String sms_url;
-        System.out.println("Hello Boy");
+        String sms_url;        
         try {
 
             con = dbCon.mySqlDBconnection();
