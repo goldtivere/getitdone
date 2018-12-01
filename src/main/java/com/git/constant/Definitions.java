@@ -13,6 +13,9 @@ public class Definitions {
      */
     private final static String BASE_API_ENDPOINT = "https://api.paystack.co";
 
+    //URL definition for transfer recipient
+    public static final String PAYSTACK_TRANSFER_RECIPIENT = BASE_API_ENDPOINT + "/transferrecipient";
+
     public static final String PAYSTACK_INLINE_PAYSTACK_STANDARD = BASE_API_ENDPOINT + "/transaction/initialize";
     public static final String PAYSTACK_INLINE_VERIFY_TRANSACTIONS = BASE_API_ENDPOINT + "/transaction/verify/";
     public static final String PAYSTACK_INLINE_CHARGE_AUTHORIZATION = BASE_API_ENDPOINT + "/transaction/charge_authorization";

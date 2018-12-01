@@ -19,6 +19,8 @@ public class VendorModel implements Serializable {
     private String lname;
     private String bname;
     private String bpnum;
+    private int bankname;
+    private int cat;
     private String baddress;
     private String acctNum;
     private String acctName;
@@ -102,6 +104,22 @@ public class VendorModel implements Serializable {
 
     public void setRcnum(String rcnum) {
         this.rcnum = rcnum;
+    }
+
+    public int getBankname() {
+        return bankname;
+    }
+
+    public void setBankname(int bankname) {
+        this.bankname = bankname;
+    }
+
+    public int getCat() {
+        return cat;
+    }
+
+    public void setCat(int cat) {
+        this.cat = cat;
     }
 
 }
