@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -23,27 +24,23 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean(name = "drop")
 @ViewScoped
-public class SelectOptionMenu implements Serializable{
+public class SelectOptionMenu implements Serializable {
+
     private List<CategoryModel> mode;
     private List<BankModel> bankMode;
-    
+
     @PostConstruct
-    public void init()
-    {
-        try
-        {
-        mode=dropCategory();
-        bankMode=dropBank();
-        }
-        catch(Exception e)
-        {
+    public void init() {
+        try {
+            mode = dropCategory();
+            bankMode = dropBank();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     //category select menu method
-    public List<CategoryModel> dropCategory() throws Exception
-    {
+    public List<CategoryModel> dropCategory() throws Exception {
         FacesContext context = FacesContext.getCurrentInstance();
 
         DbConnectionX dbConnections = new DbConnectionX();
@@ -87,11 +84,9 @@ public class SelectOptionMenu implements Serializable{
 
         }
     }
-    
-    
+
     //gets list of bank
-      public List<BankModel> dropBank() throws Exception
-    {
+    public List<BankModel> dropBank() throws Exception {
         FacesContext context = FacesContext.getCurrentInstance();
 
         DbConnectionX dbConnections = new DbConnectionX();
@@ -137,7 +132,85 @@ public class SelectOptionMenu implements Serializable{
 
         }
     }
-            
+
+    public String categoryName(int id) throws SQLException {
+        FacesContext context = FacesContext.getCurrentInstance();
+
+        DbConnectionX dbConnections = new DbConnectionX();
+        Connection con = null;
+        ResultSet rs = null;
+        PreparedStatement pstmt = null;
+
+        try {
+
+            con = dbConnections.mySqlDBconnection();
+            String query = "SELECT * FROM tbcategory where id=?";
+            pstmt = con.prepareStatement(query);
+            pstmt.setInt(1, id);
+            rs = pstmt.executeQuery();
+            //
+            if (rs.next()) {
+                return rs.getString("category");
+            }
+            return null;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+
+        } finally {
+
+            if (!(con == null)) {
+                con.close();
+                con = null;
+            }
+            if (!(pstmt == null)) {
+                pstmt.close();
+                pstmt = null;
+            }
+
+        }
+    }
+    
+     public String bankName(String bankcode) throws SQLException {
+        FacesContext context = FacesContext.getCurrentInstance();
+
+        DbConnectionX dbConnections = new DbConnectionX();
+        Connection con = null;
+        ResultSet rs = null;
+        PreparedStatement pstmt = null;
+
+        try {
+
+            con = dbConnections.mySqlDBconnection();
+            String query = "SELECT * FROM tbbank where bankcode=?";
+            pstmt = con.prepareStatement(query);
+            pstmt.setString(1, bankcode);
+            rs = pstmt.executeQuery();
+            //
+            if (rs.next()) {
+                return rs.getString("bankname");
+            }
+            return null;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+
+        } finally {
+
+            if (!(con == null)) {
+                con.close();
+                con = null;
+            }
+            if (!(pstmt == null)) {
+                pstmt.close();
+                pstmt = null;
+            }
+
+        }
+    }
+
     public List<CategoryModel> getMode() {
         return mode;
     }
@@ -153,6 +226,5 @@ public class SelectOptionMenu implements Serializable{
     public void setBankMode(List<BankModel> bankMode) {
         this.bankMode = bankMode;
     }
-    
-    
+
 }

@@ -25,7 +25,7 @@ public class Recipient {
         apiQuery.putParams("name", name);
         apiQuery.putParams("description", description);
         apiQuery.putParams("account_number", acctNum);
-        apiQuery.putParams("bankcode", bankCode);
+        apiQuery.putParams("bank_code", bankCode);
         apiQuery.putParams("currency", "NGN");
         apiQuery.putParams("metadata", metadata);
 

@@ -5,9 +5,12 @@
  */
 package register;
 
+import com.git.core.Recipient;
 import com.git.dbcon.AESencrp;
 import com.git.dbcon.DateManipulation;
 import com.git.dbcon.DbConnectionX;
+import com.git.getitdone.SelectOptionMenu;
+import com.git.register.Recipient1;
 import com.git.register.UserDetails;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,6 +21,10 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.json.JSONObject;
 import java.io.Serializable;
+import java.sql.SQLException;
+import javax.json.JsonObject;
+import org.codehaus.jackson.map.ObjectMapper;
+
 
 /**
  *
@@ -25,10 +32,11 @@ import java.io.Serializable;
  */
 @ManagedBean
 @ViewScoped
-public class vendor implements Serializable{
+public class vendor implements Serializable {
 
     private VendorModel vendor = new VendorModel();
     private String messangerOfTruth;
+    private SelectOptionMenu menu = new SelectOptionMenu();
 
     public VendorModel getVendor() {
         return vendor;
@@ -73,8 +81,8 @@ public class vendor implements Serializable{
         }
 
     }
-    
-     public boolean checkAccountExist(String acctnum) {
+
+    public boolean checkAccountExist(String acctnum) {
         DbConnectionX dbConnections = new DbConnectionX();
         Connection con = null;
         PreparedStatement pstmt = null;
@@ -120,9 +128,23 @@ public class vendor implements Serializable{
 
     }
 
+    public int studentIdCheck(Connection con) throws SQLException {
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        String testflname = "Select * from tbvendor order by id DESC LIMIT 1";
+        pstmt = con.prepareStatement(testflname);
+        rs = pstmt.executeQuery();
+
+        if (rs.next()) {
+            return rs.getInt("id");
+        }
+        return 0;
+    }
+
     public void registerVendor() {
         FacesContext context = FacesContext.getCurrentInstance();
         DbConnectionX dbConnections = new DbConnectionX();
+        Recipient receipt = new Recipient();
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -149,34 +171,16 @@ public class vendor implements Serializable{
                 setMessangerOfTruth("RC Number already exists!!");
                 msg = new FacesMessage(FacesMessage.SEVERITY_INFO, getMessangerOfTruth(), getMessangerOfTruth());
                 context.addMessage(null, msg);
-            }
-             else if (checkAccountExist(vendor.getAcctNum())) {
+            } else if (checkAccountExist(vendor.getAcctNum())) {
                 setMessangerOfTruth("Account Number already exists!!");
                 msg = new FacesMessage(FacesMessage.SEVERITY_INFO, getMessangerOfTruth(), getMessangerOfTruth());
                 context.addMessage(null, msg);
-            }else {
-                String insert = "insert into tbvendor (firstname,middlename,lastname,fullname,phonenumber,corporatename,accountnumber,accountname,address,createdby,datecreated,isdeleted,rcnumber)"
-                        + "values(?,?,?,?,?,?,?,?,?,?,?,?,?)";
-                pstmt = con.prepareStatement(insert);
+            } else {
 
-                pstmt.setString(1, vendor.getFname());
-                pstmt.setString(2, vendor.getMname());
-                pstmt.setString(3, vendor.getLname());
-                pstmt.setString(4, vendor.getLname() + " " + vendor.getMname() + " " + vendor.getFname());
-                pstmt.setString(5, vendor.getBpnum());
-                pstmt.setString(6, vendor.getBname());
-                pstmt.setString(7, vendor.getAcctNum());
-                pstmt.setString(8, vendor.getAcctName());
-                pstmt.setString(9, vendor.getBaddress());
-                pstmt.setInt(10, userObj.getId());
-                pstmt.setString(11, DateManipulation.dateAndTime());
-                pstmt.setBoolean(12, false);
-                pstmt.setString(13, vendor.getRcnum());
-                pstmt.executeUpdate();
-                refresh();
-                setMessangerOfTruth("Vendor Created!!");
-                msg = new FacesMessage(FacesMessage.SEVERITY_INFO, getMessangerOfTruth(), getMessangerOfTruth());
-                context.addMessage(null, msg);
+                JSONObject bn = receipt.createRecipient(menu.categoryName(vendor.getCat()) + "'s " + vendor.getBname(), vendor.getBname(), vendor.getAcctNum(), vendor.getBankname(), new JSONObject().put("job", vendor.getBname()).toString());
+                ObjectMapper mapp = new ObjectMapper();
+                Recipient1 dat = mapp.readValue(bn.toString(), Recipient1.class);
+                System.out.println("yeah" + dat.isStatus() + " this is it " + dat.getMessage());
             }
 
         } catch (Exception e) {
@@ -193,7 +197,7 @@ public class vendor implements Serializable{
                 .put("JSON3", new JSONObject()
                         .put("key1", "value1")).toString();
 
-        System.out.println(jsonString+ " i was here");
+        System.out.println(jsonString + " i was here");
     }
 
     public String getMessangerOfTruth() {
