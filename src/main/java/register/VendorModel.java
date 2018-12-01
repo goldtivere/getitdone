@@ -25,6 +25,7 @@ public class VendorModel implements Serializable {
     private String acctNum;
     private String acctName;
     private String rcnum;
+    private String itemname;
 
     public int getId() {
         return id;
@@ -120,6 +121,14 @@ public class VendorModel implements Serializable {
 
     public void setCat(int cat) {
         this.cat = cat;
+    }
+
+    public String getItemname() {
+        return itemname;
+    }
+
+    public void setItemname(String itemname) {
+        this.itemname = itemname;
     }
 
 }

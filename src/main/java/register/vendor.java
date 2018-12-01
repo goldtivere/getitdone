@@ -16,6 +16,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import org.json.JSONObject;
+import java.io.Serializable;
 
 /**
  *
@@ -23,7 +25,7 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @ViewScoped
-public class vendor {
+public class vendor implements Serializable{
 
     private VendorModel vendor = new VendorModel();
     private String messangerOfTruth;
@@ -60,6 +62,29 @@ public class vendor {
                     + "where rcnumber=? and isdeleted=?";
             pstmt = con.prepareStatement(queryProfile);
             pstmt.setString(1, rcnum);
+            pstmt.setBoolean(2, false);
+            rs = pstmt.executeQuery();
+
+            return rs.next();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
+    }
+    
+     public boolean checkAccountExist(String acctnum) {
+        DbConnectionX dbConnections = new DbConnectionX();
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        con = dbConnections.mySqlDBconnection();
+        try {
+            String queryProfile = "select * from tbvendor "
+                    + "where accountnumber=? and isdeleted=?";
+            pstmt = con.prepareStatement(queryProfile);
+            pstmt.setString(1, acctnum);
             pstmt.setBoolean(2, false);
             rs = pstmt.executeQuery();
 
@@ -124,7 +149,12 @@ public class vendor {
                 setMessangerOfTruth("RC Number already exists!!");
                 msg = new FacesMessage(FacesMessage.SEVERITY_INFO, getMessangerOfTruth(), getMessangerOfTruth());
                 context.addMessage(null, msg);
-            } else {
+            }
+             else if (checkAccountExist(vendor.getAcctNum())) {
+                setMessangerOfTruth("Account Number already exists!!");
+                msg = new FacesMessage(FacesMessage.SEVERITY_INFO, getMessangerOfTruth(), getMessangerOfTruth());
+                context.addMessage(null, msg);
+            }else {
                 String insert = "insert into tbvendor (firstname,middlename,lastname,fullname,phonenumber,corporatename,accountnumber,accountname,address,createdby,datecreated,isdeleted,rcnumber)"
                         + "values(?,?,?,?,?,?,?,?,?,?,?,?,?)";
                 pstmt = con.prepareStatement(insert);
@@ -154,6 +184,16 @@ public class vendor {
 
         }
 
+    }
+
+    public void testJson() {
+        String jsonString = new JSONObject()
+                .put("JSON1", "Hello World!")
+                .put("JSON2", "Hello my World!")
+                .put("JSON3", new JSONObject()
+                        .put("key1", "value1")).toString();
+
+        System.out.println(jsonString+ " i was here");
     }
 
     public String getMessangerOfTruth() {

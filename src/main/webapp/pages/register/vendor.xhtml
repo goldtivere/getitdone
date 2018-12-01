@@ -84,7 +84,7 @@
                     </p:selectOneMenu> 
                 </div>
                 <div class="col-md-4">
-                    <p:outputLabel value="Account Number: " for="acctnum"/>                    
+                    <p:outputLabel value="Account Number: " for="acctNum"/>                    
                     <p:inputText id="acctNum" class="form-control" value="#{vendor.vendor.acctNum}" />
                 </div>
                 <div class="col-md-4">
@@ -95,7 +95,7 @@
             <div class="row">
                 <div class="col-md-4">
                     <p:outputLabel value="Item name: " for="itemName"/>
-                    <p:inputText id="itemName" class="form-control" value="#{vendor.vendor.acctName}" required="true" requiredMessage=" Item name is required"/>
+                    <p:inputText id="itemName" class="form-control" value="#{vendor.vendor.itemname}" required="true" requiredMessage=" Item name is required"/>
                 </div>
                 <div class="col-md-4">
                     <p:outputLabel value="Price per unit: " for="punit"/>
@@ -103,7 +103,7 @@
                 </div>
                 <br/>
                 <br/>
-                <p:commandButton value="Resgister" class="pull-right" />  
+                <p:commandButton value="Resgister" class="pull-right" action="#{vendor.testJson()}" process="@this" />  
             </div>                                       
 
 

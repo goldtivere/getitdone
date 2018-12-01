@@ -6,6 +6,7 @@
 package com.git.getitdone;
 
 import com.git.dbcon.DbConnectionX;
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,7 +23,7 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean(name = "drop")
 @ViewScoped
-public class SelectOptionMenu {
+public class SelectOptionMenu implements Serializable{
     private List<CategoryModel> mode;
     private List<BankModel> bankMode;
     
