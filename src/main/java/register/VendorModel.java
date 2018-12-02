@@ -20,12 +20,15 @@ public class VendorModel implements Serializable {
     private String bname;
     private String bpnum;
     private String bankname;
-    private int cat;
+    private int cat;    
+    private String email;
     private String baddress;
     private String acctNum;
     private String acctName;
     private String rcnum;
     private String itemname;
+    private double price;
+    private double percent;
 
     public int getId() {
         return id;
@@ -129,6 +132,30 @@ public class VendorModel implements Serializable {
 
     public void setItemname(String itemname) {
         this.itemname = itemname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public double getPercent() {
+        return percent;
+    }
+
+    public void setPercent(double percent) {
+        this.percent = percent;
     }
 
 }

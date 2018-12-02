@@ -25,7 +25,6 @@ import java.sql.SQLException;
 import javax.json.JsonObject;
 import org.codehaus.jackson.map.ObjectMapper;
 
-
 /**
  *
  * @author Gold
@@ -56,6 +55,11 @@ public class vendor implements Serializable {
         vendor.setLname("");
         vendor.setMname("");
         vendor.setRcnum("");
+        vendor.setPercent(0);
+        vendor.setPrice(0);
+        vendor.setCat(0);
+        vendor.setItemname("");
+        vendor.setBankname("");
 
     }
 
@@ -149,10 +153,12 @@ public class vendor implements Serializable {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         FacesMessage msg;
+
         try {
             con = dbConnections.mySqlDBconnection();
             UserDetails userObj = (UserDetails) context.getExternalContext().getSessionMap().get("sessn_nums");
             String on = String.valueOf(userObj);
+            int createdby = userObj.getId();
 
             if (userObj == null) {
                 setMessangerOfTruth("Expired Session, pleasere - login " + on);
@@ -180,8 +186,70 @@ public class vendor implements Serializable {
                 JSONObject bn = receipt.createRecipient(menu.categoryName(vendor.getCat()) + "'s " + vendor.getBname(), vendor.getBname(), vendor.getAcctNum(), vendor.getBankname(), new JSONObject().put("job", vendor.getBname()).toString());
                 ObjectMapper mapp = new ObjectMapper();
                 Recipient1 dat = mapp.readValue(bn.toString(), Recipient1.class);
-                System.out.println("yeah" + bn.toString());
-                System.out.println("yeah" + dat.getMessage()+" status: "+dat.isStatus());
+                if (dat.isStatus()) {
+                    String insertvendor = "insert into tbvendor  (firstname,middlename,lastname,fullname,phonenumber,corporatename,address,emailaddress"
+                            + ",rcnumber,bankname,accountnumber,accountname,verified,createdby,datecreated,isdeleted)"
+                            + "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+
+                    pstmt = con.prepareStatement(insertvendor);
+                    pstmt.setString(1, vendor.getFname());
+                    pstmt.setString(2, vendor.getMname());
+                    pstmt.setString(3, vendor.getLname());
+                    pstmt.setString(4, vendor.getFname() + " " + vendor.getMname() + " " + vendor.getFname());
+                    pstmt.setString(5, vendor.getBpnum());
+                    pstmt.setString(6, vendor.getBname());
+                    pstmt.setString(7, vendor.getBaddress());
+                    pstmt.setString(8, vendor.getEmail());
+                    pstmt.setString(9, vendor.getRcnum());
+                    pstmt.setString(10, vendor.getBankname());
+                    pstmt.setString(11, vendor.getAcctNum());
+                    pstmt.setString(12, vendor.getAcctName());
+                    pstmt.setBoolean(13, true);
+                    pstmt.setInt(14, createdby);
+                    pstmt.setString(15, DateManipulation.dateAndTime());
+                    pstmt.setBoolean(16, false);
+
+                    pstmt.executeUpdate();
+                    int id = studentIdCheck(con);
+                    String insertemail = "insert into tbvendoritem (vendorfk,category,itemname,amount,agentpercentage,datecreated,datetime,createdby)"
+                            + "values(?,?,?,?,?,?,?,?)";
+
+                    pstmt = con.prepareStatement(insertemail);
+                    pstmt.setInt(1, id);
+                    pstmt.setInt(2, vendor.getCat());
+                    pstmt.setString(3, vendor.getItemname());
+                    pstmt.setDouble(4, vendor.getPrice());
+                    pstmt.setDouble(5, vendor.getPercent());
+                    pstmt.setString(6, DateManipulation.dateAlone());
+                    pstmt.setString(7, DateManipulation.dateAndTime());
+                    pstmt.setInt(8, createdby);
+
+                    pstmt.executeUpdate();
+
+                    String insertrecipient = "insert into tbrecepient (vendorfk,recipientcode,bankname,bankcode,accountnumber,accountname,description,createdby,datecreated)"
+                            + "values(?,?,?,?,?,?,?,?,?)";
+
+                    pstmt = con.prepareStatement(insertrecipient);
+                    pstmt.setInt(1, id);
+                    pstmt.setString(2, dat.getData().getRecipient_code());
+                    pstmt.setString(3, dat.getData().getDetails().getBank_name());
+                    pstmt.setString(4, dat.getData().getDetails().getBank_code());
+                    pstmt.setString(5, dat.getData().getDetails().getAccount_number());
+                    pstmt.setString(6, dat.getData().getDetails().getAccount_name());
+                    pstmt.setString(7, dat.getData().getDescription());
+                    pstmt.setInt(8, createdby);
+                    pstmt.setString(9, DateManipulation.dateAndTime());
+
+                    pstmt.executeUpdate();
+                    
+                    setMessangerOfTruth("Vendor created Successfully!!");
+                    msg = new FacesMessage(FacesMessage.SEVERITY_INFO, getMessangerOfTruth(), getMessangerOfTruth());
+                    context.addMessage(null, msg);
+                } else {
+                    setMessangerOfTruth("Invalid Account Number!!");
+                    msg = new FacesMessage(FacesMessage.SEVERITY_INFO, getMessangerOfTruth(), getMessangerOfTruth());
+                    context.addMessage(null, msg);
+                }
             }
 
         } catch (Exception e) {
