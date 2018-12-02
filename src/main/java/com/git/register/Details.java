@@ -10,13 +10,13 @@ package com.git.register;
  * @author Gold
  */
 public class Details {
-    private String bank_name;
+     private String bank_name;
 
     private String account_number;
 
-    private String bank_code;
-
     private String authorization_code;
+
+    private String bank_code;
 
     private String account_name;
 
@@ -40,6 +40,16 @@ public class Details {
         this.account_number = account_number;
     }
 
+    public String getAuthorization_code ()
+    {
+        return authorization_code;
+    }
+
+    public void setAuthorization_code (String authorization_code)
+    {
+        this.authorization_code = authorization_code;
+    }
+
     public String getBank_code ()
     {
         return bank_code;
@@ -50,27 +60,19 @@ public class Details {
         this.bank_code = bank_code;
     }
 
-    public String getAuthorization_code() {
-        return authorization_code;
-    }
-
-    public void setAuthorization_code(String authorization_code) {
-        this.authorization_code = authorization_code;
-    }
-
-    public String getAccount_name() {
+    public String getAccount_name ()
+    {
         return account_name;
     }
 
-    public void setAccount_name(String account_name) {
+    public void setAccount_name (String account_name)
+    {
         this.account_name = account_name;
     }
-
-   
 
     @Override
     public String toString()
     {
-        return "ClassPojo [bank_name = "+bank_name+", account_number = "+account_number+", bank_code = "+bank_code+", authorization_code = "+authorization_code+", account_name = "+account_name+"]";
+        return "ClassPojo [bank_name = "+bank_name+", account_number = "+account_number+", authorization_code = "+authorization_code+", bank_code = "+bank_code+", account_name = "+account_name+"]";
     }
 }

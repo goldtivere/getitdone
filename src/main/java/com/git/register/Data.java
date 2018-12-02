@@ -10,19 +10,15 @@ package com.git.register;
  * @author Gold
  */
 public class Data {
-    private String updatedAt;
-
-    private String id;
-
-    private String is_deleted;
+     private String id;
 
     private Details details;
 
-    private String integration;
+    private String email;
 
     private String description;
 
-    private String createdAt;
+    private String integration;
 
     private String name;
 
@@ -34,19 +30,9 @@ public class Data {
 
     private String recipient_code;
 
-    private Metadata metadata;
-
     private String currency;
 
-    public String getUpdatedAt ()
-    {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt (String updatedAt)
-    {
-        this.updatedAt = updatedAt;
-    }
+    private String metadata;
 
     public String getId ()
     {
@@ -56,16 +42,6 @@ public class Data {
     public void setId (String id)
     {
         this.id = id;
-    }
-
-    public String getIs_deleted ()
-    {
-        return is_deleted;
-    }
-
-    public void setIs_deleted (String is_deleted)
-    {
-        this.is_deleted = is_deleted;
     }
 
     public Details getDetails ()
@@ -78,14 +54,14 @@ public class Data {
         this.details = details;
     }
 
-    public String getIntegration ()
+    public String getEmail ()
     {
-        return integration;
+        return email;
     }
 
-    public void setIntegration (String integration)
+    public void setEmail (String email)
     {
-        this.integration = integration;
+        this.email = email;
     }
 
     public String getDescription ()
@@ -98,14 +74,14 @@ public class Data {
         this.description = description;
     }
 
-    public String getCreatedAt ()
+    public String getIntegration ()
     {
-        return createdAt;
+        return integration;
     }
 
-    public void setCreatedAt (String createdAt)
+    public void setIntegration (String integration)
     {
-        this.createdAt = createdAt;
+        this.integration = integration;
     }
 
     public String getName ()
@@ -158,16 +134,6 @@ public class Data {
         this.recipient_code = recipient_code;
     }
 
-    public Metadata getMetadata ()
-    {
-        return metadata;
-    }
-
-    public void setMetadata (Metadata metadata)
-    {
-        this.metadata = metadata;
-    }
-
     public String getCurrency ()
     {
         return currency;
@@ -178,9 +144,19 @@ public class Data {
         this.currency = currency;
     }
 
+    public String getMetadata ()
+    {
+        return metadata;
+    }
+
+    public void setMetadata (String metadata)
+    {
+        this.metadata = metadata;
+    }
+
     @Override
     public String toString()
     {
-        return "ClassPojo [updatedAt = "+updatedAt+", id = "+id+", is_deleted = "+is_deleted+", details = "+details+", integration = "+integration+", description = "+description+", createdAt = "+createdAt+", name = "+name+", domain = "+domain+", active = "+active+", type = "+type+", recipient_code = "+recipient_code+", metadata = "+metadata+", currency = "+currency+"]";
+        return "ClassPojo [id = "+id+", details = "+details+", email = "+email+", description = "+description+", integration = "+integration+", name = "+name+", domain = "+domain+", active = "+active+", type = "+type+", recipient_code = "+recipient_code+", currency = "+currency+", metadata = "+metadata+"]";
     }
 }

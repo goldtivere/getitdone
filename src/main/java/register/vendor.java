@@ -180,7 +180,8 @@ public class vendor implements Serializable {
                 JSONObject bn = receipt.createRecipient(menu.categoryName(vendor.getCat()) + "'s " + vendor.getBname(), vendor.getBname(), vendor.getAcctNum(), vendor.getBankname(), new JSONObject().put("job", vendor.getBname()).toString());
                 ObjectMapper mapp = new ObjectMapper();
                 Recipient1 dat = mapp.readValue(bn.toString(), Recipient1.class);
-                System.out.println("yeah" + dat.isStatus() + " this is it " + dat.getMessage());
+                System.out.println("yeah" + bn.toString());
+                System.out.println("yeah" + dat.getMessage()+" status: "+dat.isStatus());
             }
 
         } catch (Exception e) {
