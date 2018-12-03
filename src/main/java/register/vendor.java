@@ -226,10 +226,16 @@ public class vendor implements Serializable {
 
                     pstmt.executeUpdate();
 
-                    String insertrecipient = "insert into tbrecepient (vendorfk,recipientcode,bankname,bankcode,accountnumber,accountname,description,createdby,datecreated)"
+                    String insertrecipient = "insert into tbrecepient (vendorfk,recepientcode,bankname,bankcode,accountnumber,accountname,description,createdby,datecreated)"
                             + "values(?,?,?,?,?,?,?,?,?)";
 
                     pstmt = con.prepareStatement(insertrecipient);
+                    System.out.println(dat.getData().getRecipient_code() + " too");
+                    System.out.println(dat.getData().getDetails().getBank_name() + " too");
+                    System.out.println(dat.getData().getDetails().getBank_code() + " too");
+                    System.out.println(dat.getData().getDetails().getAccount_number() + " too");
+                    System.out.println(dat.getData().getDetails().getAccount_name() + " too");
+                    System.out.println(dat.getData().getDescription() + " too");
                     pstmt.setInt(1, id);
                     pstmt.setString(2, dat.getData().getRecipient_code());
                     pstmt.setString(3, dat.getData().getDetails().getBank_name());
@@ -241,7 +247,7 @@ public class vendor implements Serializable {
                     pstmt.setString(9, DateManipulation.dateAndTime());
 
                     pstmt.executeUpdate();
-                    
+                    refresh();
                     setMessangerOfTruth("Vendor created Successfully!!");
                     msg = new FacesMessage(FacesMessage.SEVERITY_INFO, getMessangerOfTruth(), getMessangerOfTruth());
                     context.addMessage(null, msg);

@@ -76,7 +76,7 @@
 
                 <div class="col-md-4">
                     <p:outputLabel value="Phone Number: " for="pnum"/>
-                    <p:inputTextarea id="pnum" required="true" value="#{vendor.vendor.baddress}" requiredMessage="Phone Number is required" class="form-control" />   
+                    <p:inputTextarea id="pnum" required="true" value="#{vendor.vendor.bpnum}" requiredMessage="Phone Number is required" class="form-control" />   
                 </div>                       
             </div>
             <div class="row">
@@ -115,7 +115,7 @@
                 </div>
                 <br/>
                 <br/>
-                <p:commandButton value="Resgister" class="pull-right" action="#{vendor.registerVendor()}" update="messages" process="@this vendorFname,vendorMname,vendorLname,cat,business,rcnum,adds,eadd,pnum,bank,acctNum,acctName,itemName,punit,percent" />  
+                <p:commandButton value="Resgister" class="pull-right" action="#{vendor.registerVendor()}" update="messages,Ppanel" process="@this vendorFname,vendorMname,vendorLname,cat,business,rcnum,adds,eadd,pnum,bank,acctNum,acctName,itemName,punit,percent" />  
             </div>                                       
 
 
