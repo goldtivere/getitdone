@@ -32,7 +32,10 @@ public class Data {
 
     private String currency;
 
-    private String metadata;
+    private Metadata metadata;
+    private String createdAt;
+    private String updatedAt;
+    private boolean is_deleted;
 
     public String getId ()
     {
@@ -144,14 +147,36 @@ public class Data {
         this.currency = currency;
     }
 
-    public String getMetadata ()
-    {
+    public Metadata getMetadata() {
         return metadata;
     }
 
-    public void setMetadata (String metadata)
-    {
+    public void setMetadata(Metadata metadata) {
         this.metadata = metadata;
+    }    
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public boolean isIs_deleted() {
+        return is_deleted;
+    }
+
+    public void setIs_deleted(boolean is_deleted) {
+        this.is_deleted = is_deleted;
     }
 
     @Override
@@ -159,4 +184,5 @@ public class Data {
     {
         return "ClassPojo [id = "+id+", details = "+details+", email = "+email+", description = "+description+", integration = "+integration+", name = "+name+", domain = "+domain+", active = "+active+", type = "+type+", recipient_code = "+recipient_code+", currency = "+currency+", metadata = "+metadata+"]";
     }
+    
 }

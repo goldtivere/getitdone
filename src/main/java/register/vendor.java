@@ -86,7 +86,7 @@ public class vendor implements Serializable {
 
     }
 
-    public boolean checkAccountExist(String acctnum) {
+    public boolean checkAccountExist(String acctnum,String bankname) {
         DbConnectionX dbConnections = new DbConnectionX();
         Connection con = null;
         PreparedStatement pstmt = null;
@@ -94,10 +94,11 @@ public class vendor implements Serializable {
         con = dbConnections.mySqlDBconnection();
         try {
             String queryProfile = "select * from tbvendor "
-                    + "where accountnumber=? and isdeleted=?";
+                    + "where accountnumber=? and bankname=? and isdeleted=?";
             pstmt = con.prepareStatement(queryProfile);
             pstmt.setString(1, acctnum);
-            pstmt.setBoolean(2, false);
+            pstmt.setString(2, bankname);
+            pstmt.setBoolean(3, false);
             rs = pstmt.executeQuery();
 
             return rs.next();
@@ -177,7 +178,7 @@ public class vendor implements Serializable {
                 setMessangerOfTruth("RC Number already exists!!");
                 msg = new FacesMessage(FacesMessage.SEVERITY_INFO, getMessangerOfTruth(), getMessangerOfTruth());
                 context.addMessage(null, msg);
-            } else if (checkAccountExist(vendor.getAcctNum())) {
+            } else if (checkAccountExist(vendor.getAcctNum(),vendor.getBankname())) {
                 setMessangerOfTruth("Account Number already exists!!");
                 msg = new FacesMessage(FacesMessage.SEVERITY_INFO, getMessangerOfTruth(), getMessangerOfTruth());
                 context.addMessage(null, msg);
@@ -187,6 +188,7 @@ public class vendor implements Serializable {
                 ObjectMapper mapp = new ObjectMapper();
                 Recipient1 dat = mapp.readValue(bn.toString(), Recipient1.class);
                 if (dat.isStatus()) {
+                    System.out.println("here we are again "+ bn);
                     String insertvendor = "insert into tbvendor  (firstname,middlename,lastname,fullname,phonenumber,corporatename,address,emailaddress"
                             + ",rcnumber,bankname,accountnumber,accountname,verified,createdby,datecreated,isdeleted)"
                             + "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
@@ -252,6 +254,7 @@ public class vendor implements Serializable {
                     msg = new FacesMessage(FacesMessage.SEVERITY_INFO, getMessangerOfTruth(), getMessangerOfTruth());
                     context.addMessage(null, msg);
                 } else {
+                    dat=null;
                     setMessangerOfTruth("Invalid Account Number!!");
                     msg = new FacesMessage(FacesMessage.SEVERITY_INFO, getMessangerOfTruth(), getMessangerOfTruth());
                     context.addMessage(null, msg);
