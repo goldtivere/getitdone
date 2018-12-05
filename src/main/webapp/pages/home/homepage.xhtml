@@ -7,42 +7,100 @@
 
 
 
+    <ui:define name="head">
+        <style type="text/css">
+            .logo {
+                width: 5%
+            }
+
+            .detail {
+                width: 95%;
+                padding-left: 25px;
+            }
+
+            .detail td {
+                font-size: 15px;
+            }
+
+            .ui-datascroller .ui-datascroller-item {
+                border-bottom: 1px solid #A8A8A8;
+                padding: 25px 10px;
+                /* with the exported variables from Nova and Luna Themes*/
+                border-bottom-color: var(--input-border-color, #A8A8A8);
+            }
+
+        </style>
+    </ui:define>
+
+    <ui:define name="content">    
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-3">
+
+                    <div class="card text-white mb-3 text-center" style="max-width: 18rem;">
+                        <p:commandLink style="margin-right:20px;">    
+                            <img src="../../images/truck.png" style="max-width: 15rem;" alt=""/>                                    
+                            <h5 class="card-title text-center" style="color: black;">Request For Water</h5>                
+                        </p:commandLink>
+                    </div> 
 
 
-    <ui:define name="content">             
-        <div class="col-md-12">
-            <div class="col-md-3">
-                <div class="card text-white mb-3 text-center" style="max-width: 18rem;">
-                    <img src="../../images/truck.png" style="max-width: 15rem;" alt=""/>            
-                    <div class="card-body">
-                        <h5 class="card-title text-center" style="color: black;">Request For Water</h5>                
-                    </div>
-                </div> 
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-white mb-3 text-center" style="max-width: 18rem;">
+                        <img src="../../images/granite.png" style="max-width: 15rem;" alt=""/>            
+                        <div class="card-body">
+                            <h5 class="card-title text-center" style="color: black;">Request For Granite</h5>                
+                        </div>
+                    </div> 
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-white mb-3 text-center" style="max-width: 18rem;">
+                        <img src="../../images/cement.png" style="max-width: 15rem;" alt=""/>                                    
+                        <div class="card-body">
+                            <h5 class="card-title text-center" style="color: black;">Request For Cement</h5>                
+                        </div>
+                    </div> 
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-white mb-3 text-center" style="max-width: 18rem;">
+                        <img src="../../images/rod.png" style="max-width: 15rem;" alt=""/>            
+                        <div class="card-body">
+                            <h5 class="card-title text-center" style="color: black;">Request For Rods</h5>                
+                        </div>
+                    </div> 
+                </div>
             </div>
-            <div class="col-md-3">
-                <div class="card text-white mb-3 text-center" style="max-width: 18rem;">
-                    <img src="../../images/granite.png" style="max-width: 15rem;" alt=""/>            
-                    <div class="card-body">
-                        <h5 class="card-title text-center" style="color: black;">Request For Granite</h5>                
-                    </div>
-                </div> 
-            </div>
-            <div class="col-md-3">
-                <div class="card text-white mb-3 text-center" style="max-width: 18rem;">
-                    <img src="../../images/cement.png" style="max-width: 15rem;" alt=""/>            
-                    <div class="card-body">
-                        <h5 class="card-title text-center" style="color: black;">Request For Cement</h5>                
-                    </div>
-                </div> 
-            </div>
-            <div class="col-md-3">
-                <div class="card text-white mb-3 text-center" style="max-width: 18rem;">
-                    <img src="../../images/rod.png" style="max-width: 15rem;" alt=""/>            
-                    <div class="card-body">
-                        <h5 class="card-title text-center" style="color: black;">Request For Rods</h5>                
-                    </div>
-                </div> 
-            </div>
+        </div>
+        <div class="row">
+            <p:panel id="viewOrder" style="border: none;">
+                <legend>
+                    <fieldset>Available Requests</fieldset>
+                    <p:dataScroller value="#{getRequest.requestList}" var="req" chunkSize="10">  
+                        <f:facet name="loader">
+                            <p:commandButton type="button" value="More" icon="pi pi-chevron-circle-down"/>
+                        </f:facet>
+                        <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
+                            <p:graphicImage name="images/lctWater/water.png" height="100" width="100" class="img img-responsive" />                             
+                            <p:outputPanel class="pull-left" style="margin-right: 500px;">                                
+                                <h:panelGrid columns="1"  cellpadding="5">                                    
+                                    <h:outputText value="#{req.corporatename}" />
+                                    <h:outputText value="##{req.amount}">
+                                        <f:convertNumber pattern="###.###,00" />
+                                    </h:outputText>
+
+                                    <h:outputText value="Status" />
+                                    <p:outputLabel value="Available" />
+
+                                    <p:commandLink class="pull-right" value="Request"/>
+                                </h:panelGrid>
+
+                            </p:outputPanel>
+                        </h:panelGrid>
+                    </p:dataScroller>
+                </legend>
+
+            </p:panel>
         </div>
     </ui:define>
 
