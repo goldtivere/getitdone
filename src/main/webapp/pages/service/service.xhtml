@@ -1,0 +1,40 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+
+
+    <ui:define name="head">
+
+    </ui:define>
+
+    <ui:define name="content">  
+        <p:messages id="messages" closable="true" />
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <div class="pull-right">
+                    <p:panel visible="#{service.buttonVisible}" id="viewPan" style="border: none;">
+                        <p:commandButton class="fa fa-asterisk" action="#{service.directoryCreated()}" value="Folder" process="@this" update="messages,viewPan"/>
+                    </p:panel>
+                </div>
+            </div>
+        </div>
+        <div class="row">            
+            <div class="col-md-4">
+                <p:outputLabel value="Service Name: " for="serviceName"/>
+                <p:inputText id="serviceName" value="#{vendor.vendor.fname}" required="true" requiredMessage="First Name is required" class="form-control"/>
+            </div>
+            <div class="col-md-4">
+                <p:outputLabel value="Middle Name: " for="vendorMname" />
+                <p:inputText id="vendorMname" value="#{vendor.vendor.mname}" class="form-control" />
+            </div>
+
+        </div>
+    </ui:define>
+
+</ui:composition>
