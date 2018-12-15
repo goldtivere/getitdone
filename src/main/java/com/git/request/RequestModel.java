@@ -15,6 +15,10 @@ public class RequestModel implements Serializable{
     private int vendorfk;
     private String corporatename;
     private double amount;
+    private String requestedId;
+    private boolean requestStatus;
+    private boolean completed;
+    private String requestStat;
 
     public int getVendorfk() {
         return vendorfk;
@@ -38,6 +42,38 @@ public class RequestModel implements Serializable{
 
     public void setAmount(double amount) {
         this.amount = amount;
+    }
+
+    public String getRequestedId() {
+        return requestedId;
+    }
+
+    public void setRequestedId(String requestedId) {
+        this.requestedId = requestedId;
+    }
+
+    public boolean isRequestStatus() {
+        return requestStatus;
+    }
+
+    public void setRequestStatus(boolean requestStatus) {
+        this.requestStatus = requestStatus;
+    }
+
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
+    }
+
+    public String getRequestStat() {
+        return requestStat;
+    }
+
+    public void setRequestStat(String requestStat) {
+        this.requestStat = requestStat;
     }
     
     

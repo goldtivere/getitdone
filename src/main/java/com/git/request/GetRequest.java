@@ -23,10 +23,10 @@ import javax.faces.bean.ViewScoped;
 @ManagedBean
 @ViewScoped
 public class GetRequest {
-    
+
     private boolean panelVisible;
     private List<RequestModel> requestList;
-    
+
     @PostConstruct
     public void init() {
         try {
@@ -36,46 +36,60 @@ public class GetRequest {
             e.printStackTrace();
         }
     }
-    
+
     public void makeVisible() {
         setPanelVisible(true);
     }
-    
+
     public List<RequestModel> requestLst() throws Exception {
         FacesContext context = FacesContext.getCurrentInstance();
-        
+
         DbConnectionX dbConnections = new DbConnectionX();
         Connection con = null;
         ResultSet rs = null;
         PreparedStatement pstmt = null;
-        
+
         try {
-            
+
             con = dbConnections.mySqlDBconnection();
-            String query = "    select g.vendorfk,p.corporatename, g.amount from "
-                    + "tbvendoritem g inner join tbvendor p on g.vendorfk=p.id where p.isdeleted=false";
+            String query = "select g.vendorfk,p.corporatename, g.amount,l.vendorfk as requestId,l.requestStatus,l.completed from "
+                    + "tbvendoritem g inner join tbvendor p on g.vendorfk=p.id left OUTER join "
+                    + "tbrequest l on l.vendorfk=g.vendorfk "
+                    + "where  l.requestStatus and p.isdeleted=false or l.vendorfk is  null";
             pstmt = con.prepareStatement(query);
             rs = pstmt.executeQuery();
             //
             List<RequestModel> lst = new ArrayList<>();
             while (rs.next()) {
-                
+
                 RequestModel coun = new RequestModel();
                 coun.setVendorfk(rs.getInt("vendorfk"));
                 coun.setAmount(rs.getDouble("amount"));
                 coun.setCorporatename(rs.getString("corporatename"));
+                coun.setRequestedId(rs.getString("requestid"));
+                coun.setRequestStatus(rs.getBoolean("requeststatus"));
+                coun.setCompleted(rs.getBoolean("completed"));
+                
+                if(coun.isRequestStatus() && !coun.isCompleted())
+                {
+                    coun.setRequestStat("Currently on a trip");
+                }
+                else if(coun.isCompleted())
+                {
+                     coun.setRequestStat("Currently Availble");
+                }
 
                 //
                 lst.add(coun);
             }
-            
+
             return lst;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
-            
+
         } finally {
-            
+
             if (!(con == null)) {
                 con.close();
                 con = null;
@@ -84,24 +98,24 @@ public class GetRequest {
                 pstmt.close();
                 pstmt = null;
             }
-            
+
         }
     }
-    
+
     public List<RequestModel> getRequestList() {
         return requestList;
     }
-    
+
     public void setRequestList(List<RequestModel> requestList) {
         this.requestList = requestList;
     }
-    
+
     public boolean isPanelVisible() {
         return panelVisible;
     }
-    
+
     public void setPanelVisible(boolean panelVisible) {
         this.panelVisible = panelVisible;
     }
-    
+
 }
