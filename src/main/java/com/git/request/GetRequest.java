@@ -6,6 +6,7 @@
 package com.git.request;
 
 import com.git.dbcon.DbConnectionX;
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,7 +23,7 @@ import javax.faces.bean.ViewScoped;
  */
 @ManagedBean
 @ViewScoped
-public class GetRequest {
+public class GetRequest implements Serializable {
 
     private boolean panelVisible;
     private List<RequestModel> requestList;
@@ -38,7 +39,9 @@ public class GetRequest {
     }
 
     public void makeVisible() {
+
         setPanelVisible(true);
+
     }
 
     public List<RequestModel> requestLst() throws Exception {
@@ -52,7 +55,7 @@ public class GetRequest {
         try {
 
             con = dbConnections.mySqlDBconnection();
-            String query = "select g.vendorfk,p.corporatename, g.amount,l.vendorfk as requestId,l.requestStatus,l.completed from "
+            String query = "select g.vendorfk,p.corporatename,p.coveragelocation, g.amount,l.vendorfk as requestId,l.requestStatus,l.completed from "
                     + "tbvendoritem g inner join tbvendor p on g.vendorfk=p.id left OUTER join "
                     + "tbrequest l on l.vendorfk=g.vendorfk "
                     + "where  l.requestStatus and p.isdeleted=false or l.vendorfk is  null";
@@ -69,14 +72,12 @@ public class GetRequest {
                 coun.setRequestedId(rs.getString("requestid"));
                 coun.setRequestStatus(rs.getBoolean("requeststatus"));
                 coun.setCompleted(rs.getBoolean("completed"));
-                
-                if(coun.isRequestStatus() && !coun.isCompleted())
-                {
+                coun.setCoverageLocation(rs.getString("coveragelocation"));
+                if (coun.isCompleted()) {
+                    coun.setRequestStat("Currently Availble");
+
+                } else if (!coun.isCompleted()) {
                     coun.setRequestStat("Currently on a trip");
-                }
-                else if(coun.isCompleted())
-                {
-                     coun.setRequestStat("Currently Availble");
                 }
 
                 //

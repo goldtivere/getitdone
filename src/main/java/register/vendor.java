@@ -190,8 +190,8 @@ public class vendor implements Serializable {
                 if (dat.isStatus()) {
                     System.out.println("here we are again "+ bn);
                     String insertvendor = "insert into tbvendor  (firstname,middlename,lastname,fullname,phonenumber,corporatename,address,emailaddress"
-                            + ",rcnumber,bankname,accountnumber,accountname,verified,createdby,datecreated,isdeleted)"
-                            + "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                            + ",rcnumber,bankname,accountnumber,accountname,verified,createdby,datecreated,isdeleted,coverageLocation)"
+                            + "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
                     pstmt = con.prepareStatement(insertvendor);
                     pstmt.setString(1, vendor.getFname());
@@ -210,6 +210,7 @@ public class vendor implements Serializable {
                     pstmt.setInt(14, createdby);
                     pstmt.setString(15, DateManipulation.dateAndTime());
                     pstmt.setBoolean(16, false);
+                    pstmt.setString(17, vendor.getCoverageLocation());
 
                     pstmt.executeUpdate();
                     int id = studentIdCheck(con);

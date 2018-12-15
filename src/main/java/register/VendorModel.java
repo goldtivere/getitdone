@@ -29,6 +29,7 @@ public class VendorModel implements Serializable {
     private String itemname;
     private double price;
     private double percent;
+    private String coverageLocation;
 
     public int getId() {
         return id;
@@ -156,6 +157,14 @@ public class VendorModel implements Serializable {
 
     public void setPercent(double percent) {
         this.percent = percent;
+    }
+
+    public String getCoverageLocation() {
+        return coverageLocation;
+    }
+
+    public void setCoverageLocation(String coverageLocation) {
+        this.coverageLocation = coverageLocation;
     }
 
 }

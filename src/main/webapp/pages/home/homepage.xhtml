@@ -70,14 +70,15 @@
                                             <h:outputText value="Amount: N#{req.amount}">
                                                 <f:convertNumber pattern="###.###,00" />
                                             </h:outputText>
-                                            <h:outputText value="Status: #{req.requestStat}"/>
-
-                                            <p:commandLink class="pull-right" value="Make Request" style="font-weight: bold;"/>
+                                            <h:outputText value="Coverage Area: #{req.coverageLocation}" class="pull-right" style="color: #19aa8d;"/>
+                                            
                                         </h:panelGrid>
                                     </p:outputPanel>
                                 </h:panelGrid>
+                                <h:outputText value="Status: #{req.requestStat}" class="pull-right" style="color: #007fff;"/><br/>                                        
+                                <p:commandLink class="pull-right" disabled="#{req.requestStatus}" value="Make Request" style="font-weight: bold;"/>
                             </p:dataScroller>
-                                                        
+
                         </p:panel>
                     </p:tab>
                     <p:tab id="details" title="Request Details">

@@ -10,6 +10,7 @@ import com.git.dbcon.DbConnectionX;
 import com.git.register.UserDetails;
 import static com.sun.faces.facelets.util.Path.context;
 import java.io.File;
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,7 +26,7 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @ViewScoped
-public class Service {
+public class Service implements Serializable{
 
     /**
      * this class will be used to create an image directory to store all
@@ -39,7 +40,7 @@ public class Service {
 
     @PostConstruct
     public void init() {
-        setButtonVisible(checkFileExist());
+        
         System.out.println(System.getProperty("user.home") + " how far boss big head");
     }
 

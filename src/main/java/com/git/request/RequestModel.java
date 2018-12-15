@@ -19,6 +19,7 @@ public class RequestModel implements Serializable{
     private boolean requestStatus;
     private boolean completed;
     private String requestStat;
+    private String coverageLocation;
 
     public int getVendorfk() {
         return vendorfk;
@@ -75,6 +76,14 @@ public class RequestModel implements Serializable{
     public void setRequestStat(String requestStat) {
         this.requestStat = requestStat;
     }
-    
+
+    public String getCoverageLocation() {
+        return coverageLocation;
+    }
+
+    public void setCoverageLocation(String coverageLocation) {
+        this.coverageLocation = coverageLocation;
+    }
+     
     
 }

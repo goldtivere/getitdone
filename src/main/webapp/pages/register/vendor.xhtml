@@ -63,21 +63,28 @@
 
                 <div class="col-md-4">
                     <p:outputLabel value="Email Address: " for="eadd"/>
-                     <p:inputText id="eadd" required="true" value="#{vendor.vendor.email}" class="form-control" label="email"
-                                         requiredMessage="Please enter your email address."
-                                         validatorMessage="Invalid email format"
-                                         >
+                    <p:inputText id="eadd" required="true" value="#{vendor.vendor.email}" class="form-control" label="email"
+                                 requiredMessage="Please enter your email address."
+                                 validatorMessage="Invalid email format"
+                                 >
 
-                                <f:validateRegex
-                                    pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                        <f:validateRegex
+                            pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
 
-                            </p:inputText>                    
+                    </p:inputText>                    
                 </div>
 
                 <div class="col-md-4">
                     <p:outputLabel value="Phone Number: " for="pnum"/>
                     <p:inputText id="pnum" maxlength="11" required="true" value="#{vendor.vendor.bpnum}" requiredMessage="Phone Number is required" class="form-control" />   
-                </div>                       
+                </div> 
+
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <p:outputLabel value="Coverage Area: " for="cArea"/>
+                    <p:inputTextarea id="cArea" value="#{vendor.vendor.bpnum}" required="true" requiredMessage="Coverage Area is required" class="form-control" />   
+                </div>
             </div>
             <div class="row">
                 <div class="col-md-4">
@@ -109,13 +116,13 @@
                     <p:outputLabel value="Price per unit: " for="punit"/>
                     <p:inputNumber id="punit" class="form-control" value="#{vendor.vendor.price}" required="true" requiredMessage="Price is required"/>
                 </div>
-                 <div class="col-md-4">
+                <div class="col-md-4">
                     <p:outputLabel value="Agent Percentage: " for="percent"/>
                     <p:inputNumber id="percent" class="form-control" maxValue="100" value="#{vendor.vendor.percent}" required="true" requiredMessage="Percentage is required"/>
                 </div>
                 <br/>
                 <br/>
-                <p:commandButton value="Resgister" class="pull-right" action="#{vendor.registerVendor()}" update="messages,Ppanel" process="@this vendorFname,vendorMname,vendorLname,cat,business,rcnum,adds,eadd,pnum,bank,acctNum,acctName,itemName,punit,percent" />  
+                <p:commandButton value="Resgister" class="pull-right" action="#{vendor.registerVendor()}" update="messages,Ppanel" process="@this vendorFname,vendorMname,vendorLname,cat,business,rcnum,adds,eadd,pnum,bank,acctNum,acctName,itemName,punit,percent,cArea" />  
             </div>                                       
 
 
