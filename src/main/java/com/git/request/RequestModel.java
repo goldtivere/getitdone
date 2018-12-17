@@ -20,6 +20,7 @@ public class RequestModel implements Serializable{
     private boolean completed;
     private String requestStat;
     private String coverageLocation;
+    private boolean select;
 
     public int getVendorfk() {
         return vendorfk;
@@ -83,6 +84,14 @@ public class RequestModel implements Serializable{
 
     public void setCoverageLocation(String coverageLocation) {
         this.coverageLocation = coverageLocation;
+    }
+
+    public boolean isSelect() {
+        return select;
+    }
+
+    public void setSelect(boolean select) {
+        this.select = select;
     }
      
     

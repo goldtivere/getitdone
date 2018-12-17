@@ -57,7 +57,7 @@
 
                 <p:wizard >
                     <p:tab id="personal" title="Available Requests">
-                        <p:panel header="Available Requests">
+                        <p:panel header="Available Requests">                            
                             <p:dataScroller value="#{getRequest.requestList}" var="req" chunkSize="10">  
                                 <f:facet name="loader">
                                     <p:commandButton type="button" value="More" icon="pi pi-chevron-circle-down"/>
@@ -71,17 +71,24 @@
                                                 <f:convertNumber pattern="###.###,00" />
                                             </h:outputText>
                                             <h:outputText value="Coverage Area: #{req.coverageLocation}" class="pull-right" style="color: #19aa8d;"/>
-                                            
+
                                         </h:panelGrid>
                                     </p:outputPanel>
                                 </h:panelGrid>
                                 <h:outputText value="Status: #{req.requestStat}" class="pull-right" style="color: #007fff;"/><br/>                                        
-                                <p:commandLink class="pull-right" disabled="#{req.requestStatus}" value="Make Request" style="font-weight: bold;"/>
+                                <p:commandLink class="pull-right" disabled="#{req.requestStatus}" actionListener="#{getRequest.vex(req)}"  value="Add To Cart" style="font-weight: bold;">
+
+                                </p:commandLink>  
+                                <p:selectBooleanCheckbox value="#{req.select}" label="Ajax">
+                                    <p:ajax listener="#{getRequest.vex(req)}" />
+                                </p:selectBooleanCheckbox>
+                                <p:commandButton value="Press me" action="#{getRequest.valueO()}" process="@this"/>
                             </p:dataScroller>
 
                         </p:panel>
                     </p:tab>
                     <p:tab id="details" title="Request Details">
+
 
                     </p:tab>
                     <p:tab id="payment" title="Make Payment">

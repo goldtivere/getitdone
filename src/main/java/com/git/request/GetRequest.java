@@ -27,6 +27,8 @@ public class GetRequest implements Serializable {
 
     private boolean panelVisible;
     private List<RequestModel> requestList;
+    private List<RequestModel> reques = new ArrayList<>();
+    private RequestModel mm;
 
     @PostConstruct
     public void init() {
@@ -117,6 +119,35 @@ public class GetRequest implements Serializable {
 
     public void setPanelVisible(boolean panelVisible) {
         this.panelVisible = panelVisible;
+    }
+
+    public RequestModel getMm() {
+        return mm;
+    }
+
+    public void setMm(RequestModel mm) {
+        this.mm = mm;
+    }
+
+    public void vex(RequestModel m) {
+        List<RequestModel> on = new ArrayList<>();
+        // reques.add(m);
+        reques.add(m);
+        on.add(m);
+        System.out.println(m.getAmount() + " okay oo "+ m.isSelect());
+    }
+
+    public void addRequest() {       
+        //reques.add(mm);
+
+        System.out.println(mm.getAmount() + " okay oo "+ mm.isSelect());
+    }
+
+    public void valueO() {
+        for (RequestModel b : reques) {
+            System.out.println(b.getAmount() + " hi Dude " + b.getCorporatename());
+        }
+
     }
 
 }
