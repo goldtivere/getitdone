@@ -57,38 +57,74 @@
 
                 <p:wizard >
                     <p:tab id="personal" title="Available Requests">
-                        <p:panel header="Available Requests">                            
-                            <p:dataScroller value="#{getRequest.requestList}" var="req" chunkSize="10">  
-                                <f:facet name="loader">
-                                    <p:commandButton type="button" value="More" icon="pi pi-chevron-circle-down"/>
-                                </f:facet>
-                                <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
-                                    <p:graphicImage name="images/lctWater/water.png" height="100" width="100" class="img img-responsive" />                             
-                                    <p:outputPanel class="pull-left" style="margin-right: 600px; font-size: 15px;">                                
-                                        <h:panelGrid columns="1"  cellpadding="5">                                    
-                                            <span style="font-weight: bold;"> <h:outputText value="#{req.corporatename}" style="font-weight: bold;" ></h:outputText></span>                                    
-                                            <h:outputText value="Amount: N#{req.amount}">
-                                                <f:convertNumber pattern="###.###,00" />
-                                            </h:outputText>
-                                            <h:outputText value="Coverage Area: #{req.coverageLocation}" class="pull-right" style="color: #19aa8d;"/>
 
-                                        </h:panelGrid>
-                                    </p:outputPanel>
-                                </h:panelGrid>
-                                <h:outputText value="Status: #{req.requestStat}" class="pull-right" style="color: #007fff;"/><br/>                                        
-                                <p:commandLink class="pull-right" disabled="#{req.requestStatus}" actionListener="#{getRequest.vex(req)}"  value="Add To Cart" style="font-weight: bold;">
+                        <p:dataScroller value="#{getRequest.requestList}" var="req" chunkSize="10">  
+                            <f:facet name="loader">
+                                <p:commandButton type="button" value="More" icon="pi pi-chevron-circle-down"/>
+                            </f:facet>
+                            <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
+                                <p:graphicImage name="images/lctWater/water.png" height="100" width="100" class="img img-responsive" />                             
+                                <p:outputPanel class="pull-left" style="margin-right: 600px; font-size: 15px;">                                
+                                    <h:panelGrid columns="1"  cellpadding="5">                                    
+                                        <span style="font-weight: bold;"> <h:outputText value="#{req.corporatename}" style="font-weight: bold;" ></h:outputText></span>                                    
+                                        <h:outputText value="Amount: N#{req.amount}">
+                                            <f:convertNumber pattern="###.###,00" />
+                                        </h:outputText>
+                                        <h:outputText value="Coverage Area: #{req.coverageLocation}" class="pull-right" style="color: #19aa8d;"/>
 
-                                </p:commandLink>  
-                                <p:selectBooleanCheckbox value="#{req.select}" label="Ajax">
-                                    <p:ajax listener="#{getRequest.vex(req)}" />
-                                </p:selectBooleanCheckbox>
-                                <p:commandButton value="Press me" action="#{getRequest.valueO()}" process="@this"/>
-                            </p:dataScroller>
+                                    </h:panelGrid>
+                                </p:outputPanel>
+                            </h:panelGrid>
+                            <h:outputText class="pull-right" value="Status: #{req.requestStat}"  style="color: #007fff;"/><br/>                                        
+                            <p:selectBooleanCheckbox value="#{req.select}" class="pull-right" label="Ajax">
+                                <p:ajax listener="#{getRequest.vex(req)}" />
+                            </p:selectBooleanCheckbox>
+                            <h:outputText class="pull-right" value="Add To Cart" />                                
 
-                        </p:panel>
+                        </p:dataScroller>
+
                     </p:tab>
-                    <p:tab id="details" title="Request Details">
+                    <p:tab id="pp" title="Payers Details">
 
+                        <h:panelGrid columns="2">
+                            <p:outputLabel value="Recipient Name: " for="rName"/>                               
+
+                            <p:inputText id="rName" value="#{getRequest.receiverDetails.receiverName}" required="true" requiredMessage="Receiver's Name is required!!"/>
+
+                            <p:outputLabel value="Recipient Address: " for="rAddress"/>                               
+
+                            <p:inputTextarea id="rAddress" value="#{getRequest.receiverDetails.receiverAddress}"  required="true" requiredMessage="Address is required!!"/>
+
+                            <p:outputLabel value="Recipient Phone: " for="rPhone"/>                               
+
+                            <p:inputText id="rPhone" maxlength="11" value="#{getRequest.receiverDetails.phoneNum}" required="true" requiredMessage=" Phone Number is required"/>
+                        </h:panelGrid>
+                    </p:tab>
+                    <p:tab id="details" title="View Summary">
+                        <p:dataTable var="car" value="#{dtSummaryRowView.cars}" sortBy="#{car.brand}">
+                            <p:column headerText="Item" sortBy="#{car.id}">
+                                <h:outputText value="#{car.id}" />
+                            </p:column>
+                            <p:column headerText="Year" sortBy="#{car.year}">
+                                <h:outputText value="#{car.year}" />
+                            </p:column>
+                            <p:column headerText="Brand" sortBy="#{car.brand}">
+                                <h:outputText value="#{car.brand}" />
+                            </p:column>
+                            <p:column headerText="Color" sortBy="#{car.color}">
+                                <h:outputText value="#{car.color}" />
+                            </p:column>
+                            <p:summaryRow>
+                                <p:column colspan="3" style="text-align:right">
+                                    <h:outputText value="Total:" />
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{dtSummaryRowView.randomPrice}">
+                                        <f:convertNumber type="currency" currencySymbol="N" />
+                                    </h:outputText>
+                                </p:column>
+                            </p:summaryRow>
+                        </p:dataTable>
 
                     </p:tab>
                     <p:tab id="payment" title="Make Payment">

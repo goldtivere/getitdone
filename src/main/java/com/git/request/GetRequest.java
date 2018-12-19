@@ -29,11 +29,12 @@ public class GetRequest implements Serializable {
     private List<RequestModel> requestList;
     private List<RequestModel> reques = new ArrayList<>();
     private RequestModel mm;
+    private ReceiverDetailsModel receiverDetails= new ReceiverDetailsModel();
 
     @PostConstruct
     public void init() {
         try {
-            requestList = requestLst();
+
             setPanelVisible(false);
         } catch (Exception e) {
             e.printStackTrace();
@@ -41,9 +42,12 @@ public class GetRequest implements Serializable {
     }
 
     public void makeVisible() {
-
-        setPanelVisible(true);
-
+        try {
+            requestList = requestLst();
+            setPanelVisible(true);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     public List<RequestModel> requestLst() throws Exception {
@@ -74,16 +78,19 @@ public class GetRequest implements Serializable {
                 coun.setRequestedId(rs.getString("requestid"));
                 coun.setRequestStatus(rs.getBoolean("requeststatus"));
                 coun.setCompleted(rs.getBoolean("completed"));
-                coun.setCoverageLocation(rs.getString("coveragelocation"));
-                if (coun.isCompleted()) {
+                coun.setCoverageLocation(rs.getString("coveragelocation"));                
+                if (coun.isCompleted() && coun.isRequestStatus()) {
                     coun.setRequestStat("Currently Availble");
 
-                } else if (!coun.isCompleted()) {
+                } else  if (!coun.isCompleted()) {
                     coun.setRequestStat("Currently on a trip");
                 }
 
                 //
+                System.out.println(coun.getRequestStat() + " bighead");
                 lst.add(coun);
+                
+                
             }
 
             return lst;
@@ -134,13 +141,7 @@ public class GetRequest implements Serializable {
         // reques.add(m);
         reques.add(m);
         on.add(m);
-        System.out.println(m.getAmount() + " okay oo "+ m.isSelect());
-    }
-
-    public void addRequest() {       
-        //reques.add(mm);
-
-        System.out.println(mm.getAmount() + " okay oo "+ mm.isSelect());
+        System.out.println(m.getAmount() + " okay oo " + m.isSelect() + " "+ System.getProperty("user.home")+  " hello");
     }
 
     public void valueO() {
@@ -148,6 +149,14 @@ public class GetRequest implements Serializable {
             System.out.println(b.getAmount() + " hi Dude " + b.getCorporatename());
         }
 
+    }
+
+    public ReceiverDetailsModel getReceiverDetails() {
+        return receiverDetails;
+    }
+
+    public void setReceiverDetails(ReceiverDetailsModel receiverDetails) {
+        this.receiverDetails = receiverDetails;
     }
 
 }

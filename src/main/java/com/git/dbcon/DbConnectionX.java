@@ -25,6 +25,36 @@ public class DbConnectionX implements Serializable {
     private boolean testconnection;
 
     public Connection mySqlDBconnection() {
+        try {
+
+            Properties prop = new Properties();
+            //System.out.println("test");
+            prop.load(new FileInputStream(System.getProperty("user.home") + "/mydb.cfg"));
+            //System.out.println("user.home: " + System.getProperty("user.home"));
+            String host = prop.getProperty("host").toString();
+            String username = prop.getProperty("username").toString();
+            String password = prop.getProperty("password").toString();
+            String driver = prop.getProperty("driver").toString();
+
+            //System.out.println("host: " + host + "\nusername: " + username + "\npassword: " + password + "\ndriver: " + driver);
+            Class.forName(driver);
+            // System.out.println("--------------------------");
+            //System.out.println("DRIVER: " + driver);
+            Connection connection = DriverManager.getConnection(host, username, password);
+            //System.out.println("CONNECTION: " + connection);
+
+            return connection;
+        } catch (Exception e) {
+
+            setTestconnection(false);
+            setMessangerOfTruth("Error from DbConnection.class " + e.getMessage());
+            e.printStackTrace();
+            return null;
+
+        }
+    }
+
+    public Connection mySqlDBconnections() {
         Connection conn = null;
         try {
             String url = "jdbc:mysql://localhost:3306/bookings";
@@ -51,35 +81,6 @@ public class DbConnectionX implements Serializable {
 
     }//end myConnection()
 
-    //    public Connection mySqlDBconnection() {
-    //        try {
-    //
-    //            Properties prop = new Properties();
-    //            //System.out.println("test");
-    //            prop.load(new FileInputStream(System.getProperty("user.home") + "/mydb.cfg"));
-    //            //System.out.println("user.home: " + System.getProperty("user.home"));
-    //            String host = prop.getProperty("host").toString();
-    //            String username = prop.getProperty("username").toString();
-    //            String password = prop.getProperty("password").toString();
-    //            String driver = prop.getProperty("driver").toString();
-    //
-    //            //System.out.println("host: " + host + "\nusername: " + username + "\npassword: " + password + "\ndriver: " + driver);
-    //            Class.forName(driver);
-    //            // System.out.println("--------------------------");
-    //            //System.out.println("DRIVER: " + driver);
-    //            Connection connection = DriverManager.getConnection(host, username, password);
-    //            //System.out.println("CONNECTION: " + connection);
-    //
-    //            return connection;
-    //        } catch (Exception e) {
-    //
-    //            setTestconnection(false);
-    //            setMessangerOfTruth("Error from DbConnection.class " + e.getMessage());
-    //            e.printStackTrace();
-    //            return null;
-    //
-    //        }
-    //    }
     /**
      * @return the messangerOfTruth
      */
