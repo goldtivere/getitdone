@@ -12,26 +12,29 @@
     </ui:define>
 
     <ui:define name="content">  
-        <p:messages id="messages" closable="true" />
-        <div class="row">
-            <div class="col-md-4"></div>
-            <div class="col-md-4"></div>
-            <div class="col-md-4">
-                <div class="pull-right">
-                    <p:panel visible="#{service.buttonVisible}" id="viewPan" style="border: none;">
-                        <p:commandButton class="fa fa-asterisk" action="#{service.directoryCreated()}" value="Folder" process="@this" update="messages,viewPan"/>
-                    </p:panel>
-                </div>
-            </div>
-        </div>
+        <p:messages id="messages" closable="true" />      
         <div class="row">            
             <div class="col-md-4">
                 <p:outputLabel value="Service Name: " for="serviceName"/>
                 <p:inputText id="serviceName" value="#{vendor.vendor.fname}" required="true" requiredMessage="First Name is required" class="form-control"/>
             </div>
             <div class="col-md-4">
-                <p:outputLabel value="Middle Name: " for="vendorMname" />
-                <p:inputText id="vendorMname" value="#{vendor.vendor.mname}" class="form-control" />
+                <p:outputLabel value="Service Description: " for="desc" />
+                <p:inputTextarea id="desc" value="#{vendor.vendor.mname}" class="form-control" />
+            </div>
+            <div class="col-md-4">
+                 <p:outputLabel value="Select Image: *" />
+                 <p:fileUpload id="upload_pix_data" value="#{addService.passport_file}" auto="true"
+                                          fileUploadListener="#{addService.handleFileUpload}" 
+                                          mode="advanced" dragDropSupport="false"
+                                          update="pst_img" sizeLimit="2097152" fileLimit="1" 
+                                          allowTypes="/(\.|\/)(gif|jpe?g|png)$/"  />
+                             <p:outputLabel value="Passport:"/>
+                            <p:graphicImage id="pst_img" value="#{addService.passport_url}" style="width: 100px; height: 100px;" />
+                            <p:commandButton value="clear" immediate="true" ajax="false"
+                                             actionListener="#{addService.clearPix}" 
+                                             update="upload_pix_data,pst_img"/>  
+
             </div>
 
         </div>
