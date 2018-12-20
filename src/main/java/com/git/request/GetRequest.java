@@ -57,6 +57,10 @@ public class GetRequest implements Serializable {
                 context.addMessage(null, message);
             }
             setPanelVisible(true);
+        } catch (NullPointerException e) {
+            setMessangerOfTruth("User Session not found please sign out and back in ");
+            message = new FacesMessage(FacesMessage.SEVERITY_INFO, getMessangerOfTruth(), getMessangerOfTruth());
+            context.addMessage(null, message);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
