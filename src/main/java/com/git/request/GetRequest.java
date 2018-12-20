@@ -6,6 +6,7 @@
 package com.git.request;
 
 import com.git.dbcon.DbConnectionX;
+import com.git.getitdone.SessionTest;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,6 +14,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -29,7 +31,9 @@ public class GetRequest implements Serializable {
     private List<RequestModel> requestList;
     private List<RequestModel> reques = new ArrayList<>();
     private RequestModel mm;
-    private ReceiverDetailsModel receiverDetails= new ReceiverDetailsModel();
+    private ReceiverDetailsModel receiverDetails = new ReceiverDetailsModel();
+    private SessionTest test = new SessionTest();
+    private String messangerOfTruth;
 
     @PostConstruct
     public void init() {
@@ -43,7 +47,15 @@ public class GetRequest implements Serializable {
 
     public void makeVisible() {
         try {
-            requestList = requestLst();
+            FacesMessage message;
+            FacesContext context = FacesContext.getCurrentInstance();
+            if (test.test()) {
+                requestList = requestLst();
+            } else {
+                setMessangerOfTruth("User Session not found please sign out and back in ");
+                message = new FacesMessage(FacesMessage.SEVERITY_INFO, getMessangerOfTruth(), getMessangerOfTruth());
+                context.addMessage(null, message);
+            }
             setPanelVisible(true);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -57,6 +69,7 @@ public class GetRequest implements Serializable {
         Connection con = null;
         ResultSet rs = null;
         PreparedStatement pstmt = null;
+        SessionTest test = new SessionTest();
 
         try {
 
@@ -78,19 +91,18 @@ public class GetRequest implements Serializable {
                 coun.setRequestedId(rs.getString("requestid"));
                 coun.setRequestStatus(rs.getBoolean("requeststatus"));
                 coun.setCompleted(rs.getBoolean("completed"));
-                coun.setCoverageLocation(rs.getString("coveragelocation"));                
+                coun.setCoverageLocation(rs.getString("coveragelocation"));
                 if (coun.isCompleted() && coun.isRequestStatus()) {
                     coun.setRequestStat("Currently Availble");
 
-                } else  if (!coun.isCompleted()) {
+                } else if (!coun.isCompleted()) {
                     coun.setRequestStat("Currently on a trip");
                 }
 
                 //
                 System.out.println(coun.getRequestStat() + " bighead");
                 lst.add(coun);
-                
-                
+
             }
 
             return lst;
@@ -141,7 +153,7 @@ public class GetRequest implements Serializable {
         // reques.add(m);
         reques.add(m);
         on.add(m);
-        System.out.println(m.getAmount() + " okay oo " + m.isSelect() + " "+ System.getProperty("user.home")+  " hello");
+        System.out.println(m.getAmount() + " okay oo " + m.isSelect() + " " + System.getProperty("user.home") + " hello");
     }
 
     public void valueO() {
@@ -157,6 +169,14 @@ public class GetRequest implements Serializable {
 
     public void setReceiverDetails(ReceiverDetailsModel receiverDetails) {
         this.receiverDetails = receiverDetails;
+    }
+
+    public String getMessangerOfTruth() {
+        return messangerOfTruth;
+    }
+
+    public void setMessangerOfTruth(String messangerOfTruth) {
+        this.messangerOfTruth = messangerOfTruth;
     }
 
 }

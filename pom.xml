@@ -51,11 +51,11 @@
             <artifactId>javax.faces</artifactId>
             <version>2.2.7</version>
         </dependency>
-         <dependency>
+        <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
-            <version>6.0</version>
-        </dependency>        
+            <version>6.2</version>
+        </dependency>       
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
