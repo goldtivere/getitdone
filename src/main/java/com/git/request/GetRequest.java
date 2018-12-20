@@ -46,9 +46,10 @@ public class GetRequest implements Serializable {
     }
 
     public void makeVisible() {
-        try {
+        
             FacesMessage message;
             FacesContext context = FacesContext.getCurrentInstance();
+            try{
             if (test.test()) {
                 requestList = requestLst();
             } else {
