@@ -26,7 +26,7 @@
 
                     <p:panel header="#{items.id}" style="text-align:center">
                         <h:panelGrid columns="1" style="width:100%">
-                            <p:commandLink style="margin-right:20px;" action="#{getRequest.makeVisible()}" update="viewOrder,big" > 
+                            <p:commandLink style="margin-right:20px;" action="#{getRequest.makeVisible()}" update=":templateForm:viewOrder" > 
                                 <p:graphicImage name="#{items.imagelink}" style="max-width: 15rem;"/>   
                                 <p:outputLabel value="#{items.category}" class="card-title text-center" style="color: black;" />                                                
                             </p:commandLink>
