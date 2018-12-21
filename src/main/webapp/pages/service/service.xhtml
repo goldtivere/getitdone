@@ -8,40 +8,43 @@
 
 
     <ui:define name="head">
-
+        Add Service
     </ui:define>
 
     <ui:define name="content">  
         <p:messages id="messages" closable="true" />      
-        <div class="row">            
-            <div class="col-md-3">
-                <div class="row">
-                    <p:outputLabel value="Service Name: " for="serviceName"/>
-                    <p:inputText id="serviceName" value="#{addService.model.serviceName}" required="true" requiredMessage="First Name is required" class="form-control"/>
-                </div> 
-                <div class="row">
-                    <p:outputLabel value="Service Description: " for="desc" />
-                    <p:inputTextarea id="desc" value="#{addService.model.serviceName}" class="form-control" />
-                </div>
-                <div class="row">
-                    <p:outputLabel value="Select Image: *" />
-                    <p:fileUpload id="upload_pix_data" value="#{addService.passport_file}" auto="true"
-                                  fileUploadListener="#{addService.handleFileUpload}" 
-                                  mode="advanced" dragDropSupport="false"
-                                  update="pst_img" sizeLimit="2097152" fileLimit="1" 
-                                  allowTypes="/(\.|\/)(gif|jpe?g|png)$/"  />
-                    <p:outputLabel value="Passport:"/>
-                    <p:graphicImage id="pst_img" value="#{addService.passport_url}" style="width: 100px; height: 100px;" />
-                    <p:commandButton value="clear" immediate="true" ajax="false"
-                                     actionListener="#{addService.clearPix}" 
-                                     update="upload_pix_data,pst_img"/>  
+        <div class="row"> 
+            <p:panel id="bord" style="border: none;">
 
-                </div>
-                <div class="row">
-                    <p:commandButton value="Save"/>
-                </div>
-            </div>                     
 
+                <div class="col-md-3">
+                    <div class="row">
+                        <p:outputLabel value="Service Name: " for="serviceName"/>
+                        <p:inputText id="serviceName" value="#{addService.model.serviceName}" required="true" requiredMessage="Service Name is required" class="form-control"/>
+                    </div> 
+                    <div class="row">
+                        <p:outputLabel value="Service Description: " for="desc" />
+                        <p:inputTextarea id="desc" required="true" requiredMessage="Description is required" value="#{addService.model.serviceName}" class="form-control" />
+                    </div>
+                    <div class="row">
+                        <p:outputLabel value="Select Image: *" for="upload_pix_data" />
+                        <p:fileUpload id="upload_pix_data" value="#{addService.passport_file}" auto="true"
+                                      fileUploadListener="#{addService.handleFileUpload}" 
+                                      mode="advanced" dragDropSupport="false"
+                                      update="pst_img" sizeLimit="2097152" fileLimit="1" 
+                                      allowTypes="/(\.|\/)(gif|jpe?g|png)$/"  />
+                        <p:outputLabel value="Passport:"/>
+                        <p:graphicImage id="pst_img" value="#{addService.passport_url}" style="width: 100px; height: 100px;" />
+                        <p:commandButton value="clear" immediate="true" ajax="false"
+                                         actionListener="#{addService.clearPix}" 
+                                         update="upload_pix_data,pst_img"/>  
+
+                    </div>
+                    <div class="row">
+                        <p:commandButton value="Save" actionListener="#{addService.saveService()}" process="@this desc,upload_pix_data,serviceName" update="messages,bord" />
+                    </div>
+                </div>                     
+            </p:panel>
         </div>
     </ui:define>
 

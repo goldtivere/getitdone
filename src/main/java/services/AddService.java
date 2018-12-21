@@ -5,10 +5,16 @@
  */
 package services;
 
+import com.git.dbcon.DateManipulation;
+import com.git.dbcon.DbConnectionX;
 import com.git.dbcon.LoadPPTfile;
 import com.git.imgUpload.UploadImagesX;
+import com.git.register.UserDetails;
 import java.io.File;
 import java.io.Serializable;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Properties;
@@ -26,14 +32,14 @@ import org.primefaces.model.UploadedFile;
  */
 @ManagedBean
 @ViewScoped
-public class AddService implements Serializable{
+public class AddService implements Serializable {
 
     private UploadedFile passport_file;
     private String passport_url;
     private String ref_number;
     private String imageLocation;
     private String messangerOfTruth;
-    private AddServiceModel model= new AddServiceModel();
+    private AddServiceModel model = new AddServiceModel();
 
     public AddService() {
         ref_number = generateRefNo();
@@ -174,4 +180,55 @@ public class AddService implements Serializable{
         this.model = model;
     }
 
+    public void saveService() {
+        DbConnectionX dbConnections = new DbConnectionX();
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        FacesMessage msg;
+        FacesContext context = FacesContext.getCurrentInstance();
+
+        try {
+            UserDetails userObj = (UserDetails) context.getExternalContext().getSessionMap().get("sessn_nums");
+            String on = String.valueOf(userObj);
+
+            if (userObj == null) {
+                setMessangerOfTruth("Expired Session, pleasere - login " + on);
+                msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                        getMessangerOfTruth(), getMessangerOfTruth()
+                );
+                context.addMessage(null, msg);
+            }
+            con = dbConnections.mySqlDBconnection();
+
+            String nurseryInsert = "insert into tbcategory(category,imagelink,description,createdby,datecreated,imagelocation) "
+                    + " values "
+                    + "(?,?,?,?,?,?)";
+
+            pstmt = con.prepareStatement(nurseryInsert);
+
+            pstmt.setString(1, model.getServiceName());
+            pstmt.setString(2, getPassport_url());
+            pstmt.setString(3, model.getServiceDesc());
+            pstmt.setInt(4, userObj.getId());
+            pstmt.setString(5, DateManipulation.dateAndTime());
+            pstmt.setString(6, getImageLocation());
+            pstmt.executeUpdate();
+
+            setMessangerOfTruth("Successful!! " + on);
+            msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    getMessangerOfTruth(), getMessangerOfTruth()
+            );
+            context.addMessage(null, msg);
+            refresh();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void refresh() {
+        model.setServiceDesc(null);
+        model.setServiceName(null);
+        setPassport_url(null);
+    }
 }
