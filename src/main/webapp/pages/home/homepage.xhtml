@@ -15,24 +15,20 @@
         <div class="row">
             <div class="col-md-12">
 
-                <p:dataGrid var="car" value="#{dataGridView.cars}" columns="3" layout="grid"
-                            rows="12" paginator="true" id="cars"
+                <p:dataGrid var="items" value="#{drop.mode}" columns="4" layout="grid"
+                            rows="4" paginator="true" id="items"
                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                             rowsPerPageTemplate="6,12,16">
 
                     <f:facet name="header">
-                        Cars for Sale
+                        Categories Available
                     </f:facet>
 
-                    <p:panel header="#{car.id}" style="text-align:center">
+                    <p:panel header="#{items.id}" style="text-align:center">
                         <h:panelGrid columns="1" style="width:100%">
-                            <p:graphicImage name="demo/images/car/#{car.brand}.gif"/> 
-
-                            <h:outputText value="#{car.year}" />
-
-                            <p:commandLink update=":form:carDetail" oncomplete="PF('carDialog').show()" title="View Detail">
-                                <h:outputText styleClass="pi pi-search" style="margin:0 auto;"/>
-                                <f:setPropertyActionListener value="#{car}" target="#{dataGridView.selectedCar}" />
+                            <p:commandLink style="margin-right:20px;" action="#{getRequest.makeVisible()}" update="viewOrder,big" > 
+                                <p:graphicImage name="#{items.imagelink}" style="max-width: 15rem;"/>   
+                                <p:outputLabel value="#{items.category}" class="card-title text-center" style="color: black;" />                                                
                             </p:commandLink>
                         </h:panelGrid>
                     </p:panel>

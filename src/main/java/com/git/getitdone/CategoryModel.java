@@ -12,8 +12,11 @@ import java.io.Serializable;
  * @author Gold
  */
 public class CategoryModel implements Serializable{
-    private int id;
+   private int id;
     private String category;
+    private String imagelink;
+    private String description;
+    private String imagelocation;
 
     public int getId() {
         return id;
@@ -29,6 +32,30 @@ public class CategoryModel implements Serializable{
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public String getImagelink() {
+        return imagelink;
+    }
+
+    public void setImagelink(String imagelink) {
+        this.imagelink = imagelink;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getImagelocation() {
+        return imagelocation;
+    }
+
+    public void setImagelocation(String imagelocation) {
+        this.imagelocation = imagelocation;
     }
     
     

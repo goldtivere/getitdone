@@ -15,6 +15,7 @@ import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Properties;
@@ -180,7 +181,7 @@ public class AddService implements Serializable {
         this.model = model;
     }
 
-    public void saveService() {
+    public void saveService() throws SQLException {
         DbConnectionX dbConnections = new DbConnectionX();
         Connection con = null;
         PreparedStatement pstmt = null;
@@ -216,13 +217,24 @@ public class AddService implements Serializable {
             pstmt.executeUpdate();
 
             setMessangerOfTruth("Successful!! " + on);
-            msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+            msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
                     getMessangerOfTruth(), getMessangerOfTruth()
             );
             context.addMessage(null, msg);
             refresh();
         } catch (Exception ex) {
             ex.printStackTrace();
+        } finally {
+
+            if (!(con == null)) {
+                con.close();
+                con = null;
+            }
+            if (!(pstmt == null)) {
+                pstmt.close();
+                pstmt = null;
+            }
+
         }
     }
 
