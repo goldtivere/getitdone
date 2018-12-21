@@ -8,7 +8,11 @@ package services;
 import com.git.dbcon.LoadPPTfile;
 import com.git.imgUpload.UploadImagesX;
 import java.io.File;
+import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Properties;
+import java.util.Random;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -22,13 +26,37 @@ import org.primefaces.model.UploadedFile;
  */
 @ManagedBean
 @ViewScoped
-public class AddService {
+public class AddService implements Serializable{
 
     private UploadedFile passport_file;
     private String passport_url;
     private String ref_number;
     private String imageLocation;
     private String messangerOfTruth;
+    private AddServiceModel model= new AddServiceModel();
+
+    public AddService() {
+        ref_number = generateRefNo();
+    }
+
+    public String generateRefNo() {
+
+        try {
+
+            String timeStamp = new SimpleDateFormat("yyMMddHHmmss").format(Calendar.getInstance().getTime());
+
+            int rnd = new Random().nextInt(99999753);
+            String temp_val = String.valueOf(rnd).concat(timeStamp);
+            return temp_val;
+
+        } catch (Exception ex) {
+
+            ex.printStackTrace();
+            return null;
+
+        }
+
+    }//end generateRefNo(...)
 
     public void handleFileUpload(FileUploadEvent event) {
 
@@ -76,14 +104,14 @@ public class AddService {
 
             String file_ = "pix".concat(String.valueOf(getRef_number())).concat(".jpg");
 
-            if (loadPPTfile.ImagePath().isEmpty() || loadPPTfile.ImagePath()==null) {
+            if (loadPPTfile.ImagePath().isEmpty() || loadPPTfile.ImagePath() == null) {
                 setMessangerOfTruth("Cannot load configuration file...");
                 setMessangerOfTruth("Operation failed");
                 return;
             }
             //
             Properties ppt = loadPPTfile.getPptFile();
-            String url =loadPPTfile.ImagePath();
+            String url = loadPPTfile.ImagePath();
 
             File file = new File(url + "".concat(file_));
             file.delete();
@@ -136,6 +164,14 @@ public class AddService {
 
     public void setMessangerOfTruth(String messangerOfTruth) {
         this.messangerOfTruth = messangerOfTruth;
+    }
+
+    public AddServiceModel getModel() {
+        return model;
+    }
+
+    public void setModel(AddServiceModel model) {
+        this.model = model;
     }
 
 }

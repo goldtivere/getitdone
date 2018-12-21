@@ -14,6 +14,30 @@
     <ui:define name="content">    
         <div class="row">
             <div class="col-md-12">
+
+                <p:dataGrid var="car" value="#{dataGridView.cars}" columns="3" layout="grid"
+                            rows="12" paginator="true" id="cars"
+                            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                            rowsPerPageTemplate="6,12,16">
+
+                    <f:facet name="header">
+                        Cars for Sale
+                    </f:facet>
+
+                    <p:panel header="#{car.id}" style="text-align:center">
+                        <h:panelGrid columns="1" style="width:100%">
+                            <p:graphicImage name="demo/images/car/#{car.brand}.gif"/> 
+
+                            <h:outputText value="#{car.year}" />
+
+                            <p:commandLink update=":form:carDetail" oncomplete="PF('carDialog').show()" title="View Detail">
+                                <h:outputText styleClass="pi pi-search" style="margin:0 auto;"/>
+                                <f:setPropertyActionListener value="#{car}" target="#{dataGridView.selectedCar}" />
+                            </p:commandLink>
+                        </h:panelGrid>
+                    </p:panel>
+
+                </p:dataGrid>
                 <div class="col-md-3">
                     <p:messages closable="true" id="big"/>
 
@@ -25,60 +49,36 @@
                     </div> 
 
 
-                </div>
-                <!--                <div class="col-md-3">
-                                    <div class="card text-white mb-3 text-center" style="max-width: 18rem;">
-                                        <img src="../../images/granite.png" style="max-width: 15rem;" alt=""/>            
-                                        <div class="card-body">
-                                            <h5 class="card-title text-center" style="color: black;">Request For Granite</h5>                
-                                        </div>
-                                    </div> 
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="card text-white mb-3 text-center" style="max-width: 18rem;">
-                                        <img src="../../images/cement.png" style="max-width: 15rem;" alt=""/>                                    
-                                        <div class="card-body">
-                                            <h5 class="card-title text-center" style="color: black;">Request For Cement</h5>                
-                                        </div>
-                                    </div> 
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="card text-white mb-3 text-center" style="max-width: 18rem;">
-                                        <img src="../../images/rod.png" style="max-width: 15rem;" alt=""/>            
-                                        <div class="card-body">
-                                            <h5 class="card-title text-center" style="color: black;">Request For Rods</h5>                
-                                        </div>
-                                    </div> 
-                                </div>-->
+                </div>            
             </div>
         </div>
         <div class="row">
             <p:panel id="viewOrder" style="border: none;" visible="#{getRequest.panelVisible}">
 
-                        <p:dataScroller value="#{getRequest.requestList}" var="req" chunkSize="10">  
-                            <f:facet name="loader">
-                                <p:commandButton type="button" value="More" icon="pi pi-chevron-circle-down"/>
-                            </f:facet>
-                            <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
-                                <p:graphicImage name="images/lctWater/water.png" height="100" width="100" class="img img-responsive" />                             
-                                <p:outputPanel class="pull-left" style="margin-right: 600px; font-size: 15px;">                                
-                                    <h:panelGrid columns="1"  cellpadding="5">                                    
-                                        <span style="font-weight: bold;"> <h:outputText value="#{req.corporatename}" style="font-weight: bold;" ></h:outputText></span>                                    
-                                        <h:outputText value="Amount: N#{req.amount}">
-                                            <f:convertNumber pattern="###.###,00" />
-                                        </h:outputText>
-                                        <h:outputText value="Coverage Area: #{req.coverageLocation}" class="pull-right" style="color: #19aa8d;"/>
+                <p:dataScroller value="#{getRequest.requestList}" var="req" chunkSize="10">  
+                    <f:facet name="loader">
+                        <p:commandButton type="button" value="More" icon="pi pi-chevron-circle-down"/>
+                    </f:facet>
+                    <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
+                        <p:graphicImage name="images/lctWater/water.png" height="100" width="100" class="img img-responsive" />                             
+                        <p:outputPanel class="pull-left" style="margin-right: 600px; font-size: 15px;">                                
+                            <h:panelGrid columns="1"  cellpadding="5">                                    
+                                <span style="font-weight: bold;"> <h:outputText value="#{req.corporatename}" style="font-weight: bold;" ></h:outputText></span>                                    
+                                <h:outputText value="Amount: N#{req.amount}">
+                                    <f:convertNumber pattern="###.###,00" />
+                                </h:outputText>
+                                <h:outputText value="Coverage Area: #{req.coverageLocation}" class="pull-right" style="color: #19aa8d;"/>
 
-                                    </h:panelGrid>
-                                </p:outputPanel>
                             </h:panelGrid>
-                            <h:outputText class="pull-right" value="Status: #{req.requestStat}"  style="color: #007fff;"/><br/>                                        
-                            <p:selectBooleanCheckbox value="#{req.select}" class="pull-right" label="Ajax">
-                                <p:ajax listener="#{getRequest.vex(req)}" />
-                            </p:selectBooleanCheckbox>
-                            <h:outputText class="pull-right" value="Add To Cart" />                                
+                        </p:outputPanel>
+                    </h:panelGrid>
+                    <h:outputText class="pull-right" value="Status: #{req.requestStat}"  style="color: #007fff;"/><br/>                                        
+                    <p:selectBooleanCheckbox value="#{req.select}" class="pull-right" label="Ajax">
+                        <p:ajax listener="#{getRequest.vex(req)}" />
+                    </p:selectBooleanCheckbox>
+                    <h:outputText class="pull-right" value="Add To Cart" />                                
 
-                        </p:dataScroller>
+                </p:dataScroller>
             </p:panel>
         </div>
     </ui:define>
