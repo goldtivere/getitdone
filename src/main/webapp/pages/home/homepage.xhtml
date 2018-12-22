@@ -16,7 +16,7 @@
             <div class="col-md-12">
 
                 <p:dataGrid var="items" value="#{drop.mode}" columns="4" layout="grid"
-                            rows="4" paginator="true" id="items"
+                            rows="4" paginator="true" id="items" 
                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                             rowsPerPageTemplate="6,12,16">
 
@@ -37,7 +37,7 @@
         </div>
         <div class="row">
             <p:panel id="viewOrder" style="border: none;" visible="#{getRequest.panelVisible}">
-
+                <p:commandButton class="fa-credit-card" />
                 <p:dataScroller value="#{getRequest.requestList}" var="req" chunkSize="10">  
                     <f:facet name="loader">
                         <p:commandButton type="button" value="More" icon="pi pi-chevron-circle-down"/>
