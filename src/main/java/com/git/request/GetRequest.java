@@ -106,7 +106,7 @@ public class GetRequest implements Serializable {
                     coun.setRequestStat("Currently Unavailable");
                     setEdit(false);
 
-                } else if (!coun.isCompleted() && coun.isRequestStatus()) {
+                } else if (!coun.isCompleted() && !coun.isRequestStatus()) {
                     coun.setRequestStat("Currently Available");
                     setEdit(true);
                 }
