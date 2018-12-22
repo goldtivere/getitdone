@@ -6,6 +6,7 @@
 package com.git.request;
 
 import com.git.dbcon.DbConnectionX;
+import com.git.getitdone.CategoryModel;
 import com.git.getitdone.SessionTest;
 import java.io.Serializable;
 import java.sql.Connection;
@@ -45,13 +46,13 @@ public class GetRequest implements Serializable {
         }
     }
 
-    public void makeVisible(RequestModel mod) {
+    public void makeVisible(CategoryModel mod) {
 
         FacesMessage message;
         FacesContext context = FacesContext.getCurrentInstance();
         try {
             if (test.test()) {
-                requestList = requestLst(mod.getCatId());
+                requestList = requestLst(mod.getId());
             } else {
                 setMessangerOfTruth("User Session not found please sign out and back in ");
                 message = new FacesMessage(FacesMessage.SEVERITY_INFO, getMessangerOfTruth(), getMessangerOfTruth());
