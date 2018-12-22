@@ -45,13 +45,13 @@ public class GetRequest implements Serializable {
         }
     }
 
-    public void makeVisible() {
-        
-            FacesMessage message;
-            FacesContext context = FacesContext.getCurrentInstance();
-            try{
+    public void makeVisible(RequestModel mod) {
+
+        FacesMessage message;
+        FacesContext context = FacesContext.getCurrentInstance();
+        try {
             if (test.test()) {
-                requestList = requestLst();
+                requestList = requestLst(mod.getCatId());
             } else {
                 setMessangerOfTruth("User Session not found please sign out and back in ");
                 message = new FacesMessage(FacesMessage.SEVERITY_INFO, getMessangerOfTruth(), getMessangerOfTruth());
@@ -67,7 +67,7 @@ public class GetRequest implements Serializable {
         }
     }
 
-    public List<RequestModel> requestLst() throws Exception {
+    public List<RequestModel> requestLst(int val) throws Exception {
         FacesContext context = FacesContext.getCurrentInstance();
 
         DbConnectionX dbConnections = new DbConnectionX();
@@ -79,11 +79,12 @@ public class GetRequest implements Serializable {
         try {
 
             con = dbConnections.mySqlDBconnection();
-            String query = "select g.vendorfk,p.corporatename,p.coveragelocation, g.amount,l.vendorfk as requestId,l.requestStatus,l.completed from "
+            String query = "select g.vendorfk,g.category,p.corporatename,p.coveragelocation, g.amount,l.vendorfk as requestId,l.requestStatus,l.completed from "
                     + "tbvendoritem g inner join tbvendor p on g.vendorfk=p.id left OUTER join "
                     + "tbrequest l on l.vendorfk=g.vendorfk "
-                    + "where  l.requestStatus and p.isdeleted=false or l.vendorfk is  null";
+                    + "where g.category=? and l.requestStatus=false and p.isdeleted=false or l.vendorfk is  null";
             pstmt = con.prepareStatement(query);
+            pstmt.setInt(1, val);
             rs = pstmt.executeQuery();
             //
             List<RequestModel> lst = new ArrayList<>();
@@ -91,6 +92,7 @@ public class GetRequest implements Serializable {
 
                 RequestModel coun = new RequestModel();
                 coun.setVendorfk(rs.getInt("vendorfk"));
+                coun.setCatId(rs.getInt("category"));
                 coun.setAmount(rs.getDouble("amount"));
                 coun.setCorporatename(rs.getString("corporatename"));
                 coun.setRequestedId(rs.getString("requestid"));

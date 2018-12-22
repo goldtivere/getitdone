@@ -21,6 +21,7 @@ public class RequestModel implements Serializable{
     private String requestStat;
     private String coverageLocation;
     private boolean select;
+    private int catId;
 
     public int getVendorfk() {
         return vendorfk;
@@ -92,6 +93,14 @@ public class RequestModel implements Serializable{
 
     public void setSelect(boolean select) {
         this.select = select;
+    }
+
+    public int getCatId() {
+        return catId;
+    }
+
+    public void setCatId(int catId) {
+        this.catId = catId;
     }
      
     
