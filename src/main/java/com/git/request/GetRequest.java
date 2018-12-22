@@ -53,6 +53,7 @@ public class GetRequest implements Serializable {
         try {
             if (test.test()) {
                 requestList = requestLst(mod.getId());
+                System.out.println(mod.getId()+ " yeah im here");
             } else {
                 setMessangerOfTruth("User Session not found please sign out and back in ");
                 message = new FacesMessage(FacesMessage.SEVERITY_INFO, getMessangerOfTruth(), getMessangerOfTruth());
@@ -83,7 +84,7 @@ public class GetRequest implements Serializable {
             String query = "select g.vendorfk,g.category,p.corporatename,p.coveragelocation, g.amount,l.vendorfk as requestId,l.requestStatus,l.completed from "
                     + "tbvendoritem g inner join tbvendor p on g.vendorfk=p.id left OUTER join "
                     + "tbrequest l on l.vendorfk=g.vendorfk "
-                    + "where g.category=? and l.requestStatus=false and p.isdeleted=false or l.vendorfk is  null";
+                    + " where p.isdeleted=false and g.category=?";
             pstmt = con.prepareStatement(query);
             pstmt.setInt(1, val);
             rs = pstmt.executeQuery();
@@ -107,8 +108,7 @@ public class GetRequest implements Serializable {
                     coun.setRequestStat("Currently on a trip");
                 }
 
-                //
-                System.out.println(coun.getRequestStat() + " bighead");
+                //                
                 lst.add(coun);
 
             }
