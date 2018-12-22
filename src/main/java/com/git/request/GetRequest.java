@@ -28,8 +28,7 @@ import javax.faces.bean.ViewScoped;
 @ViewScoped
 public class GetRequest implements Serializable {
 
-    private boolean panelVisible;
-    private boolean edit;
+    private boolean panelVisible;    
     private List<RequestModel> requestList;
     private List<RequestModel> reques = new ArrayList<>();
     private RequestModel mm;
@@ -104,13 +103,13 @@ public class GetRequest implements Serializable {
                 coun.setCoverageLocation(rs.getString("coveragelocation"));
                 if (!coun.isCompleted() && coun.isRequestStatus()) {
                     coun.setRequestStat("Currently Unavailable");
-                    setEdit(false);
+                    coun.setEdit(false);
 
                 } else if (!coun.isCompleted() && !coun.isRequestStatus()) {
                     coun.setRequestStat("Currently Available");
-                    setEdit(true);
+                    coun.setEdit(true);
                 }
-                System.out.println( isEdit()+ " hi bob");
+                System.out.println(coun.isEdit() + " hi bob");
                 //                
                 lst.add(coun);
 
@@ -161,9 +160,15 @@ public class GetRequest implements Serializable {
 
     public void vex(RequestModel m) {
         List<RequestModel> on = new ArrayList<>();
-        // reques.add(m);
-        reques.add(m);
-        on.add(m);
+        if (m.isSelect()) {
+
+            // reques.add(m);
+            reques.add(m);
+          //  on.add(m);
+        } else {
+            reques.remove(m);
+        }
+
         System.out.println(m.getAmount() + " okay oo " + m.isSelect() + " " + System.getProperty("user.home") + " hello");
     }
 
@@ -189,13 +194,5 @@ public class GetRequest implements Serializable {
     public void setMessangerOfTruth(String messangerOfTruth) {
         this.messangerOfTruth = messangerOfTruth;
     }
-
-    public boolean isEdit() {
-        return edit;
-    }
-
-    public void setEdit(boolean edit) {
-        this.edit = edit;
-    }
-
+  
 }

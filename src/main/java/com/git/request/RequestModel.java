@@ -22,6 +22,7 @@ public class RequestModel implements Serializable{
     private String coverageLocation;
     private boolean select;
     private int catId;
+    private boolean edit;
 
     public int getVendorfk() {
         return vendorfk;
@@ -101,6 +102,14 @@ public class RequestModel implements Serializable{
 
     public void setCatId(int catId) {
         this.catId = catId;
+    }
+
+    public boolean isEdit() {
+        return edit;
+    }
+
+    public void setEdit(boolean edit) {
+        this.edit = edit;
     }
      
     

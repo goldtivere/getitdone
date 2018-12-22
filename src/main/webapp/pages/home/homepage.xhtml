@@ -56,7 +56,7 @@
                         </p:outputPanel>
                     </h:panelGrid>
                     <h:outputText class="pull-right" value="Status: #{req.requestStat}"  style="color: #007fff;"/><br/>                                        
-                    <p:selectBooleanCheckbox value="#{req.select}" rendered="#{getRequest.edit}" class="pull-right" label="Ajax">
+                    <p:selectBooleanCheckbox value="#{req.select}" rendered="#{req.edit}" class="pull-right" label="Ajax">
                         <p:ajax listener="#{getRequest.vex(req)}" />
                     </p:selectBooleanCheckbox>
                     <h:outputText class="pull-right" value="Add To Cart" />                                
