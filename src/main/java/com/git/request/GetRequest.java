@@ -29,6 +29,7 @@ import javax.faces.bean.ViewScoped;
 public class GetRequest implements Serializable {
 
     private boolean panelVisible;
+    private boolean edit;
     private List<RequestModel> requestList;
     private List<RequestModel> reques = new ArrayList<>();
     private RequestModel mm;
@@ -101,11 +102,13 @@ public class GetRequest implements Serializable {
                 coun.setRequestStatus(rs.getBoolean("requeststatus"));
                 coun.setCompleted(rs.getBoolean("completed"));
                 coun.setCoverageLocation(rs.getString("coveragelocation"));
-                if (coun.isCompleted() && coun.isRequestStatus()) {
-                    coun.setRequestStat("Currently Availble");
+                if (!coun.isCompleted() && coun.isRequestStatus()) {
+                    coun.setRequestStat("Currently Unavailable");
+                    setEdit(false);
 
-                } else if (!coun.isCompleted()) {
-                    coun.setRequestStat("Currently on a trip");
+                } else if (!coun.isCompleted() &&  coun.isRequestStatus()) {
+                    coun.setRequestStat("Currently Available");
+                    setEdit(true);
                 }
 
                 //                
@@ -185,6 +188,14 @@ public class GetRequest implements Serializable {
 
     public void setMessangerOfTruth(String messangerOfTruth) {
         this.messangerOfTruth = messangerOfTruth;
+    }
+
+    public boolean isEdit() {
+        return edit;
+    }
+
+    public void setEdit(boolean edit) {
+        this.edit = edit;
     }
 
 }

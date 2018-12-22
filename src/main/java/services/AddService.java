@@ -8,6 +8,7 @@ package services;
 import com.git.dbcon.DateManipulation;
 import com.git.dbcon.DbConnectionX;
 import com.git.dbcon.LoadPPTfile;
+import com.git.getitdone.SessionTest;
 import com.git.imgUpload.UploadImagesX;
 import com.git.register.UserDetails;
 import java.io.File;
@@ -41,6 +42,7 @@ public class AddService implements Serializable {
     private String imageLocation;
     private String messangerOfTruth;
     private AddServiceModel model = new AddServiceModel();
+    private SessionTest test = new SessionTest();
 
     public AddService() {
         ref_number = generateRefNo();
@@ -65,40 +67,45 @@ public class AddService implements Serializable {
 
     }//end generateRefNo(...)
 
-    public void handleFileUpload(FileUploadEvent event) {
-
-        setPassport_file(event.getFile());
-        setPassport_url("");
-        setImageLocation("");
-
-        //byte fileNameByte[] = getFile().getContents();
-        //System.out.println("fileNameByte:" + fileNameByte);
+    public void handleFileUpload(FileUploadEvent event) throws Exception {
         FacesMessage message;
-        UploadImagesX uploadImagesX = new UploadImagesX();
+        if (test.test()) {
 
-        try {
+            setPassport_file(event.getFile());
+            setPassport_url("");
+            setImageLocation("");
 
-            if (!(uploadImagesX.uploadImg(getPassport_file(), "pix".concat(String.valueOf(getRef_number()))))) {
+            //byte fileNameByte[] = getFile().getContents();
+            //System.out.println("fileNameByte:" + fileNameByte);
+            UploadImagesX uploadImagesX = new UploadImagesX();
 
-                message = new FacesMessage(FacesMessage.SEVERITY_FATAL, uploadImagesX.getMessangerOfTruth(), uploadImagesX.getMessangerOfTruth());
+            try {
+
+                if (!(uploadImagesX.uploadImg(getPassport_file(), "pix".concat(String.valueOf(getRef_number()))))) {
+
+                    message = new FacesMessage(FacesMessage.SEVERITY_FATAL, uploadImagesX.getMessangerOfTruth(), uploadImagesX.getMessangerOfTruth());
+                    FacesContext.getCurrentInstance().addMessage(null, message);
+
+                    //value.setPst_url(null);
+                    return;
+
+                }
+
+                message = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded.");
+                setPassport_url(uploadImagesX.getPst_url());
+                setImageLocation(uploadImagesX.getPst_loc());
                 FacesContext.getCurrentInstance().addMessage(null, message);
 
-                //value.setPst_url(null);
-                return;
+            } catch (Exception ex) {
+
+                ex.printStackTrace();
+                message = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded.");
+                FacesContext.getCurrentInstance().addMessage(null, message);
 
             }
-
-            message = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded.");
-            setPassport_url(uploadImagesX.getPst_url());
-            setImageLocation(uploadImagesX.getPst_loc());
+        } else {
+            message = new FacesMessage("User Session not found!!");
             FacesContext.getCurrentInstance().addMessage(null, message);
-
-        } catch (Exception ex) {
-
-            ex.printStackTrace();
-            message = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded.");
-            FacesContext.getCurrentInstance().addMessage(null, message);
-
         }
 
     }
