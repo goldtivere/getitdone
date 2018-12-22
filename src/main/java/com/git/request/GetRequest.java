@@ -54,7 +54,7 @@ public class GetRequest implements Serializable {
         try {
             if (test.test()) {
                 requestList = requestLst(mod.getId());
-                System.out.println(mod.getId()+ " yeah im here");
+                System.out.println(mod.getId() + " yeah im here");
             } else {
                 setMessangerOfTruth("User Session not found please sign out and back in ");
                 message = new FacesMessage(FacesMessage.SEVERITY_INFO, getMessangerOfTruth(), getMessangerOfTruth());
@@ -106,11 +106,11 @@ public class GetRequest implements Serializable {
                     coun.setRequestStat("Currently Unavailable");
                     setEdit(false);
 
-                } else if (!coun.isCompleted() &&  coun.isRequestStatus()) {
+                } else if (!coun.isCompleted() && coun.isRequestStatus()) {
                     coun.setRequestStat("Currently Available");
                     setEdit(true);
                 }
-
+                System.out.println( isEdit()+ " hi bob");
                 //                
                 lst.add(coun);
 
