@@ -23,6 +23,7 @@ public class RequestModel implements Serializable{
     private boolean select;
     private int catId;
     private boolean edit;
+    private double finalSum;
 
     public int getVendorfk() {
         return vendorfk;
@@ -110,6 +111,14 @@ public class RequestModel implements Serializable{
 
     public void setEdit(boolean edit) {
         this.edit = edit;
+    }
+
+    public double getFinalSum() {
+        return finalSum;
+    }
+
+    public void setFinalSum(double finalSum) {
+        this.finalSum = finalSum;
     }
      
     

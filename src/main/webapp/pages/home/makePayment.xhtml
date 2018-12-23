@@ -12,7 +12,29 @@
     </ui:define>
 
     <ui:define name="content">    
-
+        <div class="row">
+            <p:dataTable var="itema" value="#{getRequest.myRequest}" sortBy="#{itema.catId}">
+                <p:column headerText="Item Name" sortBy="#{itema.corporatename}">
+                    <h:outputText value="#{itema.corporatename}" />
+                </p:column>
+                <p:column headerText="Coverage Area" sortBy="#{itema.coverageLocation}">
+                    <h:outputText value="#{itema.coverageLocation}" />
+                </p:column>
+                <p:column headerText="Amount" sortBy="#{itema.amount}">
+                    <h:outputText value="#{itema.amount}" />
+                </p:column>                
+                <p:summaryRow>
+                    <p:column colspan="3" style="text-align:right">
+                        <h:outputText value="Total:" />
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{dtSummaryRowView.randomPrice}">
+                            <f:convertNumber type="currency" currencySymbol="N" />
+                        </h:outputText>
+                    </p:column>
+                </p:summaryRow>
+            </p:dataTable>
+        </div>
     </ui:define>
 
 </ui:composition>

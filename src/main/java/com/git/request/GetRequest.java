@@ -31,6 +31,7 @@ public class GetRequest implements Serializable {
     private boolean panelVisible;
     private List<RequestModel> requestList;
     private List<RequestModel> reques = new ArrayList<>();
+    private List<RequestModel> myRequest;
     private RequestModel mm;
     private ReceiverDetailsModel receiverDetails = new ReceiverDetailsModel();
     private SessionTest test = new SessionTest();
@@ -41,6 +42,7 @@ public class GetRequest implements Serializable {
         try {
 
             setPanelVisible(false);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -70,8 +72,14 @@ public class GetRequest implements Serializable {
     }
 
     public String redirect() {
-       return "/pages/home/makePayment.xhtml?faces-redirect=true";
-        
+        double sum = 0;
+        for (RequestModel mod : reques) {
+            sum += mod.getAmount();
+        }
+        System.out.println(" the sum is: " + sum);
+        setMyRequest(reques);
+        return "/pages/home/makePayment.xhtml?faces-redirect=true";
+
     }
 
     public List<RequestModel> requestLst(int val) throws Exception {
@@ -198,6 +206,14 @@ public class GetRequest implements Serializable {
 
     public void setMessangerOfTruth(String messangerOfTruth) {
         this.messangerOfTruth = messangerOfTruth;
+    }
+
+    public List<RequestModel> getMyRequest() {
+        return myRequest;
+    }
+
+    public void setMyRequest(List<RequestModel> myRequest) {
+        this.myRequest = myRequest;
     }
 
 }
