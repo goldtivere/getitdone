@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
+import javax.faces.application.NavigationHandler;
 import javax.faces.context.FacesContext;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -71,14 +72,14 @@ public class GetRequest implements Serializable {
         }
     }
 
-    public String redirect() {
-        double sum = 0;
-        for (RequestModel mod : reques) {
-            sum += mod.getAmount();
-        }
-        System.out.println(" the sum is: " + sum);
-        myRequest=reques;
-        return "/pages/home/makePayment.xhtml?faces-redirect=true";
+    public void redirect() {
+        FacesContext ctx = FacesContext.getCurrentInstance();
+        NavigationHandler nav = ctx.getApplication().getNavigationHandler();
+        ctx.getExternalContext().getApplicationMap().remove("request");
+        ctx.getExternalContext().getApplicationMap().put("request", reques);
+        String url = "/pages/home/makePayment.xhtml?faces-redirect=true";
+        nav.handleNavigation(ctx, null, url);
+        ctx.renderResponse();
 
     }
 
