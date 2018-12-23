@@ -13,7 +13,7 @@
 
     <ui:define name="content">    
         <div class="row">
-            <p:dataTable var="itema" value="#{getRequest.myRequest}" sortBy="#{itema.catId}">
+            <p:dataTable var="itema" value="#{paymentDetails.mode}" sortBy="#{itema.catId}">
                 <p:column headerText="Item Name" sortBy="#{itema.corporatename}">
                     <h:outputText value="#{itema.corporatename}" />
                 </p:column>
@@ -28,7 +28,7 @@
                         <h:outputText value="Total:" />
                     </p:column>
                     <p:column>
-                        <h:outputText value="#{dtSummaryRowView.randomPrice}">
+                        <h:outputText value="#{itema.amount}">
                             <f:convertNumber type="currency" currencySymbol="N" />
                         </h:outputText>
                     </p:column>
