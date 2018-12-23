@@ -77,7 +77,7 @@ public class GetRequest implements Serializable {
             sum += mod.getAmount();
         }
         System.out.println(" the sum is: " + sum);
-        setMyRequest(reques);
+        myRequest=reques;
         return "/pages/home/makePayment.xhtml?faces-redirect=true";
 
     }
