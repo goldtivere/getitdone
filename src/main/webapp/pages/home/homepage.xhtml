@@ -37,7 +37,7 @@
         </div>
         <div class="row">
             <p:panel id="viewOrder" style="border: none;" visible="#{getRequest.panelVisible}">
-                <p:commandButton  icon="fa fa-credit-card" />
+                <span class="pull-right"> <p:outputLabel value="Pay"/> <p:commandButton  icon="fa fa-credit-card" actionListener="" /></span>
                 <p:dataScroller value="#{getRequest.requestList}" var="req" chunkSize="10">  
                     <f:facet name="loader">
                         <p:commandButton type="button" value="More" icon="pi pi-chevron-circle-down"/>
