@@ -28,7 +28,7 @@ import javax.faces.bean.ViewScoped;
 @ViewScoped
 public class GetRequest implements Serializable {
 
-    private boolean panelVisible;    
+    private boolean panelVisible;
     private List<RequestModel> requestList;
     private List<RequestModel> reques = new ArrayList<>();
     private RequestModel mm;
@@ -67,6 +67,11 @@ public class GetRequest implements Serializable {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    public String redirect() {
+       return "/pages/home/makePayment.xhtml?faces-redirect=true";
+        
     }
 
     public List<RequestModel> requestLst(int val) throws Exception {
@@ -164,7 +169,7 @@ public class GetRequest implements Serializable {
 
             // reques.add(m);
             reques.add(m);
-          //  on.add(m);
+            //  on.add(m);
         } else {
             reques.remove(m);
         }
@@ -194,5 +199,5 @@ public class GetRequest implements Serializable {
     public void setMessangerOfTruth(String messangerOfTruth) {
         this.messangerOfTruth = messangerOfTruth;
     }
-  
+
 }
