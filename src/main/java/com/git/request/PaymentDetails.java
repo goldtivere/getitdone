@@ -22,9 +22,16 @@ import javax.faces.context.FacesContext;
 public class PaymentDetails implements Serializable{
     private String messangerOfTruth;
     private List<RequestModel> mode;
+    private double sumValue;
     
     @PostConstruct
      public void init() {
+         double sum=0;
+         for(RequestModel mod: value())
+         {
+             sum+=mod.getAmount();
+         }
+         setSumValue(sum);
        mode=value();
        System.out.println("Hi got here");
     }
@@ -69,7 +76,15 @@ public class PaymentDetails implements Serializable{
     public void setMessangerOfTruth(String messangerOfTruth) {
         this.messangerOfTruth = messangerOfTruth;
     }
+
+    public double getSumValue() {
+        return sumValue;
+    }
+
+    public void setSumValue(double sumValue) {
+        this.sumValue = sumValue;
+    }
     
-    
+     
     
 }

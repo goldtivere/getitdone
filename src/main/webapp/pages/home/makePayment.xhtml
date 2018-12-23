@@ -24,11 +24,11 @@
                     <h:outputText value="#{itema.amount}" />
                 </p:column>                
                 <p:summaryRow>
-                    <p:column colspan="3" style="text-align:right">
+                    <p:column colspan="2" style="text-align:right">
                         <h:outputText value="Total:" />
                     </p:column>
                     <p:column>
-                        <h:outputText value="#{itema.amount}">
+                        <h:outputText value="#{paymentDetails.sumValue}">
                             <f:convertNumber type="currency" currencySymbol="N" />
                         </h:outputText>
                     </p:column>
