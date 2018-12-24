@@ -11,29 +11,50 @@
         Make Payment
     </ui:define>
 
-    <ui:define name="content">    
+    <ui:define name="content">         
         <div class="row">
-            <p:dataTable var="itema" value="#{paymentDetails.mode}" sortBy="#{itema.catId}">
-                <p:column headerText="Item Name" sortBy="#{itema.corporatename}">
-                    <h:outputText value="#{itema.corporatename}" />
-                </p:column>
-                <p:column headerText="Coverage Area" sortBy="#{itema.coverageLocation}">
-                    <h:outputText value="#{itema.coverageLocation}" />
-                </p:column>
-                <p:column headerText="Amount" sortBy="#{itema.amount}">
-                    <h:outputText value="#{itema.amount}" />
-                </p:column>                
-                <p:summaryRow>
-                    <p:column colspan="2" style="text-align:right">
-                        <h:outputText value="Total:" />
+            <div  class="col-md-3">
+                <dv class="panel panel-primary">
+                    <div class="panel-heading">Receiver's Details</div>
+                    <div class="content">
+                        <div class="row">
+                            <p:inputText placeholder="Receiver's Name" />
+                        </div>
+                         <div class="row">
+                            <p:inputText placeholder="Receiver's phone" />
+                        </div>
+                         <div class="row">
+                            <p:inputText placeholder="Receiver's Address" />
+                        </div>
+                         <div class="row">
+                             <p:commandButton value='Pay'/>
+                        </div>
+                    </div>
+                </dv>
+            </div>
+            <div class="col-md-9">
+                <p:dataTable var="itema" value="#{paymentDetails.mode}" sortBy="#{itema.catId}">
+                    <p:column headerText="Item Name" sortBy="#{itema.corporatename}">
+                        <h:outputText value="#{itema.corporatename}" />
                     </p:column>
-                    <p:column>
-                        <h:outputText value="#{paymentDetails.sumValue}">
-                            <f:convertNumber type="currency" currencySymbol="N" />
-                        </h:outputText>
+                    <p:column headerText="Coverage Area" sortBy="#{itema.coverageLocation}">
+                        <h:outputText value="#{itema.coverageLocation}" />
                     </p:column>
-                </p:summaryRow>
-            </p:dataTable>
+                    <p:column headerText="Amount" sortBy="#{itema.amount}">
+                        <h:outputText value="#{itema.amount}" />
+                    </p:column>                
+                    <p:summaryRow>
+                        <p:column colspan="2" style="text-align:right">
+                            <h:outputText value="Total:" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{paymentDetails.sumValue}">
+                                <f:convertNumber type="currency" currencySymbol="N" />
+                            </h:outputText>
+                        </p:column>
+                    </p:summaryRow>
+                </p:dataTable>
+            </div>
         </div>
     </ui:define>
 
