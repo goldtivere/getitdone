@@ -22,7 +22,19 @@
                             <p:inputText id='rname' placeholder="Receiver's Name" class='form-control' />
 
                             <p:outputLabel for='rphone' value="Active Phone Number to call: " />
-                            <p:inputText id='rphone' placeholder="Receiver's phone" class='form-control' />
+                            <p:inputText id='rphone' maxlength="11" placeholder="Receiver's phone" class='form-control' />
+                            
+                            <p:outputLabel for='remail' value="Active Email Address: " />
+                             <p:inputText id="remail" required="true"  class="form-control" label="email" size="40"
+                                         requiredMessage="Please enter your email address."
+                                         validatorMessage="Invalid email format"
+                                         >
+
+                                <f:validateRegex
+                                    pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+
+                            </p:inputText>
+                           
 
                             <p:outputLabel for='radd' value="Delivery Address" />
                             <p:inputTextarea id='radd' placeholder="Receiver's Address" class='form-control' />

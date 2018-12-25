@@ -162,7 +162,7 @@ public class vendor implements Serializable {
             int createdby = userObj.getId();
 
             if (userObj == null) {
-                setMessangerOfTruth("Expired Session, pleasere - login " + on);
+                setMessangerOfTruth("Expired Session, please - login " + on);
                 msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
                         getMessangerOfTruth(), getMessangerOfTruth());
                 context.addMessage(null, msg);
