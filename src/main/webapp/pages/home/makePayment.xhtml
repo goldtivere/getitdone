@@ -17,19 +17,25 @@
                 <dv class="panel panel-primary">
                     <div class="panel-heading">Receiver's Details</div>
                     <div class="panel-body"> 
-                        <h:panelGrid columns="1">
-                            <p:inputText placeholder="Receiver's Name" class='form-control' />
+                        <h:panelGrid columns="2">
+                            <p:outputLabel for='rname' value="Receiver's Name" />
+                            <p:inputText id='rname' placeholder="Receiver's Name" class='form-control' />
 
-                            <p:inputText placeholder="Receiver's phone" class='form-control' />
+                            <p:outputLabel for='rphone' value="Active Phone Number to call: " />
+                            <p:inputText id='rphone' placeholder="Receiver's phone" class='form-control' />
 
-                            <p:inputText placeholder="Receiver's Address" class='form-control' />
+                            <p:outputLabel for='radd' value="Delivery Address" />
+                            <p:inputText id='radd' placeholder="Receiver's Address" class='form-control' />
 
-                            <p:commandButton value='Pay'/>
+                            <p:commandButton value='Make Payment'/>
                         </h:panelGrid>
                     </div>
                 </dv>
             </div>
             <div class="col-md-9">
+                <br/>
+                <br/>
+
                 <p:dataTable var="itema" value="#{paymentDetails.mode}" sortBy="#{itema.catId}">
                     <p:column headerText="Item Name" sortBy="#{itema.corporatename}">
                         <h:outputText value="#{itema.corporatename}" />
