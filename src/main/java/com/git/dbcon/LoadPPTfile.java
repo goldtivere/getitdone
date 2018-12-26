@@ -39,6 +39,7 @@ public class LoadPPTfile implements Serializable {
             return null;
         }
     }
+
     public String SitePath() {
         Properties prop = new Properties();
         try {
@@ -50,6 +51,20 @@ public class LoadPPTfile implements Serializable {
             String password = prop.getProperty("password").toString();
             String driver = prop.getProperty("driver").toString();
             String path = prop.getProperty("sitepath").toString();
+            return path;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+    public String callback() {
+        Properties prop = new Properties();
+        try {
+            //System.out.println("test");
+            prop.load(new FileInputStream(System.getProperty("user.home") + "/mydb.cfg"));
+            //System.out.println("user.home: " + System.getProperty("user.home"));        
+            String path = prop.getProperty("callback").toString();
             return path;
         } catch (Exception ex) {
             ex.printStackTrace();

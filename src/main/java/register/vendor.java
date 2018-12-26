@@ -86,7 +86,7 @@ public class vendor implements Serializable {
 
     }
 
-    public boolean checkAccountExist(String acctnum,String bankname) {
+    public boolean checkAccountExist(String acctnum, String bankname) {
         DbConnectionX dbConnections = new DbConnectionX();
         Connection con = null;
         PreparedStatement pstmt = null;
@@ -146,7 +146,7 @@ public class vendor implements Serializable {
         return 0;
     }
 
-    public void registerVendor() {
+    public void registerVendor() throws SQLException {
         FacesContext context = FacesContext.getCurrentInstance();
         DbConnectionX dbConnections = new DbConnectionX();
         Recipient receipt = new Recipient();
@@ -178,7 +178,7 @@ public class vendor implements Serializable {
                 setMessangerOfTruth("RC Number already exists!!");
                 msg = new FacesMessage(FacesMessage.SEVERITY_INFO, getMessangerOfTruth(), getMessangerOfTruth());
                 context.addMessage(null, msg);
-            } else if (checkAccountExist(vendor.getAcctNum(),vendor.getBankname())) {
+            } else if (checkAccountExist(vendor.getAcctNum(), vendor.getBankname())) {
                 setMessangerOfTruth("Account Number already exists!!");
                 msg = new FacesMessage(FacesMessage.SEVERITY_INFO, getMessangerOfTruth(), getMessangerOfTruth());
                 context.addMessage(null, msg);
@@ -188,7 +188,7 @@ public class vendor implements Serializable {
                 ObjectMapper mapp = new ObjectMapper();
                 Recipient1 dat = mapp.readValue(bn.toString(), Recipient1.class);
                 if (dat.isStatus()) {
-                    System.out.println("here we are again "+ bn);
+                    System.out.println("here we are again " + bn);
                     String insertvendor = "insert into tbvendor  (firstname,middlename,lastname,fullname,phonenumber,corporatename,address,emailaddress"
                             + ",rcnumber,bankname,accountnumber,accountname,verified,createdby,datecreated,isdeleted,coverageLocation)"
                             + "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
@@ -255,15 +255,28 @@ public class vendor implements Serializable {
                     msg = new FacesMessage(FacesMessage.SEVERITY_INFO, getMessangerOfTruth(), getMessangerOfTruth());
                     context.addMessage(null, msg);
                 } else {
-                    dat=null;
+                    dat = null;
                     setMessangerOfTruth("Invalid Account Number!!");
                     msg = new FacesMessage(FacesMessage.SEVERITY_INFO, getMessangerOfTruth(), getMessangerOfTruth());
                     context.addMessage(null, msg);
                 }
             }
 
+        } catch (SQLException e) {
+            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
+
+        } finally {
+
+            if (!(con == null)) {
+                con.close();
+                con = null;
+            }
+            if (!(pstmt == null)) {
+                pstmt.close();
+                pstmt = null;
+            }
 
         }
 

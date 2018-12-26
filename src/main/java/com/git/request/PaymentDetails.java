@@ -5,7 +5,16 @@
  */
 package com.git.request;
 
+import com.git.core.Recipient;
+import com.git.core.Transactions;
+import com.git.dbcon.DbConnectionX;
+import com.git.dbcon.LoadPPTfile;
+import com.git.register.UserDetails;
 import java.io.Serializable;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -15,6 +24,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.json.JSONObject;
 
 /**
  *
@@ -27,6 +38,7 @@ public class PaymentDetails implements Serializable {
     private String messangerOfTruth;
     private List<RequestModel> mode;
     private double sumValue;
+    private SenderModel model = new SenderModel();
 
     @PostConstruct
     public void init() {
@@ -81,7 +93,51 @@ public class PaymentDetails implements Serializable {
 
     }//end generateRefNo(...)
 
-    public void makepayment() {
+    public void makepayment() throws SQLException {
+        FacesContext context = FacesContext.getCurrentInstance();
+        DbConnectionX dbConnections = new DbConnectionX();
+        Recipient receipt = new Recipient();
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        FacesMessage msg;
+        Transactions trans = new Transactions();
+        LoadPPTfile load= new LoadPPTfile();
+
+        try {
+            con = dbConnections.mySqlDBconnection();
+            UserDetails userObj = (UserDetails) context.getExternalContext().getSessionMap().get("sessn_nums");
+            String on = String.valueOf(userObj);
+            int createdby = userObj.getId();
+
+            if (userObj == null) {
+                setMessangerOfTruth("Expired Session, please - login " + on);
+                msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                        getMessangerOfTruth(), getMessangerOfTruth());
+                context.addMessage(null, msg);
+            } else {
+                String tranAmount = String.valueOf(getSumValue() * 100);
+                String ref=tranAmount+generateRefNo();
+                JSONObject bn = trans.initializeTransaction(ref, tranAmount, model.getEmailAddress(), null, load.callback());
+                ObjectMapper mapp = new ObjectMapper();
+                InitialisePojo initial= mapp.readValue(bn.toString(), InitialisePojo.class);
+                System.out.println("I am here big head: "+ bn);
+            }
+
+        } catch (Exception e) {
+
+        } finally {
+
+            if (!(con == null)) {
+                con.close();
+                con = null;
+            }
+            if (!(pstmt == null)) {
+                pstmt.close();
+                pstmt = null;
+            }
+
+        }
 
     }
 
@@ -107,6 +163,14 @@ public class PaymentDetails implements Serializable {
 
     public void setSumValue(double sumValue) {
         this.sumValue = sumValue;
+    }
+
+    public SenderModel getModel() {
+        return model;
+    }
+
+    public void setModel(SenderModel model) {
+        this.model = model;
     }
 
 }

@@ -13,19 +13,20 @@
 
     <ui:define name="content">         
         <div class="row">
+            <p:messages id='mess' closable="true"/>
             <div  class="col-md-6">
                 <dv class="panel panel-primary">
                     <div class="panel-heading">Receiver's Details</div>
                     <div class="panel-body"> 
-                        <h:panelGrid columns="2">
+                        <h:panelGrid columns="2" id="grid">
                             <p:outputLabel for='rname' value="Receiver's Name" />
-                            <p:inputText id='rname' placeholder="Receiver's Name" class='form-control' />
+                            <p:inputText id='rname' required='true' requiredMessage="Receiver name is required" value="#{paymentDetails.model.name}" placeholder="Receiver's Name" class='form-control' />
 
                             <p:outputLabel for='rphone' value="Active Phone Number to call: " />
-                            <p:inputText id='rphone' maxlength="11" placeholder="Receiver's phone" class='form-control' />
+                            <p:inputText id='rphone' required='true' requiredMessage="Phone number is required" value="#{paymentDetails.model.phone}" maxlength="11" placeholder="Receiver's phone" class='form-control' />
                             
                             <p:outputLabel for='remail' value="Active Email Address: " />
-                             <p:inputText id="remail" required="true"  class="form-control" label="email" size="40"
+                            <p:inputText id="remail" required="true" value="#{paymentDetails.model.emailAddress}"  class="form-control" label="email" size="40"
                                          requiredMessage="Please enter your email address."
                                          validatorMessage="Invalid email format"
                                          >
@@ -37,9 +38,9 @@
                            
 
                             <p:outputLabel for='radd' value="Delivery Address" />
-                            <p:inputTextarea id='radd' placeholder="Receiver's Address" class='form-control' />
+                            <p:inputTextarea id='radd' required='true' requiredMessage="Receiver address is required" value="#{paymentDetails.model.address}" placeholder="Receiver's Address" class='form-control' />
 
-                            <p:commandButton value='Make Payment'/>
+                            <p:commandButton value='Make Payment' process="@this rname,rphone,remail,radd" update='mess,grid' />
                         </h:panelGrid>
                     </div>
                 </dv>
