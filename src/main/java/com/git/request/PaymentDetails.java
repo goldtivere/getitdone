@@ -142,7 +142,7 @@ public class PaymentDetails implements Serializable {
                 pstmt.setString(13, model.getAddress());
                 pstmt.executeUpdate();
 
-                System.out.println("I am here big head: " + bn);
+                System.out.println("I am here big hhhead: " + bn+ " "+initial.getData().getAuthorization_url() );
 
                 return initial.getData().getAuthorization_url();
             }
