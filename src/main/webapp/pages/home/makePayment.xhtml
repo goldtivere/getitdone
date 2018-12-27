@@ -40,7 +40,7 @@
                             <p:outputLabel for='radd' value="Delivery Address" />
                             <p:inputTextarea id='radd' required='true' requiredMessage="Receiver address is required" value="#{paymentDetails.model.address}" placeholder="Receiver's Address" class='form-control' />
 
-                            <p:commandLink value='Make Payment' action="#{paymentDetails.makepayment()}" process="@this rname,rphone,remail,radd" update='mess,grid' />
+                            <p:commandButton value='Make Payment' action="#{paymentDetails.makepayment()}" process="@this rname,rphone,remail,radd" update='mess,grid' />
                         </h:panelGrid>
                     </div>
                 </dv>
