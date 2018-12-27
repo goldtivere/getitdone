@@ -13,6 +13,9 @@
 
     <ui:define name="content">    
         <div class="row">
+            <p:commandButton value="get it" action="#{getRequest.redirectNow}" process='@this'/>
+            
+            <p:commandButton value="Big Head" action="#{getRequest.redirect()}" process='@this'/>
             <div class="col-md-12">
 
                 <p:dataGrid var="items" value="#{drop.mode}" columns="4" layout="grid"

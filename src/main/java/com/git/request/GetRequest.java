@@ -8,6 +8,7 @@ package com.git.request;
 import com.git.dbcon.DbConnectionX;
 import com.git.getitdone.CategoryModel;
 import com.git.getitdone.SessionTest;
+import java.io.IOException;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -70,6 +71,15 @@ public class GetRequest implements Serializable {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    public String redirectNow() {
+        return "https://checkout.paystack.com/bwxa5iymvbju7sy";
+    }
+    
+    public void redirectAgain() throws IOException
+    {
+        FacesContext.getCurrentInstance().getExternalContext().redirect("https://checkout.paystack.com/bwxa5iymvbju7sy");
     }
 
     public void redirect() {
