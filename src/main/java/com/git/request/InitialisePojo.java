@@ -13,7 +13,7 @@ package com.git.request;
 public class InitialisePojo {
     private String message;
 
-    private String status;
+    private boolean status;
 
     private DataPojo data;
 
@@ -27,12 +27,12 @@ public class InitialisePojo {
         this.message = message;
     }
 
-    public String getStatus ()
+    public boolean getStatus ()
     {
         return status;
     }
 
-    public void setStatus (String status)
+    public void setStatus (boolean status)
     {
         this.status = status;
     }

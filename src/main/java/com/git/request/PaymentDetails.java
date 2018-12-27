@@ -7,6 +7,7 @@ package com.git.request;
 
 import com.git.core.Recipient;
 import com.git.core.Transactions;
+import com.git.dbcon.DateManipulation;
 import com.git.dbcon.DbConnectionX;
 import com.git.dbcon.LoadPPTfile;
 import com.git.register.UserDetails;
@@ -93,7 +94,7 @@ public class PaymentDetails implements Serializable {
 
     }//end generateRefNo(...)
 
-    public void makepayment() throws SQLException {
+    public String makepayment() throws SQLException {
         FacesContext context = FacesContext.getCurrentInstance();
         DbConnectionX dbConnections = new DbConnectionX();
         Recipient receipt = new Recipient();
@@ -102,7 +103,7 @@ public class PaymentDetails implements Serializable {
         ResultSet rs = null;
         FacesMessage msg;
         Transactions trans = new Transactions();
-        LoadPPTfile load= new LoadPPTfile();
+        LoadPPTfile load = new LoadPPTfile();
 
         try {
             con = dbConnections.mySqlDBconnection();
@@ -117,15 +118,33 @@ public class PaymentDetails implements Serializable {
                 context.addMessage(null, msg);
             } else {
                 String tranAmount = String.valueOf(getSumValue() * 100);
-                String ref=tranAmount+generateRefNo();
+                String ref = tranAmount + generateRefNo();
                 JSONObject bn = trans.initializeTransaction(ref, tranAmount, model.getEmailAddress(), null, load.callback());
                 ObjectMapper mapp = new ObjectMapper();
-                InitialisePojo initial= mapp.readValue(bn.toString(), InitialisePojo.class);
-                System.out.println("I am here big head: "+ bn);
+                InitialisePojo initial = mapp.readValue(bn.toString(), InitialisePojo.class);
+                String insertemail = "insert into tbtransaction (reference,userfk,amount,iscompleted,datecreated,accesscode,authorisationurl,message,status)"
+                        + "values(?,?,?,?,?,?,?)";
+
+                pstmt = con.prepareStatement(insertemail);
+                pstmt.setString(1, initial.getData().getReference());
+                pstmt.setInt(2, userObj.getId());
+                pstmt.setDouble(3, getSumValue());
+                pstmt.setBoolean(4, false);
+                pstmt.setString(5, DateManipulation.dateAndTime());
+                pstmt.setString(6, initial.getData().getAccess_code());
+                pstmt.setString(7, initial.getData().getAuthorization_url());
+                pstmt.setString(8, initial.getMessage());
+                pstmt.setBoolean(9, initial.getStatus());
+                pstmt.executeUpdate();
+
+                System.out.println("I am here big head: " + bn);
+
+                return initial.getData().getAuthorization_url();
             }
 
         } catch (Exception e) {
-
+            e.printStackTrace();
+            return null;
         } finally {
 
             if (!(con == null)) {
@@ -136,7 +155,7 @@ public class PaymentDetails implements Serializable {
                 pstmt.close();
                 pstmt = null;
             }
-
+            return null;
         }
 
     }
