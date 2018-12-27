@@ -122,8 +122,9 @@ public class PaymentDetails implements Serializable {
                 JSONObject bn = trans.initializeTransaction(ref, tranAmount, model.getEmailAddress(), null, load.callback());
                 ObjectMapper mapp = new ObjectMapper();
                 InitialisePojo initial = mapp.readValue(bn.toString(), InitialisePojo.class);
-                String insertemail = "insert into tbtransaction (reference,userfk,amount,iscompleted,datecreated,accesscode,authorisationurl,message,status)"
-                        + "values(?,?,?,?,?,?,?)";
+                String insertemail = "insert into tbtransaction (reference,userfk,amount,iscompleted,datecreated,accesscode,authorisationurl,message,status,"
+                        + " receivername,receiverphone,receiveremail,receiveraddress)"
+                        + "values(?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
                 pstmt = con.prepareStatement(insertemail);
                 pstmt.setString(1, initial.getData().getReference());
@@ -135,6 +136,10 @@ public class PaymentDetails implements Serializable {
                 pstmt.setString(7, initial.getData().getAuthorization_url());
                 pstmt.setString(8, initial.getMessage());
                 pstmt.setBoolean(9, initial.getStatus());
+                pstmt.setString(10, model.getName());
+                pstmt.setString(11, model.getPhone());
+                pstmt.setString(12, model.getEmailAddress());
+                pstmt.setString(13, model.getAddress());
                 pstmt.executeUpdate();
 
                 System.out.println("I am here big head: " + bn);
