@@ -94,7 +94,7 @@ public class PaymentDetails implements Serializable {
 
     }//end generateRefNo(...)
 
-    public String makepayment() throws SQLException {
+    public void makepayment() throws SQLException {
         FacesContext context = FacesContext.getCurrentInstance();
         DbConnectionX dbConnections = new DbConnectionX();
         Recipient receipt = new Recipient();
@@ -142,14 +142,13 @@ public class PaymentDetails implements Serializable {
                 pstmt.setString(13, model.getAddress());
                 pstmt.executeUpdate();
 
-                System.out.println("I am here big hhhead: " + bn+ " "+initial.getData().getAuthorization_url() );
-
-                return initial.getData().getAuthorization_url();
+                System.out.println("I am here big hhhead: " + bn + " " + initial.getData().getAuthorization_url());
+                FacesContext.getCurrentInstance().getExternalContext().redirect(initial.getData().getAuthorization_url());
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+
         } finally {
 
             if (!(con == null)) {
@@ -160,7 +159,7 @@ public class PaymentDetails implements Serializable {
                 pstmt.close();
                 pstmt = null;
             }
-            return null;
+
         }
 
     }
