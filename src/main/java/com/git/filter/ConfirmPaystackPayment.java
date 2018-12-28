@@ -85,8 +85,7 @@ public class ConfirmPaystackPayment implements Runnable {
                 ObjectMapper mapp = new ObjectMapper();
                 ConfirmPayment confirm = mapp.readValue(bn.toString(), ConfirmPayment.class);
 
-                if (confirm.getData().getGateway_response().equalsIgnoreCase("successful")) {
-                    System.out.println("You get sexy head Tivere " + confirm.getMessage() + " " + val);
+                if (confirm.getData().getGateway_response().equalsIgnoreCase("successful")) {                    
                     pstmt = con.prepareStatement(updateStatus);
                     pstmt.setString(1, val);
                     pstmt.executeUpdate();
