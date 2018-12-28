@@ -52,7 +52,7 @@ public class Data {
 
     private String created_at;
 
-    private String plan_object;
+    private Plan_object plan_object;
 
     private String channel;
 
@@ -268,12 +268,12 @@ public class Data {
         this.created_at = created_at;
     }
 
-    public String getPlan_object ()
+    public Plan_object getPlan_object ()
     {
         return plan_object;
     }
 
-    public void setPlan_object (String plan_object)
+    public void setPlan_object (Plan_object plan_object)
     {
         this.plan_object = plan_object;
     }
