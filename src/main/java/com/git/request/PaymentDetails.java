@@ -123,8 +123,8 @@ public class PaymentDetails implements Serializable {
                 ObjectMapper mapp = new ObjectMapper();
                 InitialisePojo initial = mapp.readValue(bn.toString(), InitialisePojo.class);
                 String insertemail = "insert into tbtransaction (reference,userfk,amount,iscompleted,datecreated,accesscode,authorisationurl,message,status,"
-                        + " receivername,receiverphone,receiveremail,receiveraddress)"
-                        + "values(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                        + " receivername,receiverphone,receiveremail,receiveraddress,istrxncompleted)"
+                        + "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
                 pstmt = con.prepareStatement(insertemail);
                 pstmt.setString(1, initial.getData().getReference());
@@ -140,7 +140,21 @@ public class PaymentDetails implements Serializable {
                 pstmt.setString(11, model.getPhone());
                 pstmt.setString(12, model.getEmailAddress());
                 pstmt.setString(13, model.getAddress());
+                pstmt.setBoolean(13, false);
                 pstmt.executeUpdate();
+
+                String insertPayment = "insert into tbpayment (vendorfk,trxnreference,amount,ispaid,trxncompleted,trxnpaid)"
+                        + "values(?,?,?,?,?,?)";
+                for (RequestModel mode : value()) {
+                    pstmt = con.prepareStatement(insertPayment);
+                    pstmt.setInt(1, mode.getVendorfk());
+                    pstmt.setString(2, initial.getData().getReference());
+                    pstmt.setDouble(3, mode.getAmount());
+                    pstmt.setBoolean(4, false);
+                    pstmt.setBoolean(5, false);
+                    pstmt.setBoolean(6, false);
+                    pstmt.executeUpdate();
+                }
 
                 System.out.println("I am here big hhhead: " + bn + " " + initial.getData().getAuthorization_url());
                 FacesContext.getCurrentInstance().getExternalContext().redirect(initial.getData().getAuthorization_url());
