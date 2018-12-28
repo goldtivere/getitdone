@@ -14,7 +14,7 @@ public class Data {
 
     private String status;
 
-    private String subaccount;
+    private Subaccount subaccount;
 
     private String transaction_date;
 
@@ -78,12 +78,12 @@ public class Data {
         this.status = status;
     }
 
-    public String getSubaccount ()
+    public Subaccount getSubaccount ()
     {
         return subaccount;
     }
 
-    public void setSubaccount (String subaccount)
+    public void setSubaccount (Subaccount subaccount)
     {
         this.subaccount = subaccount;
     }
