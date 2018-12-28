@@ -140,7 +140,7 @@ public class PaymentDetails implements Serializable {
                 pstmt.setString(11, model.getPhone());
                 pstmt.setString(12, model.getEmailAddress());
                 pstmt.setString(13, model.getAddress());
-                pstmt.setBoolean(13, false);
+                pstmt.setBoolean(14, false);
                 pstmt.executeUpdate();
 
                 String insertPayment = "insert into tbpayment (vendorfk,trxnreference,amount,ispaid,trxncompleted,trxnpaid)"

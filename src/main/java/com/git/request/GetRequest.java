@@ -108,7 +108,7 @@ public class GetRequest implements Serializable {
             String query = "select g.vendorfk,g.category,p.corporatename,p.coveragelocation, g.amount,l.vendorfk as requestId,l.requestStatus,l.completed from "
                     + "tbvendoritem g inner join tbvendor p on g.vendorfk=p.id left OUTER join "
                     + "tbrequest l on l.vendorfk=g.vendorfk "
-                    + " where p.isdeleted=false and g.category=?";
+                    + " where p.isdeleted=false and g.category=? order by l.requeststatus";
             pstmt = con.prepareStatement(query);
             pstmt.setInt(1, val);
             rs = pstmt.executeQuery();
