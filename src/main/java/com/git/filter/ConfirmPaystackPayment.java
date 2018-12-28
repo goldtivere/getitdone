@@ -24,7 +24,7 @@ public class ConfirmPaystackPayment implements Runnable {
 
     @Override
     public void run() {
-       checkIfTrue();
+        checkIfTrue();
     }
 
     public List<String> referenceName() throws SQLException {
@@ -69,15 +69,30 @@ public class ConfirmPaystackPayment implements Runnable {
     }//end doTransaction...
 
     public void checkIfTrue() {
+        Connection con = null;
+        DbConnectionX dbCon = new DbConnectionX();
+        ResultSet rs = null;
+        PreparedStatement pstmt = null;
         Transactions trans = new Transactions();
         try {
+
+            String updateStatus = "update tbtransaction set iscompleted=true where reference=?";
+            String statusUpdate = "update tbpayment set ispaid=true where trxnreference=?";
+
             for (String val : referenceName()) {
                 JSONObject bn = trans.verifyTransaction(val);
                 ObjectMapper mapp = new ObjectMapper();
                 ConfirmPayment confirm = mapp.readValue(bn.toString(), ConfirmPayment.class);
 
                 if (confirm.getData().getGateway_response().equalsIgnoreCase("successful")) {
-                    System.out.println("You get sexy head Tivere "+ confirm.getMessage());
+                    System.out.println("You get sexy head Tivere " + confirm.getMessage()+" "+ val);
+                    pstmt = con.prepareStatement(updateStatus);
+                    pstmt.setString(1, val);
+                    pstmt.executeUpdate();
+                    pstmt = con.prepareStatement(statusUpdate);
+                    pstmt.setString(1, val);
+                    pstmt.executeUpdate();
+
                 }
             }
         } catch (Exception e) {
