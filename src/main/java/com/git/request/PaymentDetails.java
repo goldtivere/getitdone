@@ -143,7 +143,7 @@ public class PaymentDetails implements Serializable {
                 pstmt.setBoolean(14, false);
                 pstmt.executeUpdate();
 
-                String insertPayment = "insert into tbpayment (vendorfk,trxnreference,amount,ispaid,trxncompleted,trxnpaid)"
+                String insertPayment = "insert into tbpayment (vendorfk,trxnreference,amount,ispaid,trxncompleted,trxnpaid,datecompleted)"
                         + "values(?,?,?,?,?,?)";
                 for (RequestModel mode : value()) {
                     pstmt = con.prepareStatement(insertPayment);
