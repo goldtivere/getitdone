@@ -12,9 +12,7 @@ package com.git.filter;
 public class Data {
     private String paidAt;
 
-    private String status;
-
-    private String subaccount;
+    private String status;    
 
     private String transaction_date;
 
@@ -77,17 +75,7 @@ public class Data {
     {
         this.status = status;
     }
-
-    public String getSubaccount ()
-    {
-        return subaccount;
-    }
-
-    public void setSubaccount (String subaccount)
-    {
-        this.subaccount = subaccount;
-    }
-
+ 
     public String getTransaction_date ()
     {
         return transaction_date;
@@ -301,6 +289,6 @@ public class Data {
     @Override
     public String toString()
     {
-        return "ClassPojo [paidAt = "+paidAt+", status = "+status+", subaccount = "+subaccount+", transaction_date = "+transaction_date+", authorization = "+authorization+", fees = "+fees+", paid_at = "+paid_at+", customer = "+customer+", log = "+log+", reference = "+reference+", currency = "+currency+", id = "+id+", amount = "+amount+", message = "+message+", ip_address = "+ip_address+", plan = "+plan+", createdAt = "+createdAt+", domain = "+domain+", fees_split = "+fees_split+", gateway_response = "+gateway_response+", created_at = "+created_at+", plan_object = "+plan_object+", channel = "+channel+", metadata = "+metadata+"]";
+        return "ClassPojo [paidAt = "+paidAt+", status = "+status+", transaction_date = "+transaction_date+", authorization = "+authorization+", fees = "+fees+", paid_at = "+paid_at+", customer = "+customer+", log = "+log+", reference = "+reference+", currency = "+currency+", id = "+id+", amount = "+amount+", message = "+message+", ip_address = "+ip_address+", plan = "+plan+", createdAt = "+createdAt+", domain = "+domain+", fees_split = "+fees_split+", gateway_response = "+gateway_response+", created_at = "+created_at+", plan_object = "+plan_object+", channel = "+channel+", metadata = "+metadata+"]";
     }
 }

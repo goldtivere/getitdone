@@ -77,7 +77,7 @@ public class ConfirmPaystackPayment implements Runnable {
                 ConfirmPayment confirm = mapp.readValue(bn.toString(), ConfirmPayment.class);
 
                 if (confirm.getData().getGateway_response().equalsIgnoreCase("successful")) {
-                    System.out.println("You get sexy head Tivere");
+                    System.out.println("You get sexy head Tivere "+ confirm.getMessage());
                 }
             }
         } catch (Exception e) {
