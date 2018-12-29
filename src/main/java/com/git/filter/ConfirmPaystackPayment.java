@@ -6,6 +6,7 @@
 package com.git.filter;
 
 import com.git.core.Transactions;
+import com.git.dbcon.DateManipulation;
 import com.git.dbcon.DbConnectionX;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.faces.context.FacesContext;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.json.JSONObject;
 
@@ -85,7 +87,7 @@ public class ConfirmPaystackPayment implements Runnable {
                 ObjectMapper mapp = new ObjectMapper();
                 ConfirmPayment confirm = mapp.readValue(bn.toString(), ConfirmPayment.class);
 
-                if (confirm.getData().getGateway_response().equalsIgnoreCase("successful")) {                    
+                if (confirm.getData().getGateway_response().equalsIgnoreCase("successful")) {
                     pstmt = con.prepareStatement(updateStatus);
                     pstmt.setString(1, val);
                     pstmt.executeUpdate();
@@ -93,11 +95,56 @@ public class ConfirmPaystackPayment implements Runnable {
                     pstmt = con.prepareStatement(statusUpdate);
                     pstmt.setString(1, val);
                     pstmt.executeUpdate();
+                    confirmPayment(confirm);
 
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void confirmPayment(ConfirmPayment confirm) throws SQLException {
+        FacesContext context = FacesContext.getCurrentInstance();
+        DbConnectionX dbConnections = new DbConnectionX();
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            con = dbConnections.mySqlDBconnection();
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            String insert = "insert into tbpaymentresponse (trxnreference,gatewayresponse,amount,channel,ipaddress,authorcode,customercode,customerid,createdat,datecreated)"
+                    + "values(?,?,?,?,?,?,?,?,?,?)";
+            pstmt = con.prepareStatement(insert);
+
+            pstmt.setString(1, confirm.getData().getReference());
+            pstmt.setString(2, confirm.getData().getGateway_response());
+            pstmt.setString(3, confirm.getData().getAmount());
+            pstmt.setString(4, confirm.getData().getChannel());
+            pstmt.setString(5, confirm.getData().getIp_address());
+            pstmt.setString(6, confirm.getData().getAuthorization().getAuthorization_code());
+            pstmt.setString(7, confirm.getData().getCustomer().getCustomer_code());
+            pstmt.setString(8, confirm.getData().getCustomer().getId());
+            pstmt.setString(9, confirm.getData().getCreatedAt());
+            pstmt.setString(10, DateManipulation.dateAndTime());
+            pstmt.executeUpdate();
+        } finally {
+
+            if (!(con == null)) {
+                con.close();
+            }
+
+            if (!(pstmt == null)) {
+                pstmt.close();
+            }
+
+            if (!(rs == null)) {
+                rs.close();
+            }
+
+        }
+
     }
 }
