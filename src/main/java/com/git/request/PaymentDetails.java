@@ -118,7 +118,7 @@ public class PaymentDetails implements Serializable {
                 context.addMessage(null, msg);
             } else {
                 String tranAmount = String.valueOf(getSumValue() * 100);
-                String ref = tranAmount + generateRefNo();
+                String ref = userObj.getId() + generateRefNo();
                 JSONObject bn = trans.initializeTransaction(ref, tranAmount, model.getEmailAddress(), null, load.callback());
                 ObjectMapper mapp = new ObjectMapper();
                 InitialisePojo initial = mapp.readValue(bn.toString(), InitialisePojo.class);
@@ -143,9 +143,11 @@ public class PaymentDetails implements Serializable {
                 pstmt.setBoolean(14, false);
                 pstmt.executeUpdate();
 
-                String insertPayment = "insert into tbpayment (vendorfk,trxnreference,amount,ispaid,trxncompleted,trxnpaid,datecompleted)"
-                        + "values(?,?,?,?,?,?,?)";
+                String insertPayment = "insert into tbpayment (vendorfk,trxnreference,amount,ispaid,trxncompleted,trxnpaid,datecompleted,smssent,smscontent)"
+                        + "values(?,?,?,?,?,?,?,?,?)";
                 for (RequestModel mode : value()) {
+                    String smscontent = "Hello " + mode.getCorporatename() + ", kindly supply " + model.getName()
+                            + " at " + model.getAddress() + ". You can call on " + model.getPhone();
                     pstmt = con.prepareStatement(insertPayment);
                     pstmt.setInt(1, mode.getVendorfk());
                     pstmt.setString(2, initial.getData().getReference());
@@ -154,6 +156,8 @@ public class PaymentDetails implements Serializable {
                     pstmt.setBoolean(5, false);
                     pstmt.setBoolean(6, false);
                     pstmt.setString(7, DateManipulation.dateAndTime());
+                    pstmt.setBoolean(8, false);
+                    pstmt.setString(9, smscontent);                    
                     pstmt.executeUpdate();
                 }
 

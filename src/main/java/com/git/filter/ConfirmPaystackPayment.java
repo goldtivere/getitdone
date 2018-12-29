@@ -150,4 +150,49 @@ public class ConfirmPaystackPayment implements Runnable {
         }
 
     }
+    
+//      public void smsDetail() throws SQLException {
+//        FacesContext context = FacesContext.getCurrentInstance();
+//        DbConnectionX dbConnections = new DbConnectionX();
+//        Connection con = null;
+//        PreparedStatement pstmt = null;
+//        ResultSet rs = null;
+//        try {
+//            con = dbConnections.mySqlDBconnection();
+//            String insert = "insert into tbrequestsms (vendorfk,trxnreference,issent,smscontent,datecreated)"
+//                    + " values(?,?,?,?,?,?,?,?,?,?)";
+//            pstmt = con.prepareStatement(insert);
+//
+//            pstmt.setString(1, confirm.getData().getReference());
+//            pstmt.setString(2, confirm.getData().getGateway_response());
+//            pstmt.setString(3, confirm.getData().getAmount());
+//            pstmt.setString(4, confirm.getData().getChannel());
+//            pstmt.setString(5, confirm.getData().getIp_address());
+//            pstmt.setString(6, confirm.getData().getAuthorization().getAuthorization_code());
+//            pstmt.setString(7, confirm.getData().getCustomer().getCustomer_code());
+//            pstmt.setString(8, confirm.getData().getCustomer().getId());
+//            pstmt.setString(9, confirm.getData().getCreatedAt());
+//            pstmt.setString(10, DateManipulation.dateAndTime());
+//            pstmt.executeUpdate();
+//            System.out.println("the eye big: ");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//
+//        } finally {
+//
+//            if (!(con == null)) {
+//                con.close();
+//            }
+//
+//            if (!(pstmt == null)) {
+//                pstmt.close();
+//            }
+//
+//            if (!(rs == null)) {
+//                rs.close();
+//            }
+//
+//        }
+//
+//    }
 }
