@@ -144,7 +144,7 @@ public class PaymentDetails implements Serializable {
                 pstmt.executeUpdate();
 
                 String insertPayment = "insert into tbpayment (vendorfk,trxnreference,amount,ispaid,trxncompleted,trxnpaid,datecompleted)"
-                        + "values(?,?,?,?,?,?)";
+                        + "values(?,?,?,?,?,?,?)";
                 for (RequestModel mode : value()) {
                     pstmt = con.prepareStatement(insertPayment);
                     pstmt.setInt(1, mode.getVendorfk());
@@ -153,6 +153,7 @@ public class PaymentDetails implements Serializable {
                     pstmt.setBoolean(4, false);
                     pstmt.setBoolean(5, false);
                     pstmt.setBoolean(6, false);
+                    pstmt.setString(7, DateManipulation.dateAndTime());
                     pstmt.executeUpdate();
                 }
 
