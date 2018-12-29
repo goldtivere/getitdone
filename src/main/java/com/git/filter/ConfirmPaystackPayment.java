@@ -82,6 +82,7 @@ public class ConfirmPaystackPayment implements Runnable {
 
             String statusUpdate = "update tbpayment set ispaid=true where trxnreference=?";
             int i = 0;
+            System.out.println("this guy head big");
             for (String val : referenceName()) {
                 JSONObject bn = trans.verifyTransaction(val);
                 ObjectMapper mapp = new ObjectMapper();
