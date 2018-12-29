@@ -81,10 +81,8 @@ public class ConfirmPaystackPayment implements Runnable {
             String updateStatus = "update tbtransaction set iscompleted=true where reference=?";
 
             String statusUpdate = "update tbpayment set ispaid=true where trxnreference=?";
-
-            String insert = "insert into tbpaymentresponse (trxnreference,gatewayresponse,amount,channel,ipaddress,authorcode,customercode,customerid,createdat,datecreated)"
-                    + "values(?,?,?,?,?,?,?,?,?,?)";
             int i = 0;
+            System.out.println("this guy head big");
             for (String val : referenceName()) {
                 JSONObject bn = trans.verifyTransaction(val);
                 ObjectMapper mapp = new ObjectMapper();
@@ -98,25 +96,58 @@ public class ConfirmPaystackPayment implements Runnable {
                     pstmt = con.prepareStatement(statusUpdate);
                     pstmt.setString(1, val);
                     pstmt.executeUpdate();
+                    confirmPayment(confirm);
+                    System.out.println("the eye big: " + i);
+                }
 
-                    pstmt = con.prepareStatement(insert);
-
-                    pstmt.setString(1, confirm.getData().getReference());
-                    pstmt.setString(2, confirm.getData().getGateway_response());
-                    pstmt.setString(3, confirm.getData().getAmount());
-                    pstmt.setString(4, confirm.getData().getChannel());
-                    pstmt.setString(5, confirm.getData().getIp_address());
-                    pstmt.setString(6, confirm.getData().getAuthorization().getAuthorization_code());
-                    pstmt.setString(7, confirm.getData().getCustomer().getCustomer_code());
-                    pstmt.setString(8, confirm.getData().getCustomer().getId());
-                    pstmt.setString(9, confirm.getData().getCreatedAt());
-                    pstmt.setString(10, DateManipulation.dateAndTime());
-                    pstmt.executeUpdate();
-
-                }                
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }    
+    }
+
+    public void confirmPayment(ConfirmPayment confirm) throws SQLException {
+        FacesContext context = FacesContext.getCurrentInstance();
+        DbConnectionX dbConnections = new DbConnectionX();
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            con = dbConnections.mySqlDBconnection();
+            String insert = "insert into tbpaymentresponse (trxnreference,gatewayresponse,amount,channel,ipaddress,authorcode,customercode,customerid,createdat,datecreated)"
+                    + "values(?,?,?,?,?,?,?,?,?,?)";
+            pstmt = con.prepareStatement(insert);
+
+            pstmt.setString(1, confirm.getData().getReference());
+            pstmt.setString(2, confirm.getData().getGateway_response());
+            pstmt.setString(3, confirm.getData().getAmount());
+            pstmt.setString(4, confirm.getData().getChannel());
+            pstmt.setString(5, confirm.getData().getIp_address());
+            pstmt.setString(6, confirm.getData().getAuthorization().getAuthorization_code());
+            pstmt.setString(7, confirm.getData().getCustomer().getCustomer_code());
+            pstmt.setString(8, confirm.getData().getCustomer().getId());
+            pstmt.setString(9, confirm.getData().getCreatedAt());
+            pstmt.setString(10, DateManipulation.dateAndTime());
+            pstmt.executeUpdate();
+            System.out.println("the eye big: ");
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        } finally {
+
+            if (!(con == null)) {
+                con.close();
+            }
+
+            if (!(pstmt == null)) {
+                pstmt.close();
+            }
+
+            if (!(rs == null)) {
+                rs.close();
+            }
+
+        }
+
+    }
 }
