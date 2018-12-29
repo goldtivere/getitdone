@@ -81,7 +81,7 @@ public class ConfirmPaystackPayment implements Runnable {
             String updateStatus = "update tbtransaction set iscompleted=true where reference=?";
 
             String statusUpdate = "update tbpayment set ispaid=true where trxnreference=?";
-
+            int i = 0;
             for (String val : referenceName()) {
                 JSONObject bn = trans.verifyTransaction(val);
                 ObjectMapper mapp = new ObjectMapper();
@@ -98,6 +98,7 @@ public class ConfirmPaystackPayment implements Runnable {
                     confirmPayment(confirm);
 
                 }
+                System.out.println("the eye big: " + i);
             }
         } catch (Exception e) {
             e.printStackTrace();
