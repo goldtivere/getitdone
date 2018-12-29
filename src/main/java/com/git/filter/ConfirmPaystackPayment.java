@@ -112,9 +112,6 @@ public class ConfirmPaystackPayment implements Runnable {
         ResultSet rs = null;
         try {
             con = dbConnections.mySqlDBconnection();
-        } catch (Exception e) {
-            e.printStackTrace();
-
             String insert = "insert into tbpaymentresponse (trxnreference,gatewayresponse,amount,channel,ipaddress,authorcode,customercode,customerid,createdat,datecreated)"
                     + "values(?,?,?,?,?,?,?,?,?,?)";
             pstmt = con.prepareStatement(insert);
@@ -130,6 +127,9 @@ public class ConfirmPaystackPayment implements Runnable {
             pstmt.setString(9, confirm.getData().getCreatedAt());
             pstmt.setString(10, DateManipulation.dateAndTime());
             pstmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+
         } finally {
 
             if (!(con == null)) {
