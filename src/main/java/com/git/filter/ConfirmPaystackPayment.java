@@ -95,6 +95,7 @@ public class ConfirmPaystackPayment implements Runnable {
                     pstmt = con.prepareStatement(statusUpdate);
                     pstmt.setString(1, val);
                     pstmt.executeUpdate();
+                    System.out.println("this is it bro: "+ confirm);
                     confirmPayment(confirm);
                     System.out.println("the eye big: " + i);
                 }
@@ -114,7 +115,7 @@ public class ConfirmPaystackPayment implements Runnable {
         try {
             con = dbConnections.mySqlDBconnection();
             String insert = "insert into tbpaymentresponse (trxnreference,gatewayresponse,amount,channel,ipaddress,authorcode,customercode,customerid,createdat,datecreated)"
-                    + "values(?,?,?,?,?,?,?,?,?,?)";
+                    + " values(?,?,?,?,?,?,?,?,?,?)";
             pstmt = con.prepareStatement(insert);
 
             pstmt.setString(1, confirm.getData().getReference());
