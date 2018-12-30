@@ -7,10 +7,13 @@ package com.git.filter;
 
 import com.git.dbcon.DateManipulation;
 import com.git.dbcon.DbConnectionX;
+import com.git.dbcon.LoadPPTfile;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -33,20 +36,20 @@ import org.w3c.dom.Document;
  * @author Gold
  */
 public class ThreadRunner implements Runnable {
-
+    
     private boolean valueGet;
-
+    
     @Override
     public void run() {
         try {
-
+            
             runValue(doTransaction());
-
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
+    
     public String sessionIdGet() throws SQLException {
         Connection con = null;
         DbConnectionX dbCon = new DbConnectionX();
@@ -55,7 +58,7 @@ public class ThreadRunner implements Runnable {
         String sms_url;
         
         try {
-
+            
             con = dbCon.mySqlDBconnection();
 
             //            
@@ -66,53 +69,53 @@ public class ThreadRunner implements Runnable {
 
             //
             String _val = null;
-
+            
             if (rs.next()) {
                 _val = rs.getString("sessionid");
                 System.out.println(_val + " hi Gold");
             }
             System.out.println(_val + " hi Gold");
             return _val;
-
+            
         } catch (Exception e) {
-
+            
             System.out.print("Exception from doTransaction method.....");
             e.printStackTrace();
             return null;
-
+            
         } finally {
-
+            
             if (!(con == null)) {
                 con.close();
             }
-
+            
             if (!(pstmt == null)) {
                 pstmt.close();
             }
-
+            
             if (!(rs == null)) {
                 rs.close();
             }
-
+            
         }
-
+        
     }
-
+    
     public List<Smsmodel> doTransaction() throws Exception {
-
+        
         Connection con = null;
         DbConnectionX dbCon = new DbConnectionX();
         ResultSet rs = null;
         PreparedStatement pstmt = null;
-        String sms_url;        
+        String sms_url;
         try {
-
+            
             con = dbCon.mySqlDBconnection();
 
             //
             List<Smsmodel> mode = new ArrayList<>();
-            String querySMSDetails = "select l.*,t.phonenumber from tbpayment l inner join tbvendor t on l.vendorfk=t.id "
-                    + "where l.ispaid=true and l.trxncompleted=false and l.trxnpaid=false and l.smssent=false";
+            String querySMSDetails = "select l.*,t.phonenumber,m.phonenumber as vphone from tbpayment l inner join tbvendor t on l.vendorfk=t.id inner join tbvendor m "
+                    + " on l.vendorfk=m.id where l.ispaid=true and l.trxncompleted=false and l.trxnpaid=false and l.smssent=false";
             //
             pstmt = con.prepareStatement(querySMSDetails);
             
@@ -120,10 +123,13 @@ public class ThreadRunner implements Runnable {
 
             //
             String _val = null;
-
+            String vendormess = null;
+            
             while (rs.next()) {
-                Smsmodel sms = new Smsmodel();                
+                Smsmodel sms = new Smsmodel();
+                
                 String value = rs.getString("smscontent");
+                vendormess = "kindly call " + rs.getString("vphone") + " to supply " + value;
                 _val = value.replace(" ", "%20");
                 _val = _val.replace(",", "%2C");
                 _val = _val.replace(":", "%3A");
@@ -132,6 +138,18 @@ public class ThreadRunner implements Runnable {
                 _val = _val.replace("(", "%28");
                 _val = _val.replace(")", "%29");
                 _val = _val.replace("#", "%23");
+
+                //vendormess
+                vendormess = vendormess.replace(" ", "%20");
+                vendormess = vendormess.replace(",", "%2C");
+                vendormess = vendormess.replace(":", "%3A");
+                vendormess = vendormess.replace(";", "%3B");
+                vendormess = vendormess.replace("'", "%27");
+                vendormess = vendormess.replace("(", "%28");
+                vendormess = vendormess.replace(")", "%29");
+                vendormess = vendormess.replace("#", "%23");
+                
+                sms.setVendorMessage(vendormess);
                 sms.setId(rs.getInt("id"));
                 sms.setAmount(rs.getDouble("amount"));
                 sms.setPaid(rs.getBoolean("ispaid"));
@@ -141,39 +159,38 @@ public class ThreadRunner implements Runnable {
                 sms.setTrxnref(rs.getString("trxnreference"));
                 sms.setPhone(rs.getString("phonenumber"));
                 sms.setSmscontent(_val);
-
                 
                 mode.add(sms);
-
+                
             }
-
+            
             return mode;
-
+            
         } catch (Exception e) {
-
+            
             System.out.print("Exception from doTransaction method.....");
             e.printStackTrace();
             return null;
-
+            
         } finally {
-
+            
             if (!(con == null)) {
                 con.close();
             }
-
+            
             if (!(pstmt == null)) {
                 pstmt.close();
             }
-
+            
             if (!(rs == null)) {
                 rs.close();
             }
-
+            
         }
-
+        
     }//end doTransaction...
 
-    public void updateSmsTable(String ref, int id,String response) {
+    public void updateSmsTable(String ref, int id, String response) {
         DbConnectionX dbConnections = new DbConnectionX();
         Connection con = null;
         ResultSet rs = null;
@@ -182,48 +199,73 @@ public class ThreadRunner implements Runnable {
             con = dbConnections.mySqlDBconnection();
             String updateSmsTable = "update tbpayment set smssent=?,datesmssent=?,apiresponse=? where trxnreference=? and id=?";
             pstmt = con.prepareStatement(updateSmsTable);
-            pstmt.setBoolean(1, true);     
+            pstmt.setBoolean(1, true);
             pstmt.setString(2, DateManipulation.dateAndTime());
             pstmt.setString(3, response);
             pstmt.setString(4, ref);
             pstmt.setInt(5, id);
             pstmt.executeUpdate();
-
+            
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
-
+    
+    public void sendToAdmin(String sessionid, Smsmodel sms, String vals) throws ProtocolException, MalformedURLException, IOException {
+        String val = null;
+        
+        String sender = "DND_BYPASSGetItDone";
+        URL url = new URL("http://www.smslive247.com/http/index.aspx?cmd=sendmsg&sessionid=" + sessionid + "&message=" + sms.getVendorMessage() + "&sender=" + sender + "&sendto=" + vals + "&msgtype=0");
+        //http://www.bulksmslive.com/tools/geturl/Sms.php?username=abc&password=xyz&sender="+sender+"&message="+message+"&flash=0&sendtime=2009-10- 18%2006:30&listname=friends&recipients="+recipient; 
+        //URL gims_url = new URL("http://smshub.lubredsms.com/hub/xmlsmsapi/send?user=loliks&pass=GJP8wRTs&sender=nairabox&message=Acct%3A5073177777%20Amt%3ANGN1%2C200.00%20CR%20Desc%3ATesting%20alert%20Avail%20Bal%3ANGN%3A1%2C342%2C158.36&mobile=08065711040&flash=0");
+        final String USER_AGENT = "Mozilla/5.0";
+        
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        con.setRequestMethod("GET");
+        con.setRequestProperty("User-Agent", USER_AGENT);
+        int responseCode = con.getResponseCode();
+        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        StringBuffer response = new StringBuffer();
+        // System.out.println(messageModel.getBody() + " dude");
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+        }
+        in.close();
+        String responseCod = response.toString();
+    }
+    
     public void runValue(List<Smsmodel> model) throws NullPointerException, IOException {
-
+        
         int i = 0;
-
+        LoadPPTfile load = new LoadPPTfile();
         try {
-
-            for (Smsmodel sms : model) {
-
-                String val = null; 
-                String sessionid = "54abd51e-e240-4e0c-b899-991f08829897";
-                String sender = "DND_BYPASSGetItDone";
-                URL url = new URL("http://www.smslive247.com/http/index.aspx?cmd=sendmsg&sessionid=" + sessionIdGet() + "&message=" + sms.getSmscontent()+ "&sender=" + sender + "&sendto=" + sms.getPhone()+ "&msgtype=0");
-                //http://www.bulksmslive.com/tools/geturl/Sms.php?username=abc&password=xyz&sender="+sender+"&message="+message+"&flash=0&sendtime=2009-10- 18%2006:30&listname=friends&recipients="+recipient; 
-                //URL gims_url = new URL("http://smshub.lubredsms.com/hub/xmlsmsapi/send?user=loliks&pass=GJP8wRTs&sender=nairabox&message=Acct%3A5073177777%20Amt%3ANGN1%2C200.00%20CR%20Desc%3ATesting%20alert%20Avail%20Bal%3ANGN%3A1%2C342%2C158.36&mobile=08065711040&flash=0");
-                final String USER_AGENT = "Mozilla/5.0";
-
-                HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                con.setRequestMethod("GET");
-                con.setRequestProperty("User-Agent", USER_AGENT);
-                int responseCode = con.getResponseCode();
-                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-                String inputLine;
-                StringBuffer response = new StringBuffer();
-                // System.out.println(messageModel.getBody() + " dude");
-                while ((inputLine = in.readLine()) != null) {
-                    response.append(inputLine);
-                }
-                in.close();
-                String responseCod = response.toString();
-
+            if (model != null && !model.isEmpty()) {
+                for (String vals : load.phoneNumbers()) {
+                    for (Smsmodel sms : model) {
+                        
+                        String val = null;
+                        String sessionid = "54abd51e-e240-4e0c-b899-991f08829897";
+                        String sender = "DND_BYPASSGetItDone";
+                        URL url = new URL("http://www.smslive247.com/http/index.aspx?cmd=sendmsg&sessionid=" + sessionIdGet() + "&message=" + sms.getSmscontent() + "&sender=" + sender + "&sendto=" + sms.getPhone() + "&msgtype=0");
+                        //http://www.bulksmslive.com/tools/geturl/Sms.php?username=abc&password=xyz&sender="+sender+"&message="+message+"&flash=0&sendtime=2009-10- 18%2006:30&listname=friends&recipients="+recipient; 
+                        //URL gims_url = new URL("http://smshub.lubredsms.com/hub/xmlsmsapi/send?user=loliks&pass=GJP8wRTs&sender=nairabox&message=Acct%3A5073177777%20Amt%3ANGN1%2C200.00%20CR%20Desc%3ATesting%20alert%20Avail%20Bal%3ANGN%3A1%2C342%2C158.36&mobile=08065711040&flash=0");
+                        final String USER_AGENT = "Mozilla/5.0";
+                        
+                        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                        con.setRequestMethod("GET");
+                        con.setRequestProperty("User-Agent", USER_AGENT);
+                        int responseCode = con.getResponseCode();
+                        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                        String inputLine;
+                        StringBuffer response = new StringBuffer();
+                        // System.out.println(messageModel.getBody() + " dude");
+                        while ((inputLine = in.readLine()) != null) {
+                            response.append(inputLine);
+                        }
+                        in.close();
+                        String responseCod = response.toString();
+                        sendToAdmin(sessionIdGet(), sms, vals);
 //                if (responseCod.equalsIgnoreCase("-1")) {
 //                    val = "Incorrect / badly formed URL data";
 //                } else if (responseCod.equalsIgnoreCase("-2")) {
@@ -241,30 +283,32 @@ public class ThreadRunner implements Runnable {
 //                } else if (responseCod.equalsIgnoreCase("100")) {
 //                    val = "Send successful";
 //                }
-                // in.close(); unremark
-                //System.out.println("God is my Strength:" + i++  );
-                //  System.out.println("The URL:" + gims_url);
-                //doTransaction();
-                updateSmsTable(sms.getTrxnref(),sms.getId(), responseCod);
-                System.out.println("ID: " + sms.getPhone() + " sent. Message: " + sms.getSmscontent());
-                System.out.println("Present");
-
+                        // in.close(); unremark
+                        //System.out.println("God is my Strength:" + i++  );
+                        //  System.out.println("The URL:" + gims_url);
+                        //doTransaction();
+                        updateSmsTable(sms.getTrxnref(), sms.getId(), responseCod);
+                        System.out.println("ID: " + sms.getPhone() + " sent. Message: " + sms.getSmscontent());
+                        System.out.println("Present");
+                        
+                    }
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("this one nor suppose affect am now");
             Thread.currentThread().interrupt();
-
+            
         }
-
+        
     }//end of run method...
 
     public boolean isValueGet() {
         return valueGet;
     }
-
+    
     public void setValueGet(boolean valueGet) {
         this.valueGet = valueGet;
     }
-
+    
 }

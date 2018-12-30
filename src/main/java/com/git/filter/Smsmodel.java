@@ -10,6 +10,7 @@ package com.git.filter;
  * @author Gold
  */
 public class Smsmodel {
+
     private int id;
     private String trxnref;
     private double amount;
@@ -18,7 +19,10 @@ public class Smsmodel {
     private boolean trxnpaid;
     private boolean smssent;
     private String smscontent;
-private String phone;
+    private String phone;
+    private String vendorPhone;
+    private String vendorMessage;
+
     public int getId() {
         return id;
     }
@@ -90,6 +94,21 @@ private String phone;
     public void setPhone(String phone) {
         this.phone = phone;
     }
-    
-    
+
+    public String getVendorPhone() {
+        return vendorPhone;
+    }
+
+    public void setVendorPhone(String vendorPhone) {
+        this.vendorPhone = vendorPhone;
+    }
+
+    public String getVendorMessage() {
+        return vendorMessage;
+    }
+
+    public void setVendorMessage(String vendorMessage) {
+        this.vendorMessage = vendorMessage;
+    }
+
 }
