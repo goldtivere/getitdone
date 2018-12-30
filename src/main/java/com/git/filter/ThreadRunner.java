@@ -139,7 +139,7 @@ public class ThreadRunner implements Runnable {
                 sms.setTrxncomp(rs.getBoolean("trxncompleted"));
                 sms.setTrxnpaid(rs.getBoolean("trxnpaid"));
                 sms.setTrxnref(rs.getString("trxnreference"));
-                sms.setPhone(rs.getString("receiverphone"));
+                sms.setPhone(rs.getString("phonenumber"));
                 sms.setSmscontent(value);
 
                 
