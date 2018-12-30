@@ -140,7 +140,7 @@ public class ThreadRunner implements Runnable {
                 sms.setTrxnpaid(rs.getBoolean("trxnpaid"));
                 sms.setTrxnref(rs.getString("trxnreference"));
                 sms.setPhone(rs.getString("phonenumber"));
-                sms.setSmscontent(value);
+                sms.setSmscontent(_val);
 
                 
                 mode.add(sms);
@@ -202,7 +202,7 @@ public class ThreadRunner implements Runnable {
 
             for (Smsmodel sms : model) {
 
-                String val = null;
+                String val = null; 
                 String sessionid = "54abd51e-e240-4e0c-b899-991f08829897";
                 String sender = "DND_BYPASSGetItDone";
                 URL url = new URL("http://www.smslive247.com/http/index.aspx?cmd=sendmsg&sessionid=" + sessionIdGet() + "&message=" + sms.getSmscontent()+ "&sender=" + sender + "&sendto=" + sms.getPhone()+ "&msgtype=0");
