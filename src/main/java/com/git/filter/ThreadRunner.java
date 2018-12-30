@@ -122,8 +122,7 @@ public class ThreadRunner implements Runnable {
             String _val = null;
 
             while (rs.next()) {
-                Smsmodel sms = new Smsmodel();
-                System.out.println(rs.getString("verificationcode") + "  ok");
+                Smsmodel sms = new Smsmodel();                
                 String value = rs.getString("smscontent");
                 _val = value.replace(" ", "%20");
                 _val = _val.replace(",", "%2C");
