@@ -111,7 +111,7 @@ public class ThreadRunner implements Runnable {
 
             //
             List<Smsmodel> mode = new ArrayList<>();
-            String querySMSDetails = "select l.*,t.receiverphone from tbpayment l inner join tbtransaction t on t.reference=l.trxnreference "
+            String querySMSDetails = "select l.*,t.phonenumber from tbpayment l inner join tbvendor t on l.vendorfk=t.id "
                     + "where l.ispaid=true and l.trxncompleted=false and l.trxnpaid=false and l.smssent=false";
             //
             pstmt = con.prepareStatement(querySMSDetails);
