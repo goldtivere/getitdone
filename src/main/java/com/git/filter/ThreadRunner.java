@@ -72,9 +72,9 @@ public class ThreadRunner implements Runnable {
             
             if (rs.next()) {
                 _val = rs.getString("sessionid");
-                System.out.println(_val + " hi Gold");
+                
             }
-            System.out.println(_val + " hi Gold");
+            
             return _val;
             
         } catch (Exception e) {
