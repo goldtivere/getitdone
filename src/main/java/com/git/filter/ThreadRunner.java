@@ -141,13 +141,13 @@ public class ThreadRunner implements Runnable {
 
                 //vendormess
                 _vendormess = vendormess.replace(" ", "%20");
-                _vendormess = vendormess.replace(",", "%2C");
-                _vendormess = vendormess.replace(":", "%3A");
-                _vendormess = vendormess.replace(";", "%3B");
-                _vendormess = vendormess.replace("'", "%27");
-                _vendormess = vendormess.replace("(", "%28");
-                _vendormess = vendormess.replace(")", "%29");
-                _vendormess = vendormess.replace("#", "%23");
+                _vendormess = _vendormess.replace(",", "%2C");
+                _vendormess = _vendormess.replace(":", "%3A");
+                _vendormess = _vendormess.replace(";", "%3B");
+                _vendormess = _vendormess.replace("'", "%27");
+                _vendormess = _vendormess.replace("(", "%28");
+                _vendormess = _vendormess.replace(")", "%29");
+                _vendormess = _vendormess.replace("#", "%23");
 
                 sms.setVendorMessage(_vendormess);
                 sms.setId(rs.getInt("id"));
@@ -159,6 +159,7 @@ public class ThreadRunner implements Runnable {
                 sms.setTrxnref(rs.getString("trxnreference"));
                 sms.setPhone(rs.getString("phonenumber"));
                 sms.setSmscontent(_val);
+                sms.setVendorPhone(rs.getString("vphone"));
 
                 mode.add(sms);
 
