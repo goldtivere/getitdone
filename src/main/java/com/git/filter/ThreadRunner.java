@@ -123,13 +123,13 @@ public class ThreadRunner implements Runnable {
 
             //
             String _val = null;
-            String vendormess = null;
+            String _vendormess = null;
             
             while (rs.next()) {
                 Smsmodel sms = new Smsmodel();
                 
                 String value = rs.getString("smscontent");
-                vendormess = "kindly call " + rs.getString("vphone") + " to supply " + value;
+               String vendormess = "kindly call " + rs.getString("vphone") + " to supply " + value;
                 _val = value.replace(" ", "%20");
                 _val = _val.replace(",", "%2C");
                 _val = _val.replace(":", "%3A");
@@ -140,16 +140,16 @@ public class ThreadRunner implements Runnable {
                 _val = _val.replace("#", "%23");
 
                 //vendormess
-                vendormess = vendormess.replace(" ", "%20");
-                vendormess = vendormess.replace(",", "%2C");
-                vendormess = vendormess.replace(":", "%3A");
-                vendormess = vendormess.replace(";", "%3B");
-                vendormess = vendormess.replace("'", "%27");
-                vendormess = vendormess.replace("(", "%28");
-                vendormess = vendormess.replace(")", "%29");
-                vendormess = vendormess.replace("#", "%23");
+                _vendormess = vendormess.replace(" ", "%20");
+                _vendormess = vendormess.replace(",", "%2C");
+                _vendormess = vendormess.replace(":", "%3A");
+                _vendormess = vendormess.replace(";", "%3B");
+                _vendormess = vendormess.replace("'", "%27");
+                _vendormess = vendormess.replace("(", "%28");
+                _vendormess = vendormess.replace(")", "%29");
+                _vendormess = vendormess.replace("#", "%23");
                 
-                sms.setVendorMessage(vendormess);
+                sms.setVendorMessage(_vendormess);
                 sms.setId(rs.getInt("id"));
                 sms.setAmount(rs.getDouble("amount"));
                 sms.setPaid(rs.getBoolean("ispaid"));
