@@ -288,8 +288,6 @@ public class ThreadRunner implements Runnable {
                         //  System.out.println("The URL:" + gims_url);
                         //doTransaction();
                         updateSmsTable(sms.getTrxnref(), sms.getId(), responseCod);
-                        System.out.println("ID: " + sms.getPhone() + " sent. Message: " + sms.getSmscontent());
-                        System.out.println("Present");
                         
                     }
                 }

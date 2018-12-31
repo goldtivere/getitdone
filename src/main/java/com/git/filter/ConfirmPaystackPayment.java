@@ -95,9 +95,8 @@ public class ConfirmPaystackPayment implements Runnable {
                     pstmt = con.prepareStatement(statusUpdate);
                     pstmt.setString(1, val);
                     pstmt.executeUpdate();
-                    System.out.println("this is it bro: "+ confirm);
-                    confirmPayment(confirm);
-                    System.out.println("the eye big: " + i);
+                  
+                    confirmPayment(confirm);                    
                 }
 
             }
