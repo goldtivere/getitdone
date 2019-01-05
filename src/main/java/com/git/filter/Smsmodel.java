@@ -22,6 +22,9 @@ public class Smsmodel {
     private String phone;
     private String vendorPhone;
     private String vendorMessage;
+    private String receiverPhone;
+    private String receiveerEmail;
+    private String receiverMessage;
 
     public int getId() {
         return id;
@@ -109,6 +112,30 @@ public class Smsmodel {
 
     public void setVendorMessage(String vendorMessage) {
         this.vendorMessage = vendorMessage;
+    }
+
+    public String getReceiverPhone() {
+        return receiverPhone;
+    }
+
+    public void setReceiverPhone(String receiverPhone) {
+        this.receiverPhone = receiverPhone;
+    }
+
+    public String getReceiveerEmail() {
+        return receiveerEmail;
+    }
+
+    public void setReceiveerEmail(String receiveerEmail) {
+        this.receiveerEmail = receiveerEmail;
+    }
+
+    public String getReceiverMessage() {
+        return receiverMessage;
+    }
+
+    public void setReceiverMessage(String receiverMessage) {
+        this.receiverMessage = receiverMessage;
     }
 
 }

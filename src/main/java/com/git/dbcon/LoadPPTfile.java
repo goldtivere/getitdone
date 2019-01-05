@@ -86,6 +86,20 @@ public class LoadPPTfile implements Serializable {
         }
     }
     
+    public String transactionConfirm() {
+        Properties prop = new Properties();
+        try {
+            //System.out.println("test");
+            prop.load(new FileInputStream(System.getProperty("user.home") + "/mydb.cfg"));
+            //System.out.println("user.home: " + System.getProperty("user.home"));        
+            String confirmTransaction = prop.getProperty("confirmTransaction").toString();
+            return confirmTransaction;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+    
     public boolean isLoadPPtFile() throws Exception {
 
         //
