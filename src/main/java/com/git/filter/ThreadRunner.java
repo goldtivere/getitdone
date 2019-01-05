@@ -131,7 +131,7 @@ public class ThreadRunner implements Runnable {
                 Smsmodel sms = new Smsmodel();
                 
                 String value = rs.getString("smscontent");
-                String content = "Kindly click on the link to Confirm Successful Service Delivery: " + load.transactionConfirm() + "?ref=" + sms.getTrxnref();
+                String content = "Kindly click on the link to Confirm Successful Service Delivery: " + load.transactionConfirm() + "?ref=" + rs.getString("trxnreference");
                 String vendormess = "kindly call " + rs.getString("phonenumber") + " to supply " + value + " on " + rs.getString("receiverphone");
                 _val = value.replace(" ", "%20");
                 _val = _val.replace(",", "%2C");
@@ -161,6 +161,7 @@ public class ThreadRunner implements Runnable {
                 _vendormess = _vendormess.replace("(", "%28");
                 _vendormess = _vendormess.replace(")", "%29");
                 _vendormess = _vendormess.replace("#", "%23");
+                
                 sms.setReceiverMessage(receiverMess);
                 sms.setVendorMessage(_vendormess);
                 sms.setId(rs.getInt("id"));
