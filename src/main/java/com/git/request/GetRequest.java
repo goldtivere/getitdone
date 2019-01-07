@@ -105,10 +105,10 @@ public class GetRequest implements Serializable {
         try {
 
             con = dbConnections.mySqlDBconnection();
-            String query = "select g.vendorfk,g.category,p.corporatename,p.coveragelocation, g.amount,l.vendorfk as requestId,l.requestStatus,l.completed from "
+            String query = "select g.vendorfk,g.category,p.corporatename,p.coveragelocation, g.amount,l.vendorfk as requestId,l.ispaid,l.trxncompleted from "
                     + "tbvendoritem g inner join tbvendor p on g.vendorfk=p.id left OUTER join "
-                    + "tbrequest l on l.vendorfk=g.vendorfk "
-                    + " where p.isdeleted=false and g.category=? order by l.requeststatus";
+                    + "tbpayment l on l.vendorfk=g.vendorfk "
+                    + " where p.isdeleted=false and g.category=? order by l.trxncompleted";
             pstmt = con.prepareStatement(query);
             pstmt.setInt(1, val);
             rs = pstmt.executeQuery();
@@ -122,8 +122,8 @@ public class GetRequest implements Serializable {
                 coun.setAmount(rs.getDouble("amount"));
                 coun.setCorporatename(rs.getString("corporatename"));
                 coun.setRequestedId(rs.getString("requestid"));
-                coun.setRequestStatus(rs.getBoolean("requeststatus"));
-                coun.setCompleted(rs.getBoolean("completed"));
+                coun.setRequestStatus(rs.getBoolean("ispaid"));
+                coun.setCompleted(rs.getBoolean("trxncompleted"));
                 coun.setCoverageLocation(rs.getString("coveragelocation"));
                 if (!coun.isCompleted() && coun.isRequestStatus()) {
                     coun.setRequestStat("Currently Unavailable");
