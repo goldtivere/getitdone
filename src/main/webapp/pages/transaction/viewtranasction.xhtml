@@ -1,0 +1,39 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+
+
+
+    <ui:define name="title">
+       View Transactions
+    </ui:define>
+
+    <ui:define name="Subtitle">
+        View Transactions
+    </ui:define>
+    <ui:define name="content">  
+        <p:messages id="messages" closable="true" />
+        <p:panel style="border:none;" id="Ppanel">
+
+
+            <div class="row">
+                <div class="col-md-4">
+                    <p:selectOneMenu id="cat" class="form-control" value="#{vendor.vendor.cat}" required="true" requiredMessage="Category is required">                            
+                        <f:selectItem itemLabel="--Select Category--" itemValue="" noSelectionOption="true"/>
+                        <f:selectItems value="#{drop.mode}"
+                                       var="singlevalue"  
+                                       itemLabel="#{singlevalue.category}"
+                                       itemValue="#{singlevalue.id}"/>
+                    </p:selectOneMenu>  
+                </div>                
+            </div>
+           
+
+        </p:panel>
+    </ui:define>
+
+</ui:composition>
