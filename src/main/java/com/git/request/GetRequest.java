@@ -76,9 +76,8 @@ public class GetRequest implements Serializable {
     public String redirectNow() {
         return "https://checkout.paystack.com/bwxa5iymvbju7sy";
     }
-    
-    public void redirectAgain() throws IOException
-    {
+
+    public void redirectAgain() throws IOException {
         FacesContext.getCurrentInstance().getExternalContext().redirect("https://checkout.paystack.com/bwxa5iymvbju7sy");
     }
 
@@ -105,10 +104,10 @@ public class GetRequest implements Serializable {
         try {
 
             con = dbConnections.mySqlDBconnection();
-            String query = "select g.vendorfk,g.category,p.corporatename,p.coveragelocation, g.amount,l.vendorfk as requestId,l.ispaid,l.trxncompleted from "
+            String query = "select g.vendorfk,g.category,p.corporatename,p.coveragelocation,l.trxnpaid, g.amount,l.vendorfk as requestId,l.ispaid,l.trxncompleted from "
                     + "tbvendoritem g inner join tbvendor p on g.vendorfk=p.id left OUTER join "
                     + "tbpayment l on l.vendorfk=g.vendorfk "
-                    + " where p.isdeleted=false and g.category=? order by l.trxncompleted";
+                    + " where p.isdeleted=false and g.category=? order by l.trxncompleted=false";
             pstmt = con.prepareStatement(query);
             pstmt.setInt(1, val);
             rs = pstmt.executeQuery();
@@ -125,11 +124,14 @@ public class GetRequest implements Serializable {
                 coun.setRequestStatus(rs.getBoolean("ispaid"));
                 coun.setCompleted(rs.getBoolean("trxncompleted"));
                 coun.setCoverageLocation(rs.getString("coveragelocation"));
+                coun.setTrxnpaid(rs.getBoolean("trxnpaid"));
+                System.out.println(coun.isCompleted() + " hi " + coun.isRequestStatus() + " yeah " + coun.isTrxnpaid());
                 if (!coun.isCompleted() && coun.isRequestStatus()) {
                     coun.setRequestStat("Currently Unavailable");
                     coun.setEdit(false);
 
-                } else if (!coun.isCompleted() && !coun.isRequestStatus()) {
+                }else
+                {
                     coun.setRequestStat("Currently Available");
                     coun.setEdit(true);
                 }

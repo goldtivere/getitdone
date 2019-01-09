@@ -36,12 +36,12 @@ public class DbConnectionX implements Serializable {
             String password = prop.getProperty("password").toString();
             String driver = prop.getProperty("driver").toString();
 
-            //System.out.println("host: " + host + "\nusername: " + username + "\npassword: " + password + "\ndriver: " + driver);
+//            System.out.println("host: " + host + "\nusername: " + username + "\npassword: " + password + "\ndriver: " + driver);
             Class.forName(driver);
-            // System.out.println("--------------------------");
-            //System.out.println("DRIVER: " + driver);
+//             System.out.println("--------------------------");
+//            System.out.println("DRIVER: " + driver);
             Connection connection = DriverManager.getConnection(host, username, password);
-            //System.out.println("CONNECTION: " + connection);
+//            System.out.println("CONNECTION: " + connection);
 
             return connection;
         } catch (Exception e) {
@@ -51,7 +51,7 @@ public class DbConnectionX implements Serializable {
             e.printStackTrace();
             return null;
 
-        }
+        } 
     }
 
     public Connection mySqlDBconnections() {

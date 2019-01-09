@@ -24,6 +24,7 @@ public class RequestModel implements Serializable{
     private int catId;
     private boolean edit;
     private double finalSum;
+    private boolean trxnpaid;
 
     public int getVendorfk() {
         return vendorfk;
@@ -119,6 +120,14 @@ public class RequestModel implements Serializable{
 
     public void setFinalSum(double finalSum) {
         this.finalSum = finalSum;
+    }
+
+    public boolean isTrxnpaid() {
+        return trxnpaid;
+    }
+
+    public void setTrxnpaid(boolean trxnpaid) {
+        this.trxnpaid = trxnpaid;
     }
      
     

@@ -308,27 +308,7 @@ public class ThreadRunner implements Runnable {
                         String responseCod = response.toString();
                         sendToAdmin(sessionIdGet(), sms, vals);
                         sendToRequester(sessionIdGet(), sms);
-//                if (responseCod.equalsIgnoreCase("-1")) {
-//                    val = "Incorrect / badly formed URL data";
-//                } else if (responseCod.equalsIgnoreCase("-2")) {
-//                    val = "Incorrect username and/or password";
-//                } else if (responseCod.equalsIgnoreCase("-3")) {
-//                    val = "Not enough credit units in user account";
-//                } else if (responseCod.equalsIgnoreCase("-4")) {
-//                    val = "Invalid sender name";
-//                } else if (responseCod.equalsIgnoreCase("-5")) {
-//                    val = "No valid recipient ";
-//                } else if (responseCod.equalsIgnoreCase("-6")) {
-//                    val = "Invalid message length/No message content";
-//                } else if (responseCod.equalsIgnoreCase("-10")) {
-//                    val = "Unknown/Unspecified error";
-//                } else if (responseCod.equalsIgnoreCase("100")) {
-//                    val = "Send successful";
-//                }
-                        // in.close(); unremark
-                        //System.out.println("God is my Strength:" + i++  );
-                        //  System.out.println("The URL:" + gims_url);
-                        //doTransaction();
+
                         updateSmsTable(sms.getTrxnref(), sms.getId(), responseCod);
                         
                     }

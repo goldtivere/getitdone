@@ -27,7 +27,7 @@
 
 
                     <p:commandLink style="margin-right:20px;" action="#{getRequest.makeVisible(items)}" update=":templateForm:viewOrder" > 
-                        <p:graphicImage value="#{items.imagelink}" style="width: 100px; height: 100px;"/> <br/>                                  
+                        <p:graphicImage value="#{items.imagelink}" style="width: 100px; height: 100px;"/> <br/>   a                               
                         <p:outputLabel value="#{items.category}" class="card-title text-center" style="color: black;" />                                                
                     </p:commandLink>
 
@@ -59,7 +59,7 @@
                     <p:selectBooleanCheckbox value="#{req.select}" rendered="#{req.edit}" class="pull-right" label="Ajax">
                         <p:ajax listener="#{getRequest.vex(req)}" />
                     </p:selectBooleanCheckbox>
-                    <h:outputText class="pull-right" value="Add To Cart" />                                
+                    <h:outputText class="pull-right" value="Add To Cart" rendered="#{req.edit}" />                                
 
                 </p:dataScroller>
             </p:panel>
