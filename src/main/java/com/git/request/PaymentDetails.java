@@ -154,9 +154,9 @@ public class PaymentDetails implements Serializable {
                     pstmt.setDouble(3, mode.getAmount());
                     pstmt.setBoolean(4, false);
                     pstmt.setBoolean(5, false);
-                    pstmt.setBoolean(6, false);                    
+                    pstmt.setBoolean(6, false);
                     pstmt.setBoolean(7, false);
-                    pstmt.setString(8, smscontent);                    
+                    pstmt.setString(8, smscontent);
                     pstmt.executeUpdate();
                 }
 
@@ -164,6 +164,11 @@ public class PaymentDetails implements Serializable {
                 FacesContext.getCurrentInstance().getExternalContext().redirect(initial.getData().getAuthorization_url());
             }
 
+        } catch (NullPointerException n) {
+            setMessangerOfTruth("No service selected for payment");
+            msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    getMessangerOfTruth(), getMessangerOfTruth());
+            context.addMessage(null, msg);
         } catch (Exception e) {
             e.printStackTrace();
 
