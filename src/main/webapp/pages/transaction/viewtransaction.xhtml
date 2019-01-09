@@ -22,11 +22,11 @@
 
             <div class="row">
                 <div class="col-md-4">
-                    <p:selectOneMenu id="cat" class="form-control" value="#{vendor.vendor.cat}" required="true" requiredMessage="Category is required">                            
+                    <p:selectOneMenu id="cat" class="form-control" value="#{viewTransactions.model}" required="true" requiredMessage="Category is required">                            
                         <f:selectItem itemLabel="--Select Category--" itemValue="" noSelectionOption="true"/>
-                        <f:selectItems value="#{drop.mode}"
+                        <f:selectItems value="#{viewTransactions.model}"
                                        var="singlevalue"  
-                                       itemLabel="#{singlevalue.category}"
+                                       itemLabel="#{singlevalue.status}"
                                        itemValue="#{singlevalue.id}"/>
                     </p:selectOneMenu>  
                 </div>                
