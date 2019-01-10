@@ -9,7 +9,7 @@
 
 
     <ui:define name="title">
-       View Transactions
+        View Transactions
     </ui:define>
 
     <ui:define name="Subtitle">
@@ -22,16 +22,32 @@
 
             <div class="row">
                 <div class="col-md-4">
-                    <p:selectOneMenu id="cat" class="form-control" value="#{viewTransactions.model}" required="true" requiredMessage="Category is required">                            
-                        <f:selectItem itemLabel="--Select Category--" itemValue="" noSelectionOption="true"/>
+                    <p:selectOneMenu id="cat" class="form-control" value="#{viewTransactions.valueStatus}" required="true" requiredMessage="Category is required">                            
+                        <p:ajax listener="#{viewTransactions.onStatusChange()}" update="itema" />
+                        <f:selectItem itemLabel="--Select Transaction Status --" itemValue="" noSelectionOption="true"/>
                         <f:selectItems value="#{viewTransactions.model}"
                                        var="singlevalue"  
                                        itemLabel="#{singlevalue.status}"
                                        itemValue="#{singlevalue.id}"/>
                     </p:selectOneMenu>  
-                </div>                
+                </div>  
+                <div class="col-md-8">
+                    
+                    <p:dataTable var="itema" id="itema" value="#{viewTransactions.trxn}" sortBy="#{itema.id}">
+                        <p:column headerText="Item Name" sortBy="#{itema.vendorName}">
+                            <h:outputText value="#{itema.vendorName}" />
+                        </p:column>                      
+                        <p:column headerText="Amount" sortBy="#{itema.amount}">
+                            <h:outputText value="#{itema.amount}" />
+                        </p:column>  
+                        <p:column headerText="Date Requested" sortBy="#{itema.datecompleted}">
+                            <h:outputText value="#{itema.datecompleted}" />
+                        </p:column>  
+                       
+                    </p:dataTable>
+                </div>
             </div>
-           
+
 
         </p:panel>
     </ui:define>
