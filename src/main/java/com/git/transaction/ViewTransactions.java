@@ -143,16 +143,12 @@ public class ViewTransactions implements Serializable {
         RequestContext cont = RequestContext.getCurrentInstance();
         ExternalContext externalContext = context.getExternalContext();
         String tablename = null;
+        System.out.println("hi Gold");
         try {
             UserDetails userObj = (UserDetails) context.getExternalContext().getSessionMap().get("sessn_nums");
             String on = String.valueOf(userObj);
             int createdId = userObj.getId();
             if (userObj != null) {
-                setMessangerOfTruth("Expired Session, please - login " + on);
-                msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                        getMessangerOfTruth(), getMessangerOfTruth());
-                context.addMessage(null, msg);
-            } else {
                 con = dbConnections.mySqlDBconnection();
                 if (selectedtrxn == null) {
                     setMessangerOfTruth("Item(s) not selected!!");
@@ -177,6 +173,12 @@ public class ViewTransactions implements Serializable {
                     msg = new FacesMessage(FacesMessage.SEVERITY_INFO, getMessangerOfTruth(), getMessangerOfTruth());
                     context.addMessage(null, msg);
                 }
+
+            } else {
+                setMessangerOfTruth("Expired Session, please - login " + on);
+                msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                        getMessangerOfTruth(), getMessangerOfTruth());
+                context.addMessage(null, msg);
             }
         } catch (PropertyNotFoundException e) {
 

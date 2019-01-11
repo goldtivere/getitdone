@@ -54,7 +54,7 @@
                             <h:outputText value="#{itema.datecompleted}" />
                         </p:column> 
                         <f:facet name="footer">
-                            <p:commandButton value="Confirm Delivery" rendered="#{viewTransactions.checkStatus}" process="@this itema" actionListener="#{viewTransactions.confirmDelivery()}"  >
+                            <p:commandButton value="Confirm Delivery" rendered="#{viewTransactions.checkStatus}" process="@this itema,messages   " actionListener="#{viewTransactions.confirmDelivery()}"  >
                                 <p:confirm header="Confirm Delivery" message="Are you sure service has been delivered?" icon="ui-icon-alert" />
                             </p:commandButton>
                             <p:confirmDialog id="pop" global="true" showEffect="fade" hideEffect="fade">
