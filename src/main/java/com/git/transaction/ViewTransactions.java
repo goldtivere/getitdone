@@ -84,6 +84,7 @@ public class ViewTransactions implements Serializable {
                 mode.setAmount(rs.getDouble("amount"));
                 mode.setPercent(rs.getDouble("agentpercentage"));
                 mode.setDatecompleted(rs.getDate("created"));
+                mode.setDatedelivered(rs.getDate("datetrxncompleted"));
 
                 model.add(mode);
             }
@@ -155,13 +156,13 @@ public class ViewTransactions implements Serializable {
                     msg = new FacesMessage(FacesMessage.SEVERITY_INFO, getMessangerOfTruth(), getMessangerOfTruth());
                     context.addMessage(null, msg);
                 } else {
-                    String updateTrxn = "update tbpayment set trxncompleted=?,trxnpaid=?,datetrxncompleted=? where trxnreference=? and id=?";
+                    String updateTrxn = "update tbpayment set trxncompleted=?,datetrxncompleted=? where trxnreference=? and id=?";
 
                     pstmt = con.prepareStatement(updateTrxn);
                     for (TrxnModel ta : selectedtrxn) {
-                        pstmt.setBoolean(1, true);
-                        pstmt.setBoolean(2, true);
-                        pstmt.setString(3, DateManipulation.dateAndTime());
+                        pstmt.setBoolean(1, true);                        
+                        pstmt.setString(2, DateManipulation.dateAndTime());
+                        pstmt.setString(3, ta.getRef());
                         pstmt.setInt(4, ta.getId());
                         pstmt.executeUpdate();
 
