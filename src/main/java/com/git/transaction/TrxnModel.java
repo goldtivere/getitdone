@@ -19,6 +19,7 @@ public class TrxnModel {
     private double amount;
     private Date datecompleted;
     private double percent;
+    private Date datedelivered;
 
     public int getId() {
         return id;
@@ -74,6 +75,14 @@ public class TrxnModel {
 
     public void setPercent(double percent) {
         this.percent = percent;
+    }
+
+    public Date getDatedelivered() {
+        return datedelivered;
+    }
+
+    public void setDatedelivered(Date datedelivered) {
+        this.datedelivered = datedelivered;
     }
 
     

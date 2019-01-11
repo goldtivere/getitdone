@@ -32,18 +32,36 @@
                     </p:selectOneMenu>  
                 </div>  
                 <div class="col-md-8">
-                    
-                    <p:dataTable var="itema" id="itema" value="#{viewTransactions.trxn}" sortBy="#{itema.id}">
-                        <p:column headerText="Item Name" sortBy="#{itema.vendorName}">
+
+                    <p:dataTable id="itema" var="itema" value="#{viewTransactions.trxn}" selection="#{viewTransactions.selectedtrxn}" rowKey="#{itema.id}" style="margin-bottom:0">
+                        <f:facet name="header">
+                            <p:outputLabel value="#{viewTransactions.status}" />
+                        </f:facet>
+                        <p:column selectionMode="multiple" visible="#{viewTransactions.checkStatus}" style="width:30px;text-align:center"/>
+                        <p:column headerText="Payment Reference" >
+                            <h:outputText value="#{itema.ref}" />
+                        </p:column>  
+                        <p:column headerText="Item Name" >
                             <h:outputText value="#{itema.vendorName}" />
                         </p:column>                      
-                        <p:column headerText="Amount" sortBy="#{itema.amount}">
+                        <p:column headerText="Amount" >
                             <h:outputText value="#{itema.amount}" />
                         </p:column>  
-                        <p:column headerText="Date Requested" sortBy="#{itema.datecompleted}">
+                        <p:column headerText="Date Requested" >
                             <h:outputText value="#{itema.datecompleted}" />
-                        </p:column>  
-                       
+                        </p:column> 
+                        <p:column headerText="Date Delivered" >
+                            <h:outputText value="#{itema.datecompleted}" />
+                        </p:column> 
+                        <f:facet name="footer">
+                            <p:commandButton value="Confirm Delivery" rendered="#{viewTransactions.checkStatus}" process="@this itema" actionListener="#{viewTransactions.confirmDelivery()}"  >
+                                <p:confirm header="Confirm Delivery" message="Are you sure service has been delivered?" icon="ui-icon-alert" />
+                            </p:commandButton>
+                            <p:confirmDialog id="pop" global="true" showEffect="fade" hideEffect="fade">
+                                <p:commandButton value="Yes" immediate="true" process="@this" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                <p:commandButton value="No" type="button" process="@this" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                            </p:confirmDialog>
+                        </f:facet>
                     </p:dataTable>
                 </div>
             </div>

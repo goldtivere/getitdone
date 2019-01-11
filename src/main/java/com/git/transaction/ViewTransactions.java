@@ -5,6 +5,7 @@
  */
 package com.git.transaction;
 
+import com.git.dbcon.DateManipulation;
 import com.git.dbcon.DbConnectionX;
 import com.git.getitdone.SelectOptionMenu;
 import com.git.getitdone.TrxnStatusModel;
@@ -17,10 +18,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.el.PropertyNotFoundException;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -32,9 +36,12 @@ public class ViewTransactions implements Serializable {
 
     private List<TrxnStatusModel> model;
     private List<TrxnModel> trxn;
+    private List<TrxnModel> selectedtrxn;
     private SelectOptionMenu menu = new SelectOptionMenu();
     private int valueStatus;
     private String messangerOfTruth;
+    private String status;
+    private boolean checkStatus;
 
     @PostConstruct
     public void init() {
@@ -100,7 +107,7 @@ public class ViewTransactions implements Serializable {
         }
     }
 
-    public void onStatusChange() throws SQLException{
+    public void onStatusChange() throws SQLException {
         FacesContext context = FacesContext.getCurrentInstance();
         FacesMessage msg;
         UserDetails userObj = (UserDetails) context.getExternalContext().getSessionMap().get("sessn_nums");
@@ -115,10 +122,80 @@ public class ViewTransactions implements Serializable {
         }
         {
             if (getValueStatus() == 1) {
-                trxn=viewTrxn(true,true,userObj.getId());
+                setStatus("Completed Transaction(s)");
+                setCheckStatus(false);
+                trxn = viewTrxn(true, true, userObj.getId());
             } else if (getValueStatus() == 2) {
-                trxn= viewTrxn(true,false,userObj.getId());
+                setStatus("Pending Transaction(s)");
+                setCheckStatus(true);
+                trxn = viewTrxn(true, false, userObj.getId());
             }
+        }
+    }
+
+    public void confirmDelivery() throws SQLException {
+        DbConnectionX dbConnections = new DbConnectionX();
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        FacesMessage msg;
+        FacesContext context = FacesContext.getCurrentInstance();
+        RequestContext cont = RequestContext.getCurrentInstance();
+        ExternalContext externalContext = context.getExternalContext();
+        String tablename = null;
+        try {
+            UserDetails userObj = (UserDetails) context.getExternalContext().getSessionMap().get("sessn_nums");
+            String on = String.valueOf(userObj);
+            int createdId = userObj.getId();
+            if (userObj != null) {
+                setMessangerOfTruth("Expired Session, please - login " + on);
+                msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                        getMessangerOfTruth(), getMessangerOfTruth());
+                context.addMessage(null, msg);
+            } else {
+                con = dbConnections.mySqlDBconnection();
+                if (selectedtrxn == null) {
+                    setMessangerOfTruth("Item(s) not selected!!");
+                    msg = new FacesMessage(FacesMessage.SEVERITY_INFO, getMessangerOfTruth(), getMessangerOfTruth());
+                    context.addMessage(null, msg);
+                } else {
+                    String updateTrxn = "update tbpayment set trxncompleted=?,trxnpaid=?,datetrxncompleted=? where trxnreference=? and id=?";
+
+                    pstmt = con.prepareStatement(updateTrxn);
+                    for (TrxnModel ta : selectedtrxn) {
+                        pstmt.setBoolean(1, true);
+                        pstmt.setBoolean(2, true);
+                        pstmt.setString(3, DateManipulation.dateAndTime());
+                        pstmt.setInt(4, ta.getId());
+                        pstmt.executeUpdate();
+
+                    }
+
+                    trxn = viewTrxn(true, false, userObj.getId());
+
+                    setMessangerOfTruth("Delivery Confrmed!!");
+                    msg = new FacesMessage(FacesMessage.SEVERITY_INFO, getMessangerOfTruth(), getMessangerOfTruth());
+                    context.addMessage(null, msg);
+                }
+            }
+        } catch (PropertyNotFoundException e) {
+
+            setMessangerOfTruth("Item(s) not selected!!");
+            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, getMessangerOfTruth(), getMessangerOfTruth());
+            context.addMessage(null, msg);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+
+            if (!(con == null)) {
+                con.close();
+                con = null;
+            }
+            if (!(pstmt == null)) {
+                pstmt.close();
+                pstmt = null;
+            }
+
         }
     }
 
@@ -152,6 +229,30 @@ public class ViewTransactions implements Serializable {
 
     public void setMessangerOfTruth(String messangerOfTruth) {
         this.messangerOfTruth = messangerOfTruth;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public List<TrxnModel> getSelectedtrxn() {
+        return selectedtrxn;
+    }
+
+    public void setSelectedtrxn(List<TrxnModel> selectedtrxn) {
+        this.selectedtrxn = selectedtrxn;
+    }
+
+    public boolean isCheckStatus() {
+        return checkStatus;
+    }
+
+    public void setCheckStatus(boolean checkStatus) {
+        this.checkStatus = checkStatus;
     }
 
 }
