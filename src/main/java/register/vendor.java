@@ -6,7 +6,6 @@
 package register;
 
 import com.git.core.Recipient;
-import com.git.dbcon.AESencrp;
 import com.git.dbcon.DateManipulation;
 import com.git.dbcon.DbConnectionX;
 import com.git.getitdone.SelectOptionMenu;
@@ -22,7 +21,9 @@ import javax.faces.context.FacesContext;
 import org.json.JSONObject;
 import java.io.Serializable;
 import java.sql.SQLException;
-import javax.json.JsonObject;
+import java.util.ArrayList;
+import java.util.List;
+import javax.annotation.PostConstruct;
 import org.codehaus.jackson.map.ObjectMapper;
 
 /**
@@ -36,6 +37,18 @@ public class vendor implements Serializable {
     private VendorModel vendor = new VendorModel();
     private String messangerOfTruth;
     private SelectOptionMenu menu = new SelectOptionMenu();
+    private int item;
+    private VendorModel mode;
+    private boolean visible;
+    private boolean visible1;
+    private String bname;
+
+    @PostConstruct
+    public void init() {
+        setVisible(false);
+        setVisible1(false);
+        
+    }
 
     public VendorModel getVendor() {
         return vendor;
@@ -43,6 +56,16 @@ public class vendor implements Serializable {
 
     public void setVendor(VendorModel vendor) {
         this.vendor = vendor;
+    }
+
+    public void onSelectChange() {
+        if (getItem() == 1) {
+            setVisible(true);
+            setVisible1(false);
+        } else if (getItem() == 2) {
+            setVisible(false);
+            setVisible1(true);
+        }
     }
 
     public void refresh() {
@@ -60,6 +83,65 @@ public class vendor implements Serializable {
         vendor.setCat(0);
         vendor.setItemname("");
         vendor.setBankname("");
+
+    }
+
+    public List<VendorModel> displayVendor() throws SQLException {
+        DbConnectionX dbConnections = new DbConnectionX();
+        Connection con = null;
+        ResultSet rs = null;
+        PreparedStatement pstmt = null;
+        try {
+
+            con = dbConnections.mySqlDBconnection();
+            String query = "SELECT * from tbvendor where isdeleted=false";
+            pstmt = con.prepareStatement(query);
+            rs = pstmt.executeQuery();
+            //
+            List<VendorModel> lst = new ArrayList<>();
+            while (rs.next()) {
+
+                VendorModel coun = new VendorModel();
+                coun.setId(rs.getInt("id"));
+                coun.setBname(rs.getString("corporatename"));
+
+                //
+                lst.add(coun);
+            }
+            return lst;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+
+            if (!(con == null)) {
+                con.close();
+                con = null;
+            }
+            if (!(pstmt == null)) {
+                pstmt.close();
+                pstmt = null;
+            }
+
+        }
+    }
+
+    public List<String> completeVendor(String val) {
+        List<String> com = new ArrayList<>();
+        try {
+            for (VendorModel value : displayVendor()) {
+                if (value.getBname().toUpperCase().contains(val.toUpperCase())) {
+                  
+                    com.add(value.getBname());
+                }
+
+            }
+            return com;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+
+        }
 
     }
 
@@ -298,6 +380,46 @@ public class vendor implements Serializable {
 
     public void setMessangerOfTruth(String messangerOfTruth) {
         this.messangerOfTruth = messangerOfTruth;
+    }
+
+    public int getItem() {
+        return item;
+    }
+
+    public void setItem(int item) {
+        this.item = item;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
+
+    public boolean isVisible1() {
+        return visible1;
+    }
+
+    public void setVisible1(boolean visible1) {
+        this.visible1 = visible1;
+    }
+
+    public VendorModel getMode() {
+        return mode;
+    }
+
+    public void setMode(VendorModel mode) {
+        this.mode = mode;
+    }
+
+    public String getBname() {
+        return bname;
+    }
+
+    public void setBname(String bname) {
+        this.bname = bname;
     }
 
 }
