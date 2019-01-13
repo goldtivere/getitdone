@@ -63,7 +63,7 @@ public class PaymentDetails implements Serializable {
             if (request != null || !request.isEmpty()) {
                 return request;
             } else {
-                setMessangerOfTruth("Session Expired for this Student. Please select student and try again1!!");
+                setMessangerOfTruth("Session Expired for this User!!");
                 msg = new FacesMessage(FacesMessage.SEVERITY_INFO, getMessangerOfTruth(), getMessangerOfTruth());
                 ctx.addMessage(null, msg);
                 return null;

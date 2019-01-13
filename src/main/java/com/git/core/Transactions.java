@@ -56,6 +56,17 @@ public class Transactions {
         apiQuery.putParams("callback_url", callback_url);
         return this.apiConnection.connectAndQuery(apiQuery);
     }
+    
+     public JSONObject initializeTranfer(String source, String reason, int amount,
+            String recipient) {
+        this.apiConnection = new ApiConnection(Definitions.PAYSTAK_INITIATE_TRANSFER);
+        ApiQuery apiQuery = new ApiQuery();
+        apiQuery.putParams("source", source);
+        apiQuery.putParams("reason", reason);
+        apiQuery.putParams("amount", amount);
+        apiQuery.putParams("recipient", recipient);        
+        return this.apiConnection.connectAndQuery(apiQuery);
+    }
 
     /**
      * Used to verify a transaction

@@ -5,6 +5,7 @@
  */
 package com.git.filter;
 
+import com.git.TransferRequest.TransferInitiate;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -26,7 +27,7 @@ public class BackgroundJobManager implements ServletContextListener {
         scheduler = Executors.newSingleThreadScheduledExecutor();
         scheduler.scheduleAtFixedRate(new ConfirmPaystackPayment(), 0, 5, TimeUnit.SECONDS);
         scheduler.scheduleAtFixedRate(new ThreadRunner(), 0, 5, TimeUnit.SECONDS);
-//        //scheduler.scheduleAtFixedRate(new SomeDailyJob(), 0, 1, TimeUnit.DAYS);
+        scheduler.scheduleAtFixedRate(new TransferInitiate(), 0, 5, TimeUnit.SECONDS);
 //        //scheduler.scheduleAtFixedRate(new SomeHourlyJob(), 0, 1, TimeUnit.HOURS);
 //        scheduler.scheduleAtFixedRate(new ThreadRunner(), 0, 5, TimeUnit.SECONDS);
 //        scheduler.scheduleAtFixedRate(new ThreadRunnerEmail(), 0, 5, TimeUnit.SECONDS);

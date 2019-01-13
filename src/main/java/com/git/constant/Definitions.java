@@ -15,6 +15,10 @@ public class Definitions {
 
     //URL definition for transfer recipient
     public static final String PAYSTACK_TRANSFER_RECIPIENT = BASE_API_ENDPOINT + "/transferrecipient";
+    
+    //URL definition to initiate transfer
+    public static final String PAYSTAK_INITIATE_TRANSFER= BASE_API_ENDPOINT + "/transfer";
+    
 
     public static final String PAYSTACK_INLINE_PAYSTACK_STANDARD = BASE_API_ENDPOINT + "/transaction/initialize";
     public static final String PAYSTACK_INLINE_VERIFY_TRANSACTIONS = BASE_API_ENDPOINT + "/transaction/verify/";
