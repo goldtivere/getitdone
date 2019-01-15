@@ -29,7 +29,7 @@ public class BackgroundJobManager implements ServletContextListener {
         scheduler.scheduleAtFixedRate(new ConfirmPaystackPayment(), 0, 5, TimeUnit.SECONDS);
         scheduler.scheduleAtFixedRate(new ThreadRunner(), 0, 5, TimeUnit.SECONDS);
         scheduler.scheduleAtFixedRate(new TransferInitiate(), 0, 5, TimeUnit.SECONDS);
-        scheduler.scheduleAtFixedRate(new SmsManager(), 0, 5, TimeUnit.SECONDS);
+        //scheduler.scheduleAtFixedRate(new SmsManager(), 0, 5, TimeUnit.SECONDS);
 //        //scheduler.scheduleAtFixedRate(new SomeHourlyJob(), 0, 1, TimeUnit.HOURS);
 //        scheduler.scheduleAtFixedRate(new ThreadRunner(), 0, 5, TimeUnit.SECONDS);
 //        scheduler.scheduleAtFixedRate(new ThreadRunnerEmail(), 0, 5, TimeUnit.SECONDS);
