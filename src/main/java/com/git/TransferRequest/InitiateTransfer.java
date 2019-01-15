@@ -13,7 +13,7 @@ public class InitiateTransfer {
 
     private String message;
 
-    private String status;
+    private boolean status;
 
     private Data data;
 
@@ -25,13 +25,14 @@ public class InitiateTransfer {
         this.message = message;
     }
 
-    public String getStatus() {
+    public boolean isStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(boolean status) {
         this.status = status;
     }
+    
 
     public Data getData() {
         return data;

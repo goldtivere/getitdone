@@ -7,6 +7,7 @@ package BackGroundManager;
 
 import com.git.dbcon.DateManipulation;
 import com.git.dbcon.DbConnectionX;
+import com.git.getitdone.SendSms;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -53,7 +54,7 @@ public class ThreadRunner implements Runnable {
         ResultSet rs = null;
         PreparedStatement pstmt = null;
         String sms_url;
-        
+
         try {
 
             con = dbCon.mySqlDBconnection();
@@ -105,7 +106,7 @@ public class ThreadRunner implements Runnable {
         DbConnectionX dbCon = new DbConnectionX();
         ResultSet rs = null;
         PreparedStatement pstmt = null;
-        String sms_url;        
+        String sms_url;
         try {
 
             con = dbCon.mySqlDBconnection();
@@ -192,7 +193,7 @@ public class ThreadRunner implements Runnable {
     }
 
     public void runValue(List<MessageModel> model) throws NullPointerException, IOException {
-
+        SendSms sms = new SendSms();
         int i = 0;
 
         try {
@@ -202,24 +203,8 @@ public class ThreadRunner implements Runnable {
                 String val = null;
                 String sessionid = "54abd51e-e240-4e0c-b899-991f08829897";
                 String sender = "DND_BYPASSGetItDone";
-                URL url = new URL("http://www.smslive247.com/http/index.aspx?cmd=sendmsg&sessionid=" + sessionIdGet() + "&message=" + messageModel.getMessage() + "&sender=" + sender + "&sendto=" + messageModel.getPhonenumber() + "&msgtype=0");
-                //http://www.bulksmslive.com/tools/geturl/Sms.php?username=abc&password=xyz&sender="+sender+"&message="+message+"&flash=0&sendtime=2009-10- 18%2006:30&listname=friends&recipients="+recipient; 
-                //URL gims_url = new URL("http://smshub.lubredsms.com/hub/xmlsmsapi/send?user=loliks&pass=GJP8wRTs&sender=nairabox&message=Acct%3A5073177777%20Amt%3ANGN1%2C200.00%20CR%20Desc%3ATesting%20alert%20Avail%20Bal%3ANGN%3A1%2C342%2C158.36&mobile=08065711040&flash=0");
-                final String USER_AGENT = "Mozilla/5.0";
 
-                HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                con.setRequestMethod("GET");
-                con.setRequestProperty("User-Agent", USER_AGENT);
-                int responseCode = con.getResponseCode();
-                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-                String inputLine;
-                StringBuffer response = new StringBuffer();
-                // System.out.println(messageModel.getBody() + " dude");
-                while ((inputLine = in.readLine()) != null) {
-                    response.append(inputLine);
-                }
-                in.close();
-                String responseCod = response.toString();
+                String responseCod = sms.sendMessage(sessionid, messageModel.getMessage(), sender, messageModel.getPhonenumber());
 
 //                if (responseCod.equalsIgnoreCase("-1")) {
 //                    val = "Incorrect / badly formed URL data";
