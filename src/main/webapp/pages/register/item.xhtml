@@ -28,112 +28,106 @@
                 <f:selectItem itemLabel="Existing" itemValue="2" />                    
             </p:selectOneMenu>            
         </div>
-       
-            <p:panel style="border:none;" visible="#{vendor.visible}" id="firstPanel">
-                <div class="row">
-                    <div class="col-md-4">
-                        <p:outputLabel value="First Name: " for="vendorFname"/>
-                        <p:inputText id="vendorFname" value="#{vendor.vendor.fname}" required="true" requiredMessage="First Name is required" class="form-control"/>
-                    </div>
-                    <div class="col-md-4">
-                        <p:outputLabel value="Middle Name: " for="vendorMname" />
-                        <p:inputText id="vendorMname" value="#{vendor.vendor.mname}" class="form-control" />
-                    </div>
-                    <div class="col-md-4">
-                        <p:outputLabel value="Last Name: " for="vendorLname"/>
-                        <p:inputText id="vendorLname" required="true" value="#{vendor.vendor.lname}" requiredMessage="Last Name is required" class="form-control"/>
-                    </div>
-                </div>
-                <div class="row"> 
-                    <div class="col-md-4">
-                        <br/>                    
-                        <p:outputLabel value="Select Category: " for="cat"/>
-                        <p:selectOneMenu id="cat" class="form-control" value="#{vendor.vendor.cat}" required="true" requiredMessage="Category is required">                            
-                            <f:selectItem itemLabel="--Select Category--" itemValue="" noSelectionOption="true"/>
-                            <f:selectItems value="#{drop.mode}"
-                                           var="singlevalue"  
-                                           itemLabel="#{singlevalue.category}"
-                                           itemValue="#{singlevalue.id}"/>
-                        </p:selectOneMenu>  
-                    </div>
-                    <div class="col-md-4">
-                        <p:outputLabel value="Business Name: " for="business"/>
-                        <p:inputText id="business" required="true" value="#{vendor.vendor.bname}" requiredMessage="Business Name is required" class="form-control"/>
-                    </div>
-                    <div class="col-md-4">
-                        <p:outputLabel value="Rc Number: " for="rcnum"/>
-                        <p:inputText id="rcnum" value="#{vendor.vendor.rcnum}" class="form-control"/>   
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4">
-                        <p:outputLabel value="Company Address: " for="adds"/>
-                        <p:inputTextarea id="adds" required="true" value="#{vendor.vendor.baddress}" requiredMessage="Address is required" class="form-control" />   
-                    </div>
 
-                    <div class="col-md-4">
-                        <p:outputLabel value="Email Address: " for="eadd"/>
-                        <p:inputText id="eadd" required="true" value="#{vendor.vendor.email}" class="form-control" label="email"
-                                     requiredMessage="Please enter your email address."
-                                     validatorMessage="Invalid email format"
-                                     >
+        <p:panel style="border:none;" visible="#{vendor.visible}" id="firstPanel">
 
-                            <f:validateRegex
-                                pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
-
-                        </p:inputText>                    
-                    </div>
-
-                    <div class="col-md-4">
-                        <p:outputLabel value="Phone Number: " for="pnum"/>
-                        <p:inputText id="pnum" maxlength="11" required="true" value="#{vendor.vendor.bpnum}" requiredMessage="Phone Number is required" class="form-control" />   
-                    </div> 
+            <div class="row">                      
+                <div class="col-md-4">
+                    <p:outputLabel value="Select Corporate:" for="dd" />
+                    <p:autoComplete id="dd" forceSelection="true" dropdown="true" value="#{vendor.bname}" completeMethod="#{vendor.completeVendor}">
+                        <p:ajax listener="#{vendor.onSelectChange()}" update="firstPanel,secondPanel" />
+                    </p:autoComplete>
 
                 </div>
-                <div class="row">
-                    <div class="col-md-3">
-                        <p:outputLabel value="Coverage Area: " for="cArea"/>
-                        <p:inputTextarea id="cArea" value="#{vendor.vendor.coverageLocation}" required="true" requiredMessage="Coverage Area is required" class="form-control" />   
-                    </div>
+                <div class="col-md-4">
+                    <br/>                    
+                    <p:outputLabel value="Select Category: " for="cat"/>
+                    <p:selectOneMenu id="cat" class="form-control" value="#{vendor.vendor.cat}" required="true" requiredMessage="Category is required">                            
+                        <f:selectItem itemLabel="--Select Category--" itemValue="" noSelectionOption="true"/>
+                        <f:selectItems value="#{drop.mode}"
+                                       var="singlevalue"  
+                                       itemLabel="#{singlevalue.category}"
+                                       itemValue="#{singlevalue.id}"/>
+                    </p:selectOneMenu>  
                 </div>
-                <div class="row">
-                    <div class="col-md-4">
-                        <br/>
-                        <p:outputLabel value="Bank: " for="bank"/>                    
-                        <p:selectOneMenu id="bank" class="form-control" value="#{vendor.vendor.bankname}" required="true" requiredMessage="Bank Name is is required">                            
-                            <f:selectItem itemLabel="--Select Bank--" itemValue="" noSelectionOption="true"/>
-                            <f:selectItems value="#{drop.bankMode}"
-                                           var="singlevalue"  
-                                           itemLabel="#{singlevalue.bankName}"
-                                           itemValue="#{singlevalue.bankcode}"/>
-                        </p:selectOneMenu> 
-                    </div>
-                    <div class="col-md-4">
-                        <p:outputLabel value="Account Number: " for="acctNum"/>                    
-                        <p:inputText id="acctNum" class="form-control" value="#{vendor.vendor.acctNum}" />
-                    </div>
-                    <div class="col-md-4">
-                        <p:outputLabel value="Account Name: " for="acctName"/>
-                        <p:inputText id="acctName" class="form-control" value="#{vendor.vendor.acctName}"/>
-                    </div>
-                </div>                   
-                <div class="row">
-                    <div class="col-md-4">
-                        <p:outputLabel value="Item name: " for="itemName"/>
-                        <p:inputText id="itemName" class="form-control" value="#{vendor.vendor.itemname}" required="true" requiredMessage=" Item name is required"/>
-                    </div>
-                    <div class="col-md-4">
-                        <p:outputLabel value="Price per unit: " for="punit"/>
-                        <p:inputNumber id="punit" class="form-control" value="#{vendor.vendor.price}" required="true" requiredMessage="Price is required"/>
-                    </div>
-                    <div class="col-md-4">
-                        <p:outputLabel value="Agent Percentage: " for="percent"/>
-                        <p:inputNumber id="percent" class="form-control" maxValue="100" value="#{vendor.vendor.percent}" required="true" requiredMessage="Percentage is required"/>
-                    </div>
+                <div class="col-md-4">
+                    <p:outputLabel value="Business Name: " for="business"/>
+                    <p:inputText id="business" required="true" value="#{vendor.vendor.bname}" requiredMessage="Business Name is required" class="form-control"/>
+                </div>
+                <div class="col-md-4">
+                    <p:outputLabel value="Rc Number: " for="rcnum"/>
+                    <p:inputText id="rcnum" value="#{vendor.vendor.rcnum}" class="form-control"/>   
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <p:outputLabel value="Company Address: " for="adds"/>
+                    <p:inputTextarea id="adds" required="true" value="#{vendor.vendor.baddress}" requiredMessage="Address is required" class="form-control" />   
+                </div>
+
+                <div class="col-md-4">
+                    <p:outputLabel value="Email Address: " for="eadd"/>
+                    <p:inputText id="eadd" required="true" value="#{vendor.vendor.email}" class="form-control" label="email"
+                                 requiredMessage="Please enter your email address."
+                                 validatorMessage="Invalid email format"
+                                 >
+
+                        <f:validateRegex
+                            pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+
+                    </p:inputText>                    
+                </div>
+
+                <div class="col-md-4">
+                    <p:outputLabel value="Phone Number: " for="pnum"/>
+                    <p:inputText id="pnum" maxlength="11" required="true" value="#{vendor.vendor.bpnum}" requiredMessage="Phone Number is required" class="form-control" />   
+                </div> 
+
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <p:outputLabel value="Coverage Area: " for="cArea"/>
+                    <p:inputTextarea id="cArea" value="#{vendor.vendor.coverageLocation}" required="true" requiredMessage="Coverage Area is required" class="form-control" />   
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
                     <br/>
-                    <br/>
-                    <p:commandButton value="Resgister" class="pull-right" action="#{vendor.registerVendor()}" update="messages" process="@this vendorFname,vendorMname,vendorLname,cat,business,rcnum,adds,eadd,pnum,bank,acctNum,acctName,itemName,punit,percent,cArea" />  
-                </div>                                               
+                    <p:outputLabel value="Bank: " for="bank"/>                    
+                    <p:selectOneMenu id="bank" class="form-control" value="#{vendor.vendor.bankname}" required="true" requiredMessage="Bank Name is is required">                            
+                        <f:selectItem itemLabel="--Select Bank--" itemValue="" noSelectionOption="true"/>
+                        <f:selectItems value="#{drop.bankMode}"
+                                       var="singlevalue"  
+                                       itemLabel="#{singlevalue.bankName}"
+                                       itemValue="#{singlevalue.bankcode}"/>
+                    </p:selectOneMenu> 
+                </div>
+                <div class="col-md-4">
+                    <p:outputLabel value="Account Number: " for="acctNum"/>                    
+                    <p:inputText id="acctNum" class="form-control" value="#{vendor.vendor.acctNum}" />
+                </div>
+                <div class="col-md-4">
+                    <p:outputLabel value="Account Name: " for="acctName"/>
+                    <p:inputText id="acctName" class="form-control" value="#{vendor.vendor.acctName}"/>
+                </div>
+            </div>                   
+            <div class="row">
+                <div class="col-md-4">
+                    <p:outputLabel value="Item name: " for="itemName"/>
+                    <p:inputText id="itemName" class="form-control" value="#{vendor.vendor.itemname}" required="true" requiredMessage=" Item name is required"/>
+                </div>
+                <div class="col-md-4">
+                    <p:outputLabel value="Price per unit: " for="punit"/>
+                    <p:inputNumber id="punit" class="form-control" value="#{vendor.vendor.price}" required="true" requiredMessage="Price is required"/>
+                </div>
+                <div class="col-md-4">
+                    <p:outputLabel value="Agent Percentage: " for="percent"/>
+                    <p:inputNumber id="percent" class="form-control" maxValue="100" value="#{vendor.vendor.percent}" required="true" requiredMessage="Percentage is required"/>
+                </div>
+                <br/>
+                <br/>
+                <p:commandButton value="Resgister" class="pull-right" action="#{vendor.registerVendor()}" update="messages" process="@this vendorFname,vendorMname,vendorLname,cat,business,rcnum,adds,eadd,pnum,bank,acctNum,acctName,itemName,punit,percent,cArea" />  
+            </div>                                               
         </p:panel>  
         <p:panel style="border:none;" visible="#{vendor.visible1}" id="secondPanel" >
             <div class="row"> 
