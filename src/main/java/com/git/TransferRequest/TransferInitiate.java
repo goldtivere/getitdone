@@ -10,6 +10,7 @@ import com.git.filter.*;
 import com.git.dbcon.DateManipulation;
 import com.git.dbcon.DbConnectionX;
 import com.git.dbcon.LoadPPTfile;
+import com.git.getitdone.SendSms;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -221,10 +222,11 @@ public class TransferInitiate implements Runnable {
 
     //method sends notification to admin notifying them of request made.
     public void sendToAdmin(String sessionid, Smsmodel sms, String vals) throws ProtocolException, MalformedURLException, IOException {
+       SendSms smss= new SendSms();
         String val = null;
         System.out.println("hello boy " + vals);
         String sender = "DND_BYPASSGetItDone";
-        String respond = sms.sendMessage(sessionid, sms.getVendorMessage(), sender, vals);
+        String respond = smss.sendMessage(sessionid, sms.getVendorMessage(), sender, vals);
     }
 
     public void runValue(List<TransferinitiateModel> model) throws NullPointerException, IOException {
