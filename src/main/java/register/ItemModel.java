@@ -5,11 +5,17 @@
  */
 package register;
 
+import com.git.getitdone.LocationModel;
+import com.git.getitdone.SelectOptionMenu;
+import java.util.List;
+import javax.annotation.PostConstruct;
+
 /**
  *
  * @author Gold
  */
 public class ItemModel {
+
     private int id;
     private int vendorfk;
     private int categoryfk;
@@ -21,6 +27,7 @@ public class ItemModel {
     private int quantity;
     private double agentPercentage;
     private int locationfk;
+   
 
     public int getId() {
         return id;
@@ -109,8 +116,6 @@ public class ItemModel {
     public void setLocationfk(int locationfk) {
         this.locationfk = locationfk;
     }
-    
-    
-            
-    
+   
+
 }

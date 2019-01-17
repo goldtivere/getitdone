@@ -19,7 +19,7 @@
         <p:messages id="messages" closable="true" />
 
 
-        <p:panel style="border:none;" visible="#{vendor.visible}" id="firstPanel">
+        <p:panel style="border:none;" id="firstPanel">
 
             <div class="row">                      
                 <div class="col-md-4">
@@ -28,7 +28,7 @@
 
                 </div>
                 <div class="col-md-4">
-                    <br/>                    
+
                     <p:outputLabel value="Select Category: " for="cat"/>
                     <p:selectOneMenu id="cat" class="form-control" value="#{item.mode.categoryfk}" required="true" requiredMessage="Category is required">                            
                         <f:selectItem itemLabel="--Select Category--" itemValue="" noSelectionOption="true"/>
@@ -48,7 +48,7 @@
                     <p:outputLabel value="Select Location " for="loc"/>
                     <p:selectOneMenu id="loc" class="form-control" value="#{item.mode.locationfk}" required="true" requiredMessage="Location is required">                            
                         <f:selectItem itemLabel="--Select Location--" itemValue="" noSelectionOption="true"/>
-                        <f:selectItems value="#{drop.location}"
+                        <f:selectItems value="#{item.listMode}"
                                        var="singlevalue"  
                                        itemLabel="#{singlevalue.locationName}"
                                        itemValue="#{singlevalue.id}"/>
@@ -62,10 +62,16 @@
                     <p:outputLabel value="Agent Percentage: " for="percent"/>
                     <p:inputNumber id="percent" class="form-control" maxValue="100" value="#{item.mode.agentPercentage}" required="true" requiredMessage="Percentage is required"/>
                 </div>
-                <br/>
-                <br/>
-                <p:commandButton value="Add Item" class="pull-right" action="#{item.saveItem()}" update="messages,firstPanel" process="@this cat,business,loc,dd,punit,percent" />  
-            </div>                                               
+            </div>                
+            <div class="row">
+                <div class="col-md-4">
+                    <p:outputLabel value="Description: " for="descript"/>
+                    <p:inputTextarea id="descript" class="form-control" value="#{item.mode.itemDescritpion}" required="true" requiredMessage="Description is required"/>
+                </div>                                                     
+            </div>  
+            <div class="row pull-left" >
+                <p:commandButton value="Add Item" class="pull-right" action="#{item.saveItem()}" update="messages,firstPanel" process="@this cat,business,loc,dd,punit,percent,descript" />  
+            </div>  
         </p:panel>      
     </ui:define>
 

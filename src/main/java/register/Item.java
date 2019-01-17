@@ -8,6 +8,8 @@ package register;
 import com.git.core.Recipient;
 import com.git.dbcon.DateManipulation;
 import com.git.dbcon.DbConnectionX;
+import com.git.getitdone.LocationModel;
+import com.git.getitdone.SelectOptionMenu;
 import com.git.register.UserDetails;
 import java.io.Serializable;
 import java.sql.Connection;
@@ -16,6 +18,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -32,6 +35,17 @@ public class Item implements Serializable {
     private ItemModel mode = new ItemModel();
     private String bname;
     private String messangerOfTruth;
+    private List<LocationModel> listMode;
+    private SelectOptionMenu menu = new SelectOptionMenu();
+
+    @PostConstruct
+    public void init() {
+        try {
+            listMode = menu.Location();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public ItemModel getMode() {
         return mode;
@@ -168,7 +182,7 @@ public class Item implements Serializable {
             String on = String.valueOf(userObj);
             int createdby = userObj.getId();
             if (userObj != null) {
-                int id = vendorfk(mode.getItemname());
+                int id = vendorfk(getBname());
                 String insertemail = "insert into tbvendoritem (vendorfk,category,itemname,amount,description,locationfk,agentpercentage,datecreated,datetime,createdby)"
                         + "values(?,?,?,?,?,?,?,?,?,?)";
 
@@ -185,6 +199,10 @@ public class Item implements Serializable {
                 pstmt.setInt(10, createdby);
 
                 pstmt.executeUpdate();
+                setMessangerOfTruth("Item Saved ");
+                msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        getMessangerOfTruth(), getMessangerOfTruth());
+                context.addMessage(null, msg);
                 refresh();
             } else {
                 setMessangerOfTruth("Expired Session, please - login " + on);
@@ -224,6 +242,14 @@ public class Item implements Serializable {
 
     public void setMessangerOfTruth(String messangerOfTruth) {
         this.messangerOfTruth = messangerOfTruth;
+    }
+
+    public List<LocationModel> getListMode() {
+        return listMode;
+    }
+
+    public void setListMode(List<LocationModel> listMode) {
+        this.listMode = listMode;
     }
 
 }
