@@ -18,7 +18,7 @@
     <ui:define name="content">  
         <p:messages id="messages" closable="true" />
 
-        <p:panel style="border:none;" visible="#{vendor.visible1}" id="secondPanel" >             
+        <p:panel style="border:none;" id="secondPanel" >             
             <div class="row">
                 <div class="col-md-4">
                     <p:outputLabel value="First Name: " for="vendorFname"/>
@@ -47,12 +47,7 @@
                     <p:inputTextarea id="adds" required="true" value="#{vendor.vendor.baddress}" requiredMessage="Address is required" class="form-control" />   
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <p:outputLabel value="Company Address: " for="adds"/>
-                    <p:inputTextarea id="adds" required="true" value="#{vendor.vendor.baddress}" requiredMessage="Address is required" class="form-control" />   
-                </div>
- 
+            <div class="row">                
                 <div class="col-md-4">
                     <p:outputLabel value="Email Address: " for="eadd"/>
                     <p:inputText id="eadd" required="true" value="#{vendor.vendor.email}" class="form-control" label="email"
@@ -92,7 +87,8 @@
                     <p:outputLabel value="Account Name: " for="acctName"/>
                     <p:inputText id="acctName" class="form-control" value="#{vendor.vendor.acctName}"/>
                 </div>
-                <p:commandButton value="Register" />
+                <p:commandButton value="Register" process="@this vendorFname,vendorMname,vendorLname,business,rcnum,adds,eadd,,pnum,bank,acctNum,acctName" 
+                                 actionListener="#{vendor.registerVendor()}" update="secondPanel,messages" />
             </div>     
 
         </p:panel>

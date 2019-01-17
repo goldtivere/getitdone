@@ -20,6 +20,7 @@ public class ItemModel {
     private String itemDescritpion;
     private int quantity;
     private double agentPercentage;
+    private int locationfk;
 
     public int getId() {
         return id;
@@ -99,6 +100,14 @@ public class ItemModel {
 
     public void setAgentPercentage(double agentPercentage) {
         this.agentPercentage = agentPercentage;
+    }
+
+    public int getLocationfk() {
+        return locationfk;
+    }
+
+    public void setLocationfk(int locationfk) {
+        this.locationfk = locationfk;
     }
     
     

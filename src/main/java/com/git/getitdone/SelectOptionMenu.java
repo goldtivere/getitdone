@@ -135,6 +135,51 @@ public class SelectOptionMenu implements Serializable {
 
         }
     }
+    
+     public List<LocationModel> Location() throws Exception {
+        FacesContext context = FacesContext.getCurrentInstance();
+
+        DbConnectionX dbConnections = new DbConnectionX();
+        Connection con = null;
+        ResultSet rs = null;
+        PreparedStatement pstmt = null;
+
+        try {
+
+            con = dbConnections.mySqlDBconnection();
+            String query = "SELECT * FROM tblocation";
+            pstmt = con.prepareStatement(query);
+            rs = pstmt.executeQuery();
+            //
+            List<LocationModel> lst = new ArrayList<>();
+            while (rs.next()) {
+
+                LocationModel coun = new LocationModel();
+                coun.setId(rs.getInt("id"));
+                coun.setLocationName(rs.getString("locationname"));                
+
+                //
+                lst.add(coun);
+            }
+
+            return lst;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+
+        } finally {
+
+            if (!(con == null)) {
+                con.close();
+                con = null;
+            }
+            if (!(pstmt == null)) {
+                pstmt.close();
+                pstmt = null;
+            }
+
+        }
+    }    
 
     public String categoryName(int id) throws SQLException {
         FacesContext context = FacesContext.getCurrentInstance();
@@ -231,7 +276,7 @@ public class SelectOptionMenu implements Serializable {
             List<TrxnStatusModel> model = new ArrayList<>();
             //
             while (rs.next()) {
-                TrxnStatusModel mode= new TrxnStatusModel();                
+                TrxnStatusModel mode = new TrxnStatusModel();
                 mode.setId(rs.getInt("id"));
                 mode.setStatus(rs.getString("status"));
                 model.add(mode);
