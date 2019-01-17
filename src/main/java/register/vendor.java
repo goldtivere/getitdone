@@ -155,6 +155,39 @@ public class vendor implements Serializable {
         return 0;
     }
 
+    public void addRecipient(int id, Recipient1 dat,int createdby) {
+        DbConnectionX dbConnections = new DbConnectionX();
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            con = dbConnections.mySqlDBconnection();
+            String insertrecipient = "insert into tbrecepient (vendorfk,recepientcode,bankname,bankcode,accountnumber,accountname,description,createdby,datecreated)"
+                    + "values(?,?,?,?,?,?,?,?,?)";
+
+            pstmt = con.prepareStatement(insertrecipient);
+            System.out.println(dat.getData().getRecipient_code() + " too");
+            System.out.println(dat.getData().getDetails().getBank_name() + " too");
+            System.out.println(dat.getData().getDetails().getBank_code() + " too");
+            System.out.println(dat.getData().getDetails().getAccount_number() + " too");
+            System.out.println(dat.getData().getDetails().getAccount_name() + " too");
+            System.out.println(dat.getData().getDescription() + " too");
+            pstmt.setInt(1, id);
+            pstmt.setString(2, dat.getData().getRecipient_code());
+            pstmt.setString(3, dat.getData().getDetails().getBank_name());
+            pstmt.setString(4, dat.getData().getDetails().getBank_code());
+            pstmt.setString(5, dat.getData().getDetails().getAccount_number());
+            pstmt.setString(6, dat.getData().getDetails().getAccount_name());
+            pstmt.setString(7, dat.getData().getDescription());
+            pstmt.setInt(8, createdby);
+            pstmt.setString(9, DateManipulation.dateAndTime());
+
+            pstmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void registerVendor() throws SQLException {
         FacesContext context = FacesContext.getCurrentInstance();
         DbConnectionX dbConnections = new DbConnectionX();
@@ -219,28 +252,7 @@ public class vendor implements Serializable {
 
                         pstmt.executeUpdate();
                         int id = studentIdCheck(con);
-
-                        String insertrecipient = "insert into tbrecepient (vendorfk,recepientcode,bankname,bankcode,accountnumber,accountname,description,createdby,datecreated)"
-                                + "values(?,?,?,?,?,?,?,?,?)";
-
-                        pstmt = con.prepareStatement(insertrecipient);
-                        System.out.println(dat.getData().getRecipient_code() + " too");
-                        System.out.println(dat.getData().getDetails().getBank_name() + " too");
-                        System.out.println(dat.getData().getDetails().getBank_code() + " too");
-                        System.out.println(dat.getData().getDetails().getAccount_number() + " too");
-                        System.out.println(dat.getData().getDetails().getAccount_name() + " too");
-                        System.out.println(dat.getData().getDescription() + " too");
-                        pstmt.setInt(1, id);
-                        pstmt.setString(2, dat.getData().getRecipient_code());
-                        pstmt.setString(3, dat.getData().getDetails().getBank_name());
-                        pstmt.setString(4, dat.getData().getDetails().getBank_code());
-                        pstmt.setString(5, dat.getData().getDetails().getAccount_number());
-                        pstmt.setString(6, dat.getData().getDetails().getAccount_name());
-                        pstmt.setString(7, dat.getData().getDescription());
-                        pstmt.setInt(8, createdby);
-                        pstmt.setString(9, DateManipulation.dateAndTime());
-
-                        pstmt.executeUpdate();
+                        addRecipient(id, dat,createdby);
                         refresh();
                         setMessangerOfTruth("Vendor created Successfully!!");
                         msg = new FacesMessage(FacesMessage.SEVERITY_INFO, getMessangerOfTruth(), getMessangerOfTruth());

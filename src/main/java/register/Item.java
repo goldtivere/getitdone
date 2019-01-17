@@ -41,8 +41,7 @@ public class Item implements Serializable {
         this.mode = mode;
     }
 
-    public void refresh()
-    {
+    public void refresh() {
         mode.setAgentPercentage(0);
         mode.setAmount(0);
         mode.setItemDescritpion(null);
@@ -50,8 +49,9 @@ public class Item implements Serializable {
         mode.setLocationfk(0);
         setBname(null);
         mode.setCategoryfk(0);
-        
+
     }
+
     public List<VendorModel> displayVendor() throws SQLException {
         DbConnectionX dbConnections = new DbConnectionX();
         Connection con = null;
@@ -185,6 +185,7 @@ public class Item implements Serializable {
                 pstmt.setInt(10, createdby);
 
                 pstmt.executeUpdate();
+                refresh();
             } else {
                 setMessangerOfTruth("Expired Session, please - login " + on);
                 msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
