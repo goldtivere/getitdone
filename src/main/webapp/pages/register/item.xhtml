@@ -39,14 +39,14 @@
                     </p:selectOneMenu>  
                 </div>
                 <div class="col-md-4">
-                    <p:outputLabel value="Item Name: " for="itemName"/>
-                    <p:inputText id="business" required="true" value="#{item.mode.itemname}" requiredMessage="Business Name is required" class="form-control"/>
+                    <p:outputLabel value="Item Name: " for="business"/>
+                    <p:inputText id="business" required="true" value="#{item.mode.itemname}" requiredMessage="Item Name is required" class="form-control"/>
                 </div>               
             </div>                                                  
             <div class="row">
                 <div class="col-md-4">
                     <p:outputLabel value="Select Location " for="loc"/>
-                    <p:selectOneMenu id="loc" class="form-control" value="#{item.mode.locatiofk}" required="true" requiredMessage="Location is required">                            
+                    <p:selectOneMenu id="loc" class="form-control" value="#{item.mode.locationfk}" required="true" requiredMessage="Location is required">                            
                         <f:selectItem itemLabel="--Select Location--" itemValue="" noSelectionOption="true"/>
                         <f:selectItems value="#{drop.location}"
                                        var="singlevalue"  
@@ -64,7 +64,7 @@
                 </div>
                 <br/>
                 <br/>
-                <p:commandButton value="Resgister" class="pull-right" action="#{vendor.registerVendor()}" update="messages" process="@this vendorFname,vendorMname,vendorLname,cat,business,rcnum,adds,eadd,pnum,bank,acctNum,acctName,itemName,punit,percent,cArea" />  
+                <p:commandButton value="Resgister" class="pull-right" action="#{item.saveItem()}" update="messages,firstPanel" process="@this cat,business,loc,dd,punit,percent" />  
             </div>                                               
         </p:panel>      
     </ui:define>
