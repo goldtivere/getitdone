@@ -7,6 +7,8 @@ package com.git.request;
 
 import com.git.dbcon.DbConnectionX;
 import com.git.getitdone.CategoryModel;
+import com.git.getitdone.LocationModel;
+import com.git.getitdone.SelectOptionMenu;
 import com.git.getitdone.SessionTest;
 import java.io.IOException;
 import java.io.Serializable;
@@ -36,16 +38,32 @@ public class GetRequest implements Serializable {
     private List<RequestModel> myRequest;
     private RequestModel mm;
     private ReceiverDetailsModel receiverDetails = new ReceiverDetailsModel();
+    private List<LocationModel> listMode;
+    private List<CategoryModel> mode;
+    private SelectOptionMenu loc = new SelectOptionMenu();
     private SessionTest test = new SessionTest();
     private String messangerOfTruth;
+    private int locationfk;
 
     @PostConstruct
     public void init() {
         try {
-
+            listMode = loc.Location();
             setPanelVisible(false);
 
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void onLocationChange() {
+        try
+        {
+        mode = loc.dropCategory();
+        
+        }
+        catch(Exception e)
+        {
             e.printStackTrace();
         }
     }
@@ -107,9 +125,10 @@ public class GetRequest implements Serializable {
             String query = "select g.vendorfk,g.category,p.corporatename,p.coveragelocation,l.trxnpaid, g.amount,l.vendorfk as requestId,l.ispaid,l.trxncompleted from "
                     + "tbvendoritem g inner join tbvendor p on g.vendorfk=p.id left OUTER join "
                     + "tbpayment l on l.vendorfk=g.vendorfk "
-                    + " where p.isdeleted=false and g.category=? order by l.trxncompleted=false";
+                    + " where p.isdeleted=false and g.category=? and g.locationfk=? order by l.trxncompleted=false";
             pstmt = con.prepareStatement(query);
             pstmt.setInt(1, val);
+            pstmt.setInt(2, getLocationfk());
             rs = pstmt.executeQuery();
             //
             List<RequestModel> lst = new ArrayList<>();
@@ -130,8 +149,7 @@ public class GetRequest implements Serializable {
                     coun.setRequestStat("Currently Unavailable");
                     coun.setEdit(false);
 
-                }else
-                {
+                } else {
                     coun.setRequestStat("Currently Available");
                     coun.setEdit(true);
                 }
@@ -227,6 +245,22 @@ public class GetRequest implements Serializable {
 
     public void setMyRequest(List<RequestModel> myRequest) {
         this.myRequest = myRequest;
+    }
+
+    public int getLocationfk() {
+        return locationfk;
+    }
+
+    public void setLocationfk(int locationfk) {
+        this.locationfk = locationfk;
+    }
+
+    public List<LocationModel> getListMode() {
+        return listMode;
+    }
+
+    public void setListMode(List<LocationModel> listMode) {
+        this.listMode = listMode;
     }
 
 }

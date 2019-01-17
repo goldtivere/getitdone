@@ -26,13 +26,12 @@ import javax.faces.context.FacesContext;
 @ViewScoped
 public class SelectOptionMenu implements Serializable {
 
-    private List<CategoryModel> mode;
+    
     private List<BankModel> bankMode;
 
     @PostConstruct
     public void init() {
-        try {
-            mode = dropCategory();
+        try {            
             bankMode = dropBank();
         } catch (Exception e) {
             e.printStackTrace();
@@ -299,15 +298,7 @@ public class SelectOptionMenu implements Serializable {
             }
 
         }
-    }
-
-    public List<CategoryModel> getMode() {
-        return mode;
-    }
-
-    public void setMode(List<CategoryModel> mode) {
-        this.mode = mode;
-    }
+    }    
 
     public List<BankModel> getBankMode() {
         return bankMode;
