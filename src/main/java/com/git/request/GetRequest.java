@@ -44,12 +44,14 @@ public class GetRequest implements Serializable {
     private SessionTest test = new SessionTest();
     private String messangerOfTruth;
     private int locationfk;
+    private boolean show;
 
     @PostConstruct
     public void init() {
         try {
             listMode = loc.Location();
             setPanelVisible(false);
+            setShow(false);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -59,6 +61,7 @@ public class GetRequest implements Serializable {
     public void onLocationChange() {
         try
         {
+            setShow(true);
         mode = loc.dropCategory();
         
         }
@@ -261,6 +264,22 @@ public class GetRequest implements Serializable {
 
     public void setListMode(List<LocationModel> listMode) {
         this.listMode = listMode;
+    }
+
+    public boolean isShow() {
+        return show;
+    }
+
+    public void setShow(boolean show) {
+        this.show = show;
+    }
+
+    public List<CategoryModel> getMode() {
+        return mode;
+    }
+
+    public void setMode(List<CategoryModel> mode) {
+        this.mode = mode;
     }
 
 }

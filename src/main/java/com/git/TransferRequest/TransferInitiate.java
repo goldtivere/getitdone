@@ -222,7 +222,7 @@ public class TransferInitiate implements Runnable {
 
     //method sends notification to admin notifying them of request made.
     public void sendToAdmin(String sessionid, Smsmodel sms, String vals) throws ProtocolException, MalformedURLException, IOException {
-       SendSms smss= new SendSms();
+        SendSms smss = new SendSms();
         String val = null;
         System.out.println("hello boy " + vals);
         String sender = "DND_BYPASSGetItDone";
@@ -238,12 +238,13 @@ public class TransferInitiate implements Runnable {
             if (model != null && !model.isEmpty()) {
                 for (TransferinitiateModel sms : model) {
                     double val = sms.getAmount() * (sms.getPercent() / 100);
-                    double vval = (sms.getAmount() - val) * 100;
+                    double vval = (sms.getAmount() - val)*100;
                     int amount = (int) vval;
                     JSONObject bn = trans.initializeTranfer(sms.Balance, "Fund transfer for service delivered", amount, sms.getRecipientCode());
                     ObjectMapper mapp = new ObjectMapper();
                     InitiateTransfer initial = mapp.readValue(bn.toString(), InitiateTransfer.class);
-                    if (initial.isStatus()) {
+                    System.out.println(bn+ " hello"+ amount);
+                    if (initial.getStatus().equalsIgnoreCase("successful") || initial.getStatus().equalsIgnoreCase("Accepted")) {
                         System.out.println(amount + "  " + sms.getRecipientCode() + " " + sms.Balance + " * * * * * * *" + bn);
                         sms.setAmount(amount);
                         updateTransfer(sms, initial);

@@ -155,7 +155,17 @@ public class vendor implements Serializable {
         return 0;
     }
 
-    public void addRecipient(int id, Recipient1 dat,int createdby) {
+    public boolean loginPhonenumber(Connection con, String pnum) throws SQLException {
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        String testflname = "Select * from tbregistration where phonenumber=? and isdeleted=false";
+        pstmt = con.prepareStatement(testflname);
+        pstmt.setString(1, pnum);
+        rs = pstmt.executeQuery();
+        return rs.next();
+    }
+
+    public void addRecipient(int id, Recipient1 dat, int createdby) throws SQLException {
         DbConnectionX dbConnections = new DbConnectionX();
         Connection con = null;
         PreparedStatement pstmt = null;
@@ -185,7 +195,66 @@ public class vendor implements Serializable {
             pstmt.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+
+            if (!(con == null)) {
+                con.close();
+                con = null;
+            }
+            if (!(pstmt == null)) {
+                pstmt.close();
+                pstmt = null;
+            }
+
         }
+
+    }
+
+    public void addLogin(int createdBy) throws SQLException {
+        DbConnectionX dbConnections = new DbConnectionX();
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        FacesMessage msg;
+        FacesContext context = FacesContext.getCurrentInstance();
+        try {
+
+            con = dbConnections.mySqlDBconnection();
+            if (loginPhonenumber(con, vendor.getBpnum())) {
+                setMessangerOfTruth("Phone Number already exist");
+                msg = new FacesMessage(FacesMessage.SEVERITY_INFO, getMessangerOfTruth(), getMessangerOfTruth());
+                context.addMessage(null, msg);
+            } else {
+                String insertLogin = "insert into tbregistration (firstname,lastname,fullname,phonenumber,role,createdby,datecreated,datetimecreated)"
+                        + "values(?,?,?,?,?,?,?,?)";
+
+                pstmt = con.prepareStatement(insertLogin);
+                pstmt.setString(1, vendor.getFname());
+                pstmt.setString(2, vendor.getLname());
+                pstmt.setString(3, vendor.getLname() + " " + vendor.getFname());
+                pstmt.setString(4, vendor.getBpnum());
+                pstmt.setInt(5, 3);
+                pstmt.setInt(6, createdBy);
+                pstmt.setString(7, DateManipulation.dateAlone());
+                pstmt.setString(8, DateManipulation.dateAndTime());
+
+                pstmt.executeUpdate();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+
+            if (!(con == null)) {
+                con.close();
+                con = null;
+            }
+            if (!(pstmt == null)) {
+                pstmt.close();
+                pstmt = null;
+            }
+
+        }
+
     }
 
     public void registerVendor() throws SQLException {
@@ -252,7 +321,8 @@ public class vendor implements Serializable {
 
                         pstmt.executeUpdate();
                         int id = studentIdCheck(con);
-                        addRecipient(id, dat,createdby);
+                        addRecipient(id, dat, createdby);
+                        addLogin(createdby);
                         refresh();
                         setMessangerOfTruth("Vendor created Successfully!!");
                         msg = new FacesMessage(FacesMessage.SEVERITY_INFO, getMessangerOfTruth(), getMessangerOfTruth());

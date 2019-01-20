@@ -8,6 +8,7 @@ package register;
 import com.git.core.Recipient;
 import com.git.dbcon.DateManipulation;
 import com.git.dbcon.DbConnectionX;
+import com.git.getitdone.CategoryModel;
 import com.git.getitdone.LocationModel;
 import com.git.getitdone.SelectOptionMenu;
 import com.git.register.UserDetails;
@@ -36,12 +37,14 @@ public class Item implements Serializable {
     private String bname;
     private String messangerOfTruth;
     private List<LocationModel> listMode;
+    private List<CategoryModel> cat;
     private SelectOptionMenu menu = new SelectOptionMenu();
 
     @PostConstruct
     public void init() {
         try {
             listMode = menu.Location();
+            cat = menu.dropCategory();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -250,6 +253,14 @@ public class Item implements Serializable {
 
     public void setListMode(List<LocationModel> listMode) {
         this.listMode = listMode;
+    }
+
+    public List<CategoryModel> getCat() {
+        return cat;
+    }
+
+    public void setCat(List<CategoryModel> cat) {
+        this.cat = cat;
     }
 
 }

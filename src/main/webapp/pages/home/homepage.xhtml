@@ -15,7 +15,7 @@
         <div class="row">
             <p:outputLabel value="Select Location " for="loc"/>
             <p:selectOneMenu id="loc" class="form-control" value="#{getRequest.locationfk}" required="true" requiredMessage="Location is required">                            
-                <p:ajax listener="#{getRequest.onLocationChange()}" />
+                <p:ajax listener="#{getRequest.onLocationChange()}" update="check" />
                 <f:selectItem itemLabel="--Select Location--" itemValue="" noSelectionOption="true"/>
                 <f:selectItems value="#{getRequest.listMode}"
                                var="singlevalue"  
@@ -26,24 +26,25 @@
         <div class="row">            
             <div class="col-md-12">
 <!--                <p:commandButton action="#{voiceCall.runIt()}" process="@this" value="click me" />-->
-                <p:dataGrid var="items" value="#{drop.mode}" columns="4" layout="grid"
-                            rows="4" paginator="true" id="items" 
-                            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                            rowsPerPageTemplate="6,12,16">
+                <p:panel style="border:none" id="check">
+                    <p:dataGrid var="items" value="#{getRequest.mode}" rendered="#{getRequest.show}" columns="4" layout="grid"
+                                rows="4" paginator="true" id="items" 
+                                paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                rowsPerPageTemplate="6,12,16">
 
-                    <f:facet name="header">
-                        Categories Available
-                    </f:facet>
+                        <f:facet name="header">
+                            Categories Available
+                        </f:facet>
 
 
 
-                    <p:commandLink style="margin-right:20px;" action="#{getRequest.makeVisible(items)}" update=":templateForm:viewOrder" > 
-                        <p:graphicImage value="#{items.imagelink}" style="width: 100px; height: 100px;"/> <br/>   a                               
-                        <p:outputLabel value="#{items.category}" class="card-title text-center" style="color: black;" />                                                
-                    </p:commandLink>
+                        <p:commandLink style="margin-right:20px;" action="#{getRequest.makeVisible(items)}" update=":templateForm:viewOrder" > 
+                            <p:graphicImage value="#{items.imagelink}" style="width: 100px; height: 100px;"/> <br/>   a                               
+                            <p:outputLabel value="#{items.category}" class="card-title text-center" style="color: black;" />                                                
+                        </p:commandLink>
 
-                </p:dataGrid>
-
+                    </p:dataGrid>
+                </p:panel>
             </div>
         </div>
         <div class="row">
