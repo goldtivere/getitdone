@@ -85,7 +85,11 @@ public class Registration implements Serializable {
 
 //takes you back to registration page by making panels true or false
     public String backtoRegister() {
+        setFirstPanel(true);
+        setSecondPanel(false);
+        setThirdPanel(false);
         return "/index.xhtml?faces-redirect=true";
+
     }
 
     //login code
@@ -123,14 +127,13 @@ public class Registration implements Serializable {
                 dto.setFullname(rs.getString("fullname"));
                 dto.setPnum(rs.getString("phonenumber"));
 
-                context.getExternalContext().getSessionMap().put("sessn_nums", getDto());                
+                context.getExternalContext().getSessionMap().put("sessn_nums", getDto());
 
                 NavigationHandler nav = context.getApplication().getNavigationHandler();
 
                 String url_ = "/pages/home/homepage.xhtml?faces-redirect=true";
                 nav.handleNavigation(context, null, url_);
-                context.renderResponse();                 
-                 
+                context.renderResponse();
 
             } else {
 
