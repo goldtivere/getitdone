@@ -18,8 +18,8 @@ import javax.faces.bean.ViewScoped;
  *
  * @author Gold
  */
-@ManagedBean
-@ViewScoped
+//@ManagedBean
+//@ViewScoped
 public class VoiceCall {
 
     public static final String ACCOUNT_SID = "ACb3c3535ba81885b306956b481f6e4ac7";
