@@ -57,15 +57,15 @@
                                     <div class="col-md-9" >                                                                                  
                                         <p:panel visible="#{registration.firstPanel}" id="fpanel" style="border: none;">
                                             <div class="form-group">
-                                                <p:inputText placeholder="First name" style="font-size: 13px;" class="form-control" required="true" value="#{registration.fname}" requiredMessage="First Name is required" id="fname" class="form-control"/>                                          
+                                                <p:inputText placeholder="First name" style="font-size: 13px;"  required="true" value="#{registration.fname}" requiredMessage="First Name is required" id="fname" class="form-control"/>                                          
 
                                             </div>
                                             <div class="form-group">
-                                                <p:inputText placeholder="Last Name" style="font-size: 13px;" class="form-control" id="lname" required="true" value="#{registration.lname}" requiredMessage="Last Name is required" class="form-control"/>
+                                                <p:inputText placeholder="Last Name" style="font-size: 13px;"  id="lname" required="true" value="#{registration.lname}" requiredMessage="Last Name is required" class="form-control"/>
 
                                             </div>
                                             <div class="form-group">
-                                                <p:inputText placeholder="Phone Number" style="font-size: 13px;" class="form-control" id="pnum" size="11" value="#{registration.pnum}" required="true" requiredMessage="Phone number is required" class="form-control"/>
+                                                <p:inputText placeholder="Phone Number" style="font-size: 13px;"  id="pnum" size="11" value="#{registration.pnum}" required="true" requiredMessage="Phone number is required" class="form-control"/>
 
                                             </div>                                                                                  
                                             <div class="g-recaptcha" data-sitekey="6LfCk4wUAAAAABhRrXYg_LlV4a3KHTwlM5ASHeDG"></div>
@@ -74,27 +74,27 @@
                                         <p:panel visible="#{registration.secondPanel}" id="spanel" style="border: none;">
                                             <div class="form-group">
                                                 <p:outputLabel value="Please enter code sent to your number" for="code"/>
-                                                <p:inputText placeholder="Verification code" style="font-size: 13px;" class="form-control" required="true" value="#{registration.verCode}" requiredMessage="Verification code is required" id="code" class="form-control"/>                                          
+                                                <p:inputText placeholder="Verification code" style="font-size: 13px;" required="true" value="#{registration.verCode}" requiredMessage="Verification code is required" id="code" class="form-control"/>                                          
 
                                             </div>
                                             <div class="form-group">
-                                                <p:password placeholder="Enter Password" style="font-size: 13px;" class="form-control" id="pass" match="repass" validatorMessage="Password do not match" required="true" value="#{registration.pwd}" requiredMessage="Pssword is required" class="form-control"/>
+                                                <p:password placeholder="Enter Password" style="font-size: 13px;"  id="pass" match="repass" validatorMessage="Password do not match" required="true" value="#{registration.pwd}" requiredMessage="Pssword is required" class="form-control"/>
 
                                             </div>
                                             <div class="form-group">
-                                                <p:password placeholder="Retype Password" class="form-control"  style="font-size: 13px;" id="repass" required="true" value="#{registration.pwd}" requiredMessage="Password is required" class="form-control"/>
+                                                <p:password placeholder="Retype Password"   style="font-size: 13px;" id="repass" required="true" value="#{registration.pwd}" requiredMessage="Password is required" class="form-control"/>
 
                                             </div>                                            
-                                            <p:commandButton value="Submit" class="btn btn-primary" style="font-size: 13px;" action="#{registration.register()}" process="@this code,repass,pass"/>
+                                            <p:commandButton value="Submit"  style="font-size: 13px;" action="#{registration.register()}" process="@this code,repass,pass"/>
                                         </p:panel>
                                         <p:panel visible="#{registration.thirdPanel}" id="tpanel" style="border: none;">
                                             <div class="form-group">
 
-                                                <p:inputText placeholder="Phone Number" class="form-control" style="font-size: 13px;" required="true" value="#{registration.logUsername}" requiredMessage="Phone number is required" id="phone" class="form-control"/>                                          
+                                                <p:inputText placeholder="Phone Number"  style="font-size: 13px;" required="true" value="#{registration.logUsername}" requiredMessage="Phone number is required" id="phone" class="form-control"/>                                          
 
                                             </div>
                                             <div class="form-group">
-                                                <p:password placeholder="Enter Password" class="form-control" id="password" style="font-size: 13px;" required="true" value="#{registration.logPassword}" requiredMessage="Pssword is required" class="form-control"/>
+                                                <p:password placeholder="Enter Password"  id="password" style="font-size: 13px;" required="true" value="#{registration.logPassword}" requiredMessage="Pssword is required" class="form-control"/>
 
                                             </div>  
 
