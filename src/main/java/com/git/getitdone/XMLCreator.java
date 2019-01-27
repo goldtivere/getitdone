@@ -5,13 +5,21 @@
  */
 package com.git.getitdone;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
+
 /**
  *
  * @author Gold
  */
 public class XMLCreator {
 
-    public void xmlCreate(String content) {
+    public void xmlCreate(String content) throws IOException {
         Element root = new Element("Response");
         Document doc = new Document();
 
