@@ -25,17 +25,18 @@ public class VoiceCall {
     public static final String ACCOUNT_SID = "ACb3c3535ba81885b306956b481f6e4ac7";
     public static final String AUTH_TOKEN = "91697c8e6c4ae3ebc860c618e0e6d8d8";
 
-    public void runIt() throws URISyntaxException {
+    public String runIt(String pnum, String location) throws URISyntaxException {
         Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
 
         String from = "+16267278682";
         //String to = "+2348123757061";
-        String to = "+2348131248746";   
+        String to = pnum;
 
         Call call = Call.creator(new PhoneNumber(to), new PhoneNumber(from),
-                new URI("http://wedeycome.com/doc/voice.xml")).create();
+                new URI(location)).create();
 
         System.out.println(call.getSid() + " sent");
+        return call.getSid();
 
     }
 }

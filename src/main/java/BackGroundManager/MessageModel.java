@@ -16,6 +16,7 @@ public class MessageModel implements Serializable{
     private String phonenumber;
     private String code;
     private String message;
+    private String filename;
 
     public int getId() {
         return id;
@@ -48,6 +49,14 @@ public class MessageModel implements Serializable{
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
     }
     
     

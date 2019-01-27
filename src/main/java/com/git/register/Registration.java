@@ -11,6 +11,7 @@ import com.git.dbcon.AESencrp;
 import com.git.dbcon.DateManipulation;
 import com.git.dbcon.DbConnectionX;
 import com.git.dbcon.LoadPPTfile;
+import com.git.getitdone.XMLCreator;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -323,7 +324,6 @@ public class Registration implements Serializable {
         String[] p = generateRandom().split("(?!^)");
         StringBuilder sdp = new StringBuilder();
 
-        
         for (String n : p) {
             if (n.equalsIgnoreCase("0")) {
                 sdp.append(values()[0]).append(" ");
@@ -358,16 +358,18 @@ public class Registration implements Serializable {
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
+        XMLCreator xmlcr = new XMLCreator();
         con = dbConnections.mySqlDBconnection();
-        LoadPPTfile loadPPT= new LoadPPTfile();
+        LoadPPTfile loadPPT = new LoadPPTfile();
         try {
 
             if (checkIfNumExists()) {
                 context.addMessage(null, new FacesMessage("Phone number aready registered!!"));
             } else if (submit()) {
-                
-                String filename=loadPPT.xmlFolder()+"/"+ generateRandom()+"voice.xml";
-                String verificationMessage=" Your verification code is: "+ wordEquivalent() +". Thank you.";
+                String num = generateRandom() + "voice.xml";
+                String filename = loadPPT.xmlFolder() + "/" + num;
+                String verificationMessage = " Your verification code is: " + wordEquivalent() + ". Thank you.";
+                xmlcr.xmlCreate(verificationMessage, loadPPT.xmlPath() + num);
                 String insertemail = "insert into tbtempregistration (phonenumber,verified,verificationcode,verificatinxml,filename,phoneverified,createdon)"
                         + "values(?,?,?,?,?)";
                 pstmt = con.prepareStatement(insertemail);

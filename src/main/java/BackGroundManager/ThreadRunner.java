@@ -5,13 +5,20 @@
  */
 package BackGroundManager;
 
+import com.git.TransferRequest.VoiceCall;
+import static com.git.TransferRequest.VoiceCall.ACCOUNT_SID;
+import static com.git.TransferRequest.VoiceCall.AUTH_TOKEN;
 import com.git.dbcon.DateManipulation;
 import com.git.dbcon.DbConnectionX;
 import com.git.getitdone.SendSms;
+import com.twilio.Twilio;
+import com.twilio.rest.api.v2010.account.Call;
+import com.twilio.type.PhoneNumber;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -125,17 +132,20 @@ public class ThreadRunner implements Runnable {
 
             while (rs.next()) {
                 MessageModel messageModel = new MessageModel();
-                System.out.println(rs.getString("verificationcode") + "  ok");
-                String value = " Please enter this code " + rs.getString("verificationcode") + " to complete your registration on GetItDone.";
-                _val = value.replace(" ", "%20");
-                _val = _val.replace(",", "%2C");
-                _val = _val.replace(":", "%3A");
-                _val = _val.replace(";", "%3B");
-                _val = _val.replace("'", "%27");
-                _val = _val.replace("(", "%28");
-                _val = _val.replace(")", "%29");
-                _val = _val.replace("#", "%23");
-                messageModel.setPhonenumber(rs.getString("phonenumber"));
+//                System.out.println(rs.getString("verificationcode") + "  ok");
+//                String value = " Please enter this code " + rs.getString("verificationcode") + " to complete your registration on GetItDone.";
+//                _val = value.replace(" ", "%20");
+//                _val = _val.replace(",", "%2C");
+//                _val = _val.replace(":", "%3A");
+//                _val = _val.replace(";", "%3B");
+//                _val = _val.replace("'", "%27");
+//                _val = _val.replace("(", "%28");
+//                _val = _val.replace(")", "%29");
+//                _val = _val.replace("#", "%23");
+                String realVal = rs.getString("phonenumber");
+                messageModel.setPhonenumber("+234" + realVal.substring(1));
+                messageModel.setMessage("verificationXML");
+                messageModel.setFilename("filename");
                 messageModel.setId(rs.getInt("id"));
                 messageModel.setMessage(_val);
 
@@ -195,41 +205,16 @@ public class ThreadRunner implements Runnable {
     public void runValue(List<MessageModel> model) throws NullPointerException, IOException {
         SendSms sms = new SendSms();
         int i = 0;
-
+        VoiceCall call = new VoiceCall();
         try {
 
             for (MessageModel messageModel : model) {
+               String val= call.runIt(messageModel.getPhonenumber(), messageModel.getFilename());
 
-                String val = null;
-                String sessionid = "54abd51e-e240-4e0c-b899-991f08829897";
-                String sender = "DND_BYPASSGetItDone";
-
-                String responseCod = sms.sendMessage(sessionid, messageModel.getMessage(), sender, messageModel.getPhonenumber());
-
-//                if (responseCod.equalsIgnoreCase("-1")) {
-//                    val = "Incorrect / badly formed URL data";
-//                } else if (responseCod.equalsIgnoreCase("-2")) {
-//                    val = "Incorrect username and/or password";
-//                } else if (responseCod.equalsIgnoreCase("-3")) {
-//                    val = "Not enough credit units in user account";
-//                } else if (responseCod.equalsIgnoreCase("-4")) {
-//                    val = "Invalid sender name";
-//                } else if (responseCod.equalsIgnoreCase("-5")) {
-//                    val = "No valid recipient ";
-//                } else if (responseCod.equalsIgnoreCase("-6")) {
-//                    val = "Invalid message length/No message content";
-//                } else if (responseCod.equalsIgnoreCase("-10")) {
-//                    val = "Unknown/Unspecified error";
-//                } else if (responseCod.equalsIgnoreCase("100")) {
-//                    val = "Send successful";
-//                }
-                // in.close(); unremark
-                //System.out.println("God is my Strength:" + i++  );
-                //  System.out.println("The URL:" + gims_url);
-                //doTransaction();
-                updateSmsTable(responseCod, val, messageModel.getPhonenumber(), messageModel.getId());
+                updateSmsTable(val, messageModel.getMessage(), messageModel.getPhonenumber(), messageModel.getId()
+                );
                 System.out.println("ID: " + messageModel.getPhonenumber() + " sent. Message: " + messageModel.getMessage());
-                System.out.println("Present");
+                System.out.println("done");
 
             }
         } catch (Exception e) {
