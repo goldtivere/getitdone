@@ -5,12 +5,15 @@
  */
 package com.git.TransferRequest;
 
+import com.git.dbcon.LoadPPTfile;
 import java.net.URI;
 import java.net.URISyntaxException;
 
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Call;
 import com.twilio.type.PhoneNumber;
+import java.io.File;
+import java.util.Properties;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
@@ -37,6 +40,27 @@ public class VoiceCall {
 
         System.out.println(call.getSid() + " sent");
         return call.getSid();
+
+    }
+
+    public void deleteXML(String filedir) {
+
+        LoadPPTfile loadPPTfile = new LoadPPTfile();
+
+        try {
+
+           
+            //
+            Properties ppt = loadPPTfile.getPptFile();
+            String url = ppt.getProperty("xmlFolder");
+
+            File file = new File(filedir);
+            file.delete();
+           
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
 
     }
 }

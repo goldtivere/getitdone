@@ -367,11 +367,12 @@ public class Registration implements Serializable {
                 context.addMessage(null, new FacesMessage("Phone number aready registered!!"));
             } else if (submit()) {
                 String num = generateRandom() + "voice.xml";
-                String filename = loadPPT.xmlFolder() + "/" + num;
+                String filename = loadPPT.xmlFolder() + num;
+                String xmlPath=loadPPT.xmlPath()+num;
                 String verificationMessage = " Your verification code is: " + wordEquivalent() + ". Thank you.";
                 xmlcr.xmlCreate(verificationMessage, loadPPT.xmlPath() + num);
-                String insertemail = "insert into tbtempregistration (phonenumber,verified,verificationcode,verificatinxml,filename,phoneverified,createdon)"
-                        + "values(?,?,?,?,?)";
+                String insertemail = "insert into tbtempregistration (phonenumber,verified,verificationcode,verificatinxml,filename,phoneverified,createdon,xmlfilename)"
+                        + "values(?,?,?,?,?,?,?,?)";
                 pstmt = con.prepareStatement(insertemail);
 
                 pstmt.setString(1, getPnum());
@@ -381,6 +382,7 @@ public class Registration implements Serializable {
                 pstmt.setString(5, filename);
                 pstmt.setBoolean(6, false);
                 pstmt.setString(7, DateManipulation.dateAndTime());
+                pstmt.setString(8, xmlPath);
                 pstmt.executeUpdate();
 
                 setFirstPanel(false);

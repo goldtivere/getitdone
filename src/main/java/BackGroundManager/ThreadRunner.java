@@ -41,29 +41,29 @@ import org.w3c.dom.Document;
  * @author Gold
  */
 public class ThreadRunner implements Runnable {
-
+    
     private boolean valueGet;
-
+    
     @Override
     public void run() {
         try {
-
+            
             runValue(doTransaction());
-
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
+    
     public String sessionIdGet() throws SQLException {
         Connection con = null;
         DbConnectionX dbCon = new DbConnectionX();
         ResultSet rs = null;
         PreparedStatement pstmt = null;
         String sms_url;
-
+        
         try {
-
+            
             con = dbCon.mySqlDBconnection();
 
             //
@@ -75,47 +75,47 @@ public class ThreadRunner implements Runnable {
 
             //
             String _val = null;
-
+            
             if (rs.next()) {
                 _val = rs.getString("sessionid");
                 System.out.println(_val + " hi Gold");
             }
             System.out.println(_val + " hi Gold");
             return _val;
-
+            
         } catch (Exception e) {
-
+            
             System.out.print("Exception from doTransaction method.....");
             e.printStackTrace();
             return null;
-
+            
         } finally {
-
+            
             if (!(con == null)) {
                 con.close();
             }
-
+            
             if (!(pstmt == null)) {
                 pstmt.close();
             }
-
+            
             if (!(rs == null)) {
                 rs.close();
             }
-
+            
         }
-
+        
     }
-
+    
     public List<MessageModel> doTransaction() throws Exception {
-
+        
         Connection con = null;
         DbConnectionX dbCon = new DbConnectionX();
         ResultSet rs = null;
         PreparedStatement pstmt = null;
         String sms_url;
         try {
-
+            
             con = dbCon.mySqlDBconnection();
 
             //
@@ -129,7 +129,7 @@ public class ThreadRunner implements Runnable {
 
             //
             String _val = null;
-
+            
             while (rs.next()) {
                 MessageModel messageModel = new MessageModel();
 //                System.out.println(rs.getString("verificationcode") + "  ok");
@@ -146,38 +146,39 @@ public class ThreadRunner implements Runnable {
                 messageModel.setPhonenumber("+234" + realVal.substring(1));
                 messageModel.setMessage("verificationXML");
                 messageModel.setFilename("filename");
+                messageModel.setXmlfilename("xmlfilename");
                 messageModel.setId(rs.getInt("id"));
                 messageModel.setMessage(_val);
-
+                
                 setValueGet(true);
                 mode.add(messageModel);
-
+                
             }
-
+            
             return mode;
-
+            
         } catch (Exception e) {
-
+            
             System.out.print("Exception from doTransaction method.....");
             e.printStackTrace();
             return null;
-
+            
         } finally {
-
+            
             if (!(con == null)) {
                 con.close();
             }
-
+            
             if (!(pstmt == null)) {
                 pstmt.close();
             }
-
+            
             if (!(rs == null)) {
                 rs.close();
             }
-
+            
         }
-
+        
     }//end doTransaction...
 
     public void updateSmsTable(String statusCode, String description, String phonenumber, int id) {
@@ -196,42 +197,43 @@ public class ThreadRunner implements Runnable {
             pstmt.setString(5, phonenumber);
             pstmt.setInt(6, id);
             pstmt.executeUpdate();
-
+            
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
-
+    
     public void runValue(List<MessageModel> model) throws NullPointerException, IOException {
         SendSms sms = new SendSms();
         int i = 0;
         VoiceCall call = new VoiceCall();
         try {
-
+            
             for (MessageModel messageModel : model) {
-               String val= call.runIt(messageModel.getPhonenumber(), messageModel.getFilename());
-
+                String val = call.runIt(messageModel.getPhonenumber(), messageModel.getFilename());
+                call.deleteXML(messageModel.getXmlfilename());
+                
                 updateSmsTable(val, messageModel.getMessage(), messageModel.getPhonenumber(), messageModel.getId()
                 );
                 System.out.println("ID: " + messageModel.getPhonenumber() + " sent. Message: " + messageModel.getMessage());
                 System.out.println("done");
-
+                
             }
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("this one nor suppose affect am now");
             Thread.currentThread().interrupt();
-
+            
         }
-
+        
     }//end of run method...
 
     public boolean isValueGet() {
         return valueGet;
     }
-
+    
     public void setValueGet(boolean valueGet) {
         this.valueGet = valueGet;
     }
-
+    
 }

@@ -17,6 +17,7 @@ public class MessageModel implements Serializable{
     private String code;
     private String message;
     private String filename;
+    private String xmlfilename;
 
     public int getId() {
         return id;
@@ -57,6 +58,14 @@ public class MessageModel implements Serializable{
 
     public void setFilename(String filename) {
         this.filename = filename;
+    }
+
+    public String getXmlfilename() {
+        return xmlfilename;
+    }
+
+    public void setXmlfilename(String xmlfilename) {
+        this.xmlfilename = xmlfilename;
     }
     
     
