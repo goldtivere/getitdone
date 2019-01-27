@@ -310,6 +310,47 @@ public class Registration implements Serializable {
         return String.valueOf(a);
     }
 
+    //returns array string of word equivalent
+    public static String[] values() {
+        String values[] = {"Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"};
+        return values;
+
+    }
+
+    // returns word equivalent of code generated
+    public String wordEquivalent() {
+        String[] p = generateRandom().split("(?!^)");
+        StringBuilder sdp = new StringBuilder();
+
+        
+        for (String n : p) {
+            if (n.equalsIgnoreCase("0")) {
+                sdp.append(values()[0]).append(" ");
+            } else if (n.equalsIgnoreCase("1")) {
+                sdp.append(values()[1]).append(" ");
+            } else if (n.equalsIgnoreCase("2")) {
+                sdp.append(values()[2]).append(" ");
+            } else if (n.equalsIgnoreCase("3")) {
+                sdp.append(values()[3]).append(" ");
+            } else if (n.equalsIgnoreCase("4")) {
+                sdp.append(values()[4]).append(" ");
+            } else if (n.equalsIgnoreCase("5")) {
+                sdp.append(values()[5]).append(" ");
+            } else if (n.equalsIgnoreCase("6")) {
+                sdp.append(values()[6]).append(" ");
+            } else if (n.equalsIgnoreCase("7")) {
+                sdp.append(values()[7]).append(" ");
+            } else if (n.equalsIgnoreCase("8")) {
+                sdp.append(values()[8]).append(" ");
+            } else if (n.equalsIgnoreCase("9")) {
+                sdp.append(values()[9]).append(" ");
+            }
+
+            System.out.println(n + " Hippee");
+        }
+        return sdp.toString();
+    }
+
     public void nextPage() {
         FacesContext context = FacesContext.getCurrentInstance();
         DbConnectionX dbConnections = new DbConnectionX();
@@ -322,6 +363,7 @@ public class Registration implements Serializable {
             if (checkIfNumExists()) {
                 context.addMessage(null, new FacesMessage("Phone number aready registered!!"));
             } else if (submit()) {
+                String verificationMessage=" Your verification code is: "+ wordEquivalent() +". Thank you.";
                 String insertemail = "insert into tbtempregistration (phonenumber,verified,verificationcode,phoneverified,createdon)"
                         + "values(?,?,?,?,?)";
                 pstmt = con.prepareStatement(insertemail);
