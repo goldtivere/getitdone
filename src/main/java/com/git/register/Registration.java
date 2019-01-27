@@ -10,6 +10,7 @@ import com.git.core.ApiConnection;
 import com.git.dbcon.AESencrp;
 import com.git.dbcon.DateManipulation;
 import com.git.dbcon.DbConnectionX;
+import com.git.dbcon.LoadPPTfile;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -358,21 +359,26 @@ public class Registration implements Serializable {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         con = dbConnections.mySqlDBconnection();
+        LoadPPTfile loadPPT= new LoadPPTfile();
         try {
 
             if (checkIfNumExists()) {
                 context.addMessage(null, new FacesMessage("Phone number aready registered!!"));
             } else if (submit()) {
+                
+                String filename=loadPPT.xmlFolder()+"/"+ generateRandom()+"voice.xml";
                 String verificationMessage=" Your verification code is: "+ wordEquivalent() +". Thank you.";
-                String insertemail = "insert into tbtempregistration (phonenumber,verified,verificationcode,phoneverified,createdon)"
+                String insertemail = "insert into tbtempregistration (phonenumber,verified,verificationcode,verificatinxml,filename,phoneverified,createdon)"
                         + "values(?,?,?,?,?)";
                 pstmt = con.prepareStatement(insertemail);
 
                 pstmt.setString(1, getPnum());
                 pstmt.setBoolean(2, false);
                 pstmt.setString(3, generateRandom());
-                pstmt.setBoolean(4, false);
-                pstmt.setString(5, DateManipulation.dateAndTime());
+                pstmt.setString(4, verificationMessage);
+                pstmt.setString(5, filename);
+                pstmt.setBoolean(6, false);
+                pstmt.setString(7, DateManipulation.dateAndTime());
                 pstmt.executeUpdate();
 
                 setFirstPanel(false);

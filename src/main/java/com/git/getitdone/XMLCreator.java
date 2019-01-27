@@ -19,7 +19,7 @@ import org.jdom2.output.XMLOutputter;
  */
 public class XMLCreator {
 
-    public void xmlCreate(String content) throws IOException {
+    public void xmlCreate(String content,String fileName) throws IOException {
         Element root = new Element("Response");
         Document doc = new Document();
 
@@ -33,7 +33,7 @@ public class XMLCreator {
 
         XMLOutputter outter = new XMLOutputter();
         outter.setFormat(Format.getPrettyFormat());
-        outter.output(doc, new FileWriter(new File("c:/myxml.xml")));
+        outter.output(doc, new FileWriter(new File(fileName)));
         System.out.println("Done");
     }
 }

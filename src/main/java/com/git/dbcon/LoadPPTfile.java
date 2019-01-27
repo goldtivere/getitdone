@@ -72,6 +72,20 @@ public class LoadPPTfile implements Serializable {
         }
     }
     
+     public String xmlFolder() {
+        Properties prop = new Properties();
+        try {
+            //System.out.println("test");
+            prop.load(new FileInputStream(System.getProperty("user.home") + "/mydb.cfg"));
+            //System.out.println("user.home: " + System.getProperty("user.home"));        
+            String path = prop.getProperty("xmlFolder").toString();
+            return path;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+    
     public String[] phoneNumbers() {
         Properties prop = new Properties();
         try {
