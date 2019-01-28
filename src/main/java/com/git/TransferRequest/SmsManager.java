@@ -15,8 +15,7 @@ import com.twilio.type.PhoneNumber;
  */
 public class SmsManager implements Runnable {
 
-    public static final String ACCOUNT_SID = "ACb3c3535ba81885b306956b481f6e4ac7";
-    public static final String AUTH_TOKEN = "91697c8e6c4ae3ebc860c618e0e6d8d8";
+   
 
     @Override
     public void run() {
