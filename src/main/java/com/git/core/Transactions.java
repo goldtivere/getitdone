@@ -215,6 +215,16 @@ public class Transactions {
 
         return this.apiConnection.connectAndQuery(apiQuery);
     }
+    
+    public JSONObject chargeCaptcha(String response, String valueString) {
+        this.apiConnection = new ApiConnection(Definitions.PAYSTACK_TRANSACTIONS_CHARGE_TOKEN);
+        ApiQuery apiQuery = new ApiQuery();
+
+        apiQuery.putParams("secret", valueString);
+        apiQuery.putParams("response", response);       
+
+        return this.apiConnection.connectAndQuery(apiQuery);
+    }
 
     /**
      * Used to export transactions

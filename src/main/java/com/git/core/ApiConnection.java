@@ -36,8 +36,8 @@ public class ApiConnection {
         Keys keys = new Keys();
 
         try {
-            keys.initKeys();           
-            
+            keys.initKeys();
+
         } catch (FileNotFoundException e) {
             System.out.print("Required Keys.json file could not be found.");
             e.printStackTrace();
@@ -47,7 +47,7 @@ public class ApiConnection {
         this.enforceTlsV1point2();
     }
 
-       private void enforceTlsV1point2() {
+    private void enforceTlsV1point2() {
         try {
             SSLContext sslContext = SSLContexts.custom()
                     .useTLS()
@@ -80,6 +80,19 @@ public class ApiConnection {
             HttpResponse<JsonNode> queryForResponse = Unirest.post(url)
                     .header("Accept", "application/json")
                     .header("Authorization", "Bearer " + apiKey)
+                    .fields(query.getParams())
+                    .asJson();
+            return queryForResponse.getBody().getObject();
+        } catch (UnirestException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public JSONObject connectCaptcha(ApiQuery query) {
+        try {
+            HttpResponse<JsonNode> queryForResponse = Unirest.post(url)
+                    .header("Accept", "application/json")
                     .fields(query.getParams())
                     .asJson();
             return queryForResponse.getBody().getObject();

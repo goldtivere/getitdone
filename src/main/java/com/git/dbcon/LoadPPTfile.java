@@ -71,6 +71,7 @@ public class LoadPPTfile implements Serializable {
             return null;
         }
     }
+        
 
     public String xmlFolder() {
         Properties prop = new Properties();
@@ -78,7 +79,7 @@ public class LoadPPTfile implements Serializable {
             //System.out.println("test");
             prop.load(new FileInputStream(System.getProperty("user.home") + "/mydb.cfg"));
             //System.out.println("user.home: " + System.getProperty("user.home"));        
-            String path = prop.getProperty("xmlFolder").toString();
+            String path = prop.getProperty("siteSecret").toString();
             return path;
         } catch (Exception ex) {
             ex.printStackTrace();
