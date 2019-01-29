@@ -89,9 +89,9 @@ public class ApiConnection {
         return null;
     }
 
-    public JSONObject connectCaptcha(ApiQuery query) {
+    public JSONObject connectCaptcha(ApiQuery query , String uUrl) {
         try {
-            HttpResponse<JsonNode> queryForResponse = Unirest.post(url)
+            HttpResponse<JsonNode> queryForResponse = Unirest.post(uUrl)
                     .header("Accept", "application/json")
                     .fields(query.getParams())
                     .asJson();

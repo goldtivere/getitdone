@@ -216,14 +216,14 @@ public class Transactions {
         return this.apiConnection.connectAndQuery(apiQuery);
     }
     
-    public JSONObject chargeCaptcha(String response, String valueString) {
+    public JSONObject chargeCaptcha(String response, String valueString, String url) {
         this.apiConnection = new ApiConnection(Definitions.PAYSTACK_TRANSACTIONS_CHARGE_TOKEN);
         ApiQuery apiQuery = new ApiQuery();
 
         apiQuery.putParams("secret", valueString);
         apiQuery.putParams("response", response);       
 
-        return this.apiConnection.connectAndQuery(apiQuery);
+        return this.apiConnection.connectCaptcha(apiQuery,url);
     }
 
     /**

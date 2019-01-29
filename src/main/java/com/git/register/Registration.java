@@ -7,6 +7,7 @@ package com.git.register;
 
 import BackGroundManager.MessageModel;
 import com.git.core.ApiConnection;
+import com.git.core.Transactions;
 import com.git.dbcon.AESencrp;
 import com.git.dbcon.DateManipulation;
 import com.git.dbcon.DbConnectionX;
@@ -27,6 +28,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpSession;
+import org.json.JSONObject;
 
 /**
  *
@@ -67,11 +69,15 @@ public class Registration implements Serializable {
 
     public boolean submit() {
         try {
-
+            Transactions trxn = new Transactions();
+            LoadPPTfile loadfile= new LoadPPTfile();
             String gRecap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("g-recaptcha-response");
             boolean verify = VerifyRecaptcha.verify(gRecap);
-
-            if (verify) {
+            System.out.println(recap+ "  "  + loadfile.siteSecret());
+            JSONObject bn=trxn.chargeCaptcha(gRecap,loadfile.siteSecret(),"https://www.google.com/recaptcha/api/siteverify");
+            System.out.println(bn);
+            boolean a=bn.getBoolean("success");
+            if (a) {
                 System.out.println("I got here");
                 return true;
             } else {
@@ -366,28 +372,29 @@ public class Registration implements Serializable {
             if (checkIfNumExists()) {
                 context.addMessage(null, new FacesMessage("Phone number aready registered!!"));
             } else if (submit()) {
-                String num = generateRandom() + "voice.xml";
-                String filename = loadPPT.xmlFolder() + num;
-                String xmlPath = loadPPT.xmlPath() + num;
-                String verificationMessage = " Your verification code is: " + wordEquivalent() + ". Thank you.";
-                xmlcr.xmlCreate(verificationMessage, loadPPT.xmlPath() + num);
-                String insertemail = "insert into tbtempregistration (phonenumber,verified,verificationcode,verificatinxml,filename,phoneverified,createdon,xmlfilename)"
-                        + "values(?,?,?,?,?,?,?,?)";
-                pstmt = con.prepareStatement(insertemail);
-
-                pstmt.setString(1, getPnum());
-                pstmt.setBoolean(2, false);
-                pstmt.setString(3, generateRandom());
-                pstmt.setString(4, verificationMessage);
-                pstmt.setString(5, filename);
-                pstmt.setBoolean(6, false);
-                pstmt.setString(7, DateManipulation.dateAndTime());
-                pstmt.setString(8, xmlPath);
-                pstmt.executeUpdate();
-
-                setFirstPanel(false);
-                setSecondPanel(true);
-                System.out.println("This is it: " + generateRandom());
+                System.out.println("Hello Gold");
+//                String num = generateRandom() + "voice.xml";
+//                String filename = loadPPT.xmlFolder() + num;
+//                String xmlPath = loadPPT.xmlPath() + num;
+//                String verificationMessage = " Your verification code is: " + wordEquivalent() + ". Thank you.";
+//                xmlcr.xmlCreate(verificationMessage, loadPPT.xmlPath() + num);
+//                String insertemail = "insert into tbtempregistration (phonenumber,verified,verificationcode,verificatinxml,filename,phoneverified,createdon,xmlfilename)"
+//                        + "values(?,?,?,?,?,?,?,?)";
+//                pstmt = con.prepareStatement(insertemail);
+//
+//                pstmt.setString(1, getPnum());
+//                pstmt.setBoolean(2, false);
+//                pstmt.setString(3, generateRandom());
+//                pstmt.setString(4, verificationMessage);
+//                pstmt.setString(5, filename);
+//                pstmt.setBoolean(6, false);
+//                pstmt.setString(7, DateManipulation.dateAndTime());
+//                pstmt.setString(8, xmlPath);
+//                pstmt.executeUpdate();
+//
+//                setFirstPanel(false);
+//                setSecondPanel(true);
+//                System.out.println("This is it: " + generateRandom());
             } else {
                 context.addMessage(null, new FacesMessage("Something went wrong!!"));
             }
