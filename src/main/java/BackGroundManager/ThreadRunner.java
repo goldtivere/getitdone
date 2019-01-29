@@ -219,7 +219,7 @@ public class ThreadRunner implements Runnable {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("this one nor suppose affect am now");
+            //System.out.println("this one nor suppose affect am now");
             Thread.currentThread().interrupt();
             
         }
