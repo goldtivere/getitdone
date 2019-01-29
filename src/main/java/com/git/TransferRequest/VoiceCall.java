@@ -25,12 +25,12 @@ import javax.faces.bean.ViewScoped;
 //@ViewScoped
 public class VoiceCall {
 
- 
+    private final LoadPPTfile loadFile = new LoadPPTfile();
 
     public String runIt(String pnum, String location) throws URISyntaxException {
-        Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+        Twilio.init(loadFile.authString(), loadFile.authToken());
 
-        String from = "+16267278682";
+        String from = loadFile.from();
         //String to = "+2348123757061";
         String to = pnum;
 
@@ -48,14 +48,12 @@ public class VoiceCall {
 
         try {
 
-           
             //
             Properties ppt = loadPPTfile.getPptFile();
             String url = ppt.getProperty("xmlFolder");
 
             File file = new File(filedir);
             file.delete();
-           
 
         } catch (Exception ex) {
             ex.printStackTrace();

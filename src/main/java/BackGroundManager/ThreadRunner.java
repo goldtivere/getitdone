@@ -6,8 +6,6 @@
 package BackGroundManager;
 
 import com.git.TransferRequest.VoiceCall;
-import static com.git.TransferRequest.VoiceCall.ACCOUNT_SID;
-import static com.git.TransferRequest.VoiceCall.AUTH_TOKEN;
 import com.git.dbcon.DateManipulation;
 import com.git.dbcon.DbConnectionX;
 import com.git.getitdone.SendSms;

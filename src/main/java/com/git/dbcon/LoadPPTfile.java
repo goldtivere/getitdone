@@ -18,10 +18,10 @@ import java.util.Properties;
  * @date: 2016-07-31
  */
 public class LoadPPTfile implements Serializable {
-    
+
     private Properties pptFile;
     private String messangerOfTruth;
-    
+
     public String ImagePath() {
         Properties prop = new Properties();
         try {
@@ -39,7 +39,7 @@ public class LoadPPTfile implements Serializable {
             return null;
         }
     }
-    
+
     public String SitePath() {
         Properties prop = new Properties();
         try {
@@ -57,7 +57,7 @@ public class LoadPPTfile implements Serializable {
             return null;
         }
     }
-    
+
     public String callback() {
         Properties prop = new Properties();
         try {
@@ -71,8 +71,8 @@ public class LoadPPTfile implements Serializable {
             return null;
         }
     }
-    
-     public String xmlFolder() {
+
+    public String xmlFolder() {
         Properties prop = new Properties();
         try {
             //System.out.println("test");
@@ -85,20 +85,63 @@ public class LoadPPTfile implements Serializable {
             return null;
         }
     }
-      public String xmlPath() {
+
+    public String authString() {
         Properties prop = new Properties();
         try {
             //System.out.println("test");
             prop.load(new FileInputStream(System.getProperty("user.home") + "/mydb.cfg"));
             //System.out.println("user.home: " + System.getProperty("user.home"));        
-            String path = prop.getProperty("pathXML").toString();
+            String path = prop.getProperty("accountSid").toString();
             return path;
         } catch (Exception ex) {
             ex.printStackTrace();
             return null;
         }
     }
-    
+
+    public String authToken() {
+        Properties prop = new Properties();
+        try {
+            //System.out.println("test");
+            prop.load(new FileInputStream(System.getProperty("user.home") + "/mydb.cfg"));
+            //System.out.println("user.home: " + System.getProperty("user.home"));        
+            String path = prop.getProperty("authToken").toString();
+            return path;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+    public String authToken() {
+        Properties prop = new Properties();
+        try {
+            //System.out.println("test");
+            prop.load(new FileInputStream(System.getProperty("user.home") + "/mydb.cfg"));
+            //System.out.println("user.home: " + System.getProperty("user.home"));        
+            String path = prop.getProperty("authToken").toString();
+            return path;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+    public String from() {
+        Properties prop = new Properties();
+        try {
+            //System.out.println("test");
+            prop.load(new FileInputStream(System.getProperty("user.home") + "/mydb.cfg"));
+            //System.out.println("user.home: " + System.getProperty("user.home"));        
+            String path = prop.getProperty("from").toString();
+            return path;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
     public String[] phoneNumbers() {
         Properties prop = new Properties();
         try {
@@ -112,7 +155,7 @@ public class LoadPPTfile implements Serializable {
             return null;
         }
     }
-    
+
     public String transactionConfirm() {
         Properties prop = new Properties();
         try {
@@ -126,40 +169,40 @@ public class LoadPPTfile implements Serializable {
             return null;
         }
     }
-    
+
     public boolean isLoadPPtFile() throws Exception {
 
         //
         InputStream inp = null;
         String resource_file = "/opt/tomcat/webapps/images/";
         Properties dPPT = null;
-        
+
         try {
-            
+
             dPPT = new Properties();
             dPPT.load(new FileInputStream(System.getProperty("user.home") + "/mydb.cfg"));
             inp = getClass().getClassLoader().getResourceAsStream(resource_file);
             dPPT.load(inp);
-            
+
             setPptFile(dPPT);
-            
+
             return true;
-            
+
         } catch (Exception ex) {
-            
+
             setPptFile(null);
             ex.printStackTrace();
             setMessangerOfTruth(ex.getMessage());
-            
+
             return false;
-            
+
         } finally {
-            
+
             if (!(inp == null)) {
                 inp.close();
             }
         }
-        
+
     }//end isLoadPPtFile()
 
     /**
@@ -189,5 +232,5 @@ public class LoadPPTfile implements Serializable {
     public void setMessangerOfTruth(String messangerOfTruth) {
         this.messangerOfTruth = messangerOfTruth;
     }
-    
+
 }
