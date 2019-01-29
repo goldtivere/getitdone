@@ -21,21 +21,21 @@ public class SmsManager implements Runnable {
     public void run() {
         try {
 
-            smsManage();
+            //smsManage();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void smsManage() {
-        Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
-        Message message = Message.creator(
-                new com.twilio.type.PhoneNumber("+2348131248746"),
-                new com.twilio.type.PhoneNumber("+16267278682"),
-                "Your message")
-                .create();
-
-        System.out.println(message.getSid() + " big head");
-    }
+//    public void smsManage() {
+//        Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+//        Message message = Message.creator(
+//                new com.twilio.type.PhoneNumber("+2348131248746"),
+//                new com.twilio.type.PhoneNumber("+16267278682"),
+//                "Your message")
+//                .create();
+//
+//        System.out.println(message.getSid() + " big head");
+//    }
 }
