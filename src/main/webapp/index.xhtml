@@ -22,7 +22,7 @@
         <link href='https://fonts.googleapis.com/css?family=Sofia' rel='stylesheet' />
         <!--        <link href="css/style.css" rel="stylesheet" type="text/css"/>-->
         <h:outputStylesheet name="main/css/style_1.css" />  
-        <script src="https://www.google.com/recaptcha/api.js"></script>
+        <script src='https://www.google.com/recaptcha/api.js'></script>        
     </h:head>
     <h:body>
         <h:form>
@@ -68,7 +68,7 @@
                                                 <p:inputText placeholder="Phone Number" style="font-size: 13px;"  id="pnum" size="11" value="#{registration.pnum}" required="true" requiredMessage="Phone number is required" class="form-control"/>
 
                                             </div>                                                                                  
-                                            <div class="g-recaptcha" data-sitekey="6LdJqI0UAAAAADwZazNCWH8v7j_m1ywHJPo2L3Nq"></div>
+                                            <div class="g-recaptcha" data-sitekey="6LcIpI0UAAAAADRoZEoDkyt87QiSWrDW71sggUQv"></div>
                                             <p:commandButton class="btn btn-primary btnRegister"  style="font-size: 13px;" actionListener="#{registration.nextPage()}" process="@this fname,lname,pnum" update="fpanel,spanel,msg" value="Next"/>                                        
                                         </p:panel>
                                         <p:panel visible="#{registration.secondPanel}" id="spanel" style="border: none;">
