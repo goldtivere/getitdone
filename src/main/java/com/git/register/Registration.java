@@ -462,6 +462,7 @@ public class Registration implements Serializable {
             pstmt.setString(3, DateManipulation.dateAndTime());
 
             pstmt.executeUpdate();
+            System.out.println("done boy");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -529,6 +530,7 @@ public class Registration implements Serializable {
             rs = pstmt.executeQuery();
 
             if (rs.next()) {
+                 userIpPopulate();
                 dto.setId(rs.getInt("id"));
                 dto.setFname(rs.getString("firstname"));
                 dto.setLname(rs.getString("lastname"));
@@ -542,7 +544,7 @@ public class Registration implements Serializable {
                 String url_ = "/pages/home/homepage.xhtml?faces-redirect=true";
                 nav.handleNavigation(context, null, url_);
                 context.renderResponse();
-                userIpPopulate();
+               
             } else {
 
                 context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Invalid login details", "Invalid login details"));
