@@ -377,6 +377,7 @@ public class Registration implements Serializable {
                 String filename = loadPPT.xmlFolder() + num;
                 String xmlPath = loadPPT.xmlPath() + num;
                 String verificationMessage = " Your verification code is: " + wordEquivalent() + ". Thank you.";
+                System.out.println(loadPPT.xmlPath() + num + " done***");
                 xmlcr.xmlCreate(verificationMessage, loadPPT.xmlPath() + num);
                 String insertemail = "insert into tbtempregistration (phonenumber,verified,verificationcode,verificationxml,filename,phoneverified,createdon,xmlfilename)"
                         + "values(?,?,?,?,?,?,?,?)";

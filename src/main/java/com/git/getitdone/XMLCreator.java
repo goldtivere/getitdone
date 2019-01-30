@@ -34,6 +34,7 @@ public class XMLCreator {
         XMLOutputter outter = new XMLOutputter();
         outter.setFormat(Format.getPrettyFormat());
         outter.output(doc, new FileWriter(new File(fileName)));
+          System.out.println(content + " done***  "+ fileName);
         System.out.println("Done");
     }
 }
