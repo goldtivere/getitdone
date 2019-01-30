@@ -72,7 +72,7 @@ public class Registration implements Serializable {
             Transactions trxn = new Transactions();
             LoadPPTfile loadfile= new LoadPPTfile();
             String gRecap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("g-recaptcha-response");
-            boolean verify = VerifyRecaptcha.verify(gRecap);
+            //boolean verify = VerifyRecaptcha.verify(gRecap);
             System.out.println(gRecap+ "  "  + loadfile.siteSecret());
             JSONObject bn=trxn.chargeCaptcha(gRecap,loadfile.siteSecret(),"https://www.google.com/recaptcha/api/siteverify");
             System.out.println(bn);
