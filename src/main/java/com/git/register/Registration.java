@@ -326,8 +326,8 @@ public class Registration implements Serializable {
     }
 
     // returns word equivalent of code generated
-    public String wordEquivalent() {
-        String[] p = generateRandom().split("(?!^)");
+    public String wordEquivalent(String random) {
+        String[] p = random.split("(?!^)");
         StringBuilder sdp = new StringBuilder();
 
         for (String n : p) {
@@ -373,10 +373,11 @@ public class Registration implements Serializable {
                 context.addMessage(null, new FacesMessage("Phone number aready registered!!"));
             } else if (submit()) {
                 System.out.println("Hello Gold");
-                String num = generateRandom() + "voice.xml";
+                String lum=generateRandom();
+                String num = lum + "voice.xml";
                 String filename = loadPPT.xmlFolder() + num;
                 String xmlPath = loadPPT.xmlPath() + num;
-                String verificationMessage = " Your verification code is: " + wordEquivalent() + ". Thank you.";
+                String verificationMessage = " Your verification code is: " + wordEquivalent(lum) + ". Thank you.";
                 System.out.println(loadPPT.xmlPath() + num + " done***");
                 xmlcr.xmlCreate(verificationMessage, loadPPT.xmlPath() + num);
                 String insertemail = "insert into tbtempregistration (phonenumber,verified,verificationcode,verificationxml,filename,phoneverified,createdon,xmlfilename)"
