@@ -33,7 +33,7 @@ public class VoiceCall {
         String from = loadFile.from();
         //String to = "+2348123757061";
         String to = pnum;
-
+        System.out.println(pnum + " sent   " + location);
         Call call = Call.creator(new PhoneNumber(to), new PhoneNumber(from),
                 new URI(location)).create();
 
