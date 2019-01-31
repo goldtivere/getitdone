@@ -42,12 +42,11 @@ public class filter implements Filter {
 
             if (ses != null && ses.getAttribute("sessn_nums") != null) {
                 UserDetails l = (UserDetails) ses.getAttribute("sessn_nums");
-                if (l.getRole() == 2 && (
-                        reqURI.contains("faces/pages/service/") || reqURI.contains("faces/pages/register/") || reqURI.contains("faces/pages/confirmPayment/"))) {
+                if (l.getRole() == 2 && (reqURI.contains("faces/pages/service/") || reqURI.contains("faces/pages/register/") || reqURI.contains("faces/pages/confirmPayment/"))) {
                     resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
                 }
-                
-                 if (l.getRole() == 3 && ( reqURI.contains("faces/pages/service/") || reqURI.contains("faces/pages/register/") || reqURI.contains("faces/pages/confirmPayment/"))) {
+
+                if (l.getRole() == 3 && (reqURI.contains("faces/pages/service/") || reqURI.contains("faces/pages/register/") || reqURI.contains("faces/pages/confirmPayment/"))) {
                     resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
                 }
 
@@ -74,9 +73,14 @@ public class filter implements Filter {
 //                if (l.getRoleAssigned() == 2 && !l.isCanViewProfile() && (reqURI.contains("faces/pages/profile/") || reqURI.contains("faces/pages/report/"))) {
 //                    resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
 //                }
-
             }
-            
+
+            if (reqURI.contains("/faces/index.xhtml") || (ses != null && ses.getAttribute("sessn_nums") != null) || reqURI.contains("javax.faces.resource")) {
+                chain.doFilter(request, response);
+            } else {
+                resp.sendRedirect(reqt.getContextPath() + "/faces/index.xhtml");
+            }
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
