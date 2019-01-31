@@ -73,7 +73,7 @@
                                         </p:panel>
                                         <p:panel visible="#{registration.secondPanel}" id="spanel" style="border: none;">
                                             <div class="form-group">
-                                                <p:outputLabel value="Please enter code sent to your number" for="code"/>
+                                                <p:outputLabel value="Please enter code from the call to your number" for="code"/>
                                                 <p:inputText placeholder="Verification code" style="font-size: 13px;" required="true" value="#{registration.verCode}" requiredMessage="Verification code is required" id="code" class="form-control"/>                                          
 
                                             </div>
@@ -85,7 +85,7 @@
                                                 <p:password placeholder="Retype Password"   style="font-size: 13px;" id="repass" required="true" value="#{registration.pwd}" requiredMessage="Password is required" class="form-control"/>
 
                                             </div>                                            
-                                            <p:commandButton value="Submit" class="btn btn-primary"  style="font-size: 13px;" action="#{registration.register()}" process="@this code,repass,pass"/>
+                                            <p:commandButton value="Submit" class="btn btn-primary"  style="font-size: 13px;" action="#{registration.register()}" update="msg" process="@this code,repass,pass"/>
                                         </p:panel>
                                         <p:panel visible="#{registration.thirdPanel}" id="tpanel" style="border: none;">
                                             <div class="form-group">

@@ -50,7 +50,7 @@ public class VoiceCall {
 
             //
             Properties ppt = loadPPTfile.getPptFile();
-            String url = ppt.getProperty("xmlFolder");
+            String url = ppt.getProperty("pathXML");
 
             File file = new File(filedir);
             file.delete();
