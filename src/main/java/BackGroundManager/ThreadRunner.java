@@ -119,7 +119,7 @@ public class ThreadRunner implements Runnable {
             //
             List<MessageModel> mode = new ArrayList<>();
             String querySMSDetails = "select * from tbtempregistration "
-                    + "where verified=false and iscalled=false";
+                    + "where verified=false";
             //
             pstmt = con.prepareStatement(querySMSDetails);
             rs = pstmt.executeQuery();
@@ -140,6 +140,7 @@ public class ThreadRunner implements Runnable {
 //                _val = _val.replace(")", "%29");
 //                _val = _val.replace("#", "%23");
                 String realVal = rs.getString("phonenumber");
+                messageModel.setRpnum(rs.getString("phonenumber"));
                 messageModel.setPhonenumber("+234" + realVal.substring(1));
                 messageModel.setMessage(rs.getString("verificationXML"));
                 messageModel.setFilename(rs.getString("filename"));
@@ -200,24 +201,24 @@ public class ThreadRunner implements Runnable {
         }
     }
 
-    public void updateTab(String phonenumber, int id) {
-        DbConnectionX dbConnections = new DbConnectionX();
-        Connection con = null;
-        ResultSet rs = null;
-        PreparedStatement pstmt = null;
-        try {
-            con = dbConnections.mySqlDBconnection();
-            String updateSmsTable = "update tbtempregistration set iscalled=? where phonenumber=? and id=?";
-            pstmt = con.prepareStatement(updateSmsTable);
-            pstmt.setBoolean(1, true);
-            pstmt.setString(2, phonenumber);
-            pstmt.setInt(3, id);
-            pstmt.executeUpdate();
-            System.out.println(phonenumber + "  *** " + id);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
+//    public void updateTab(String phonenumber, int id) {
+//        DbConnectionX dbConnections = new DbConnectionX();
+//        Connection con = null;
+//        ResultSet rs = null;
+//        PreparedStatement pstmt = null;
+//        try {
+//            con = dbConnections.mySqlDBconnection();
+//            String updateSmsTable = "update tbtempregistration set iscalled=? where phonenumber=? and id=?";
+//            pstmt = con.prepareStatement(updateSmsTable);
+//            pstmt.setBoolean(1, true);
+//            pstmt.setString(2, phonenumber);
+//            pstmt.setInt(3, id);
+//            pstmt.executeUpdate();
+//            System.out.println(phonenumber + "  *** " + id);
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//        }
+//    }
 
     public void runValue(List<MessageModel> model) throws NullPointerException, IOException {
         SendSms sms = new SendSms();
@@ -227,10 +228,10 @@ public class ThreadRunner implements Runnable {
 
             for (MessageModel messageModel : model) {
                 String val = call.runIt(messageModel.getPhonenumber(), messageModel.getFilename());
-                updateTab(messageModel.getPhonenumber(), messageModel.getId());
+//                updateTab(messageModel.getRpnum(), messageModel.getId());
                 call.deleteXML(messageModel.getXmlfilename());
 
-                updateSmsTable(val, messageModel.getMessage(), messageModel.getPhonenumber(), messageModel.getId());
+                updateSmsTable(val, messageModel.getMessage(), messageModel.getRpnum(), messageModel.getId());
                 System.out.println("ID: " + messageModel.getPhonenumber() + " sent. Message: " + messageModel.getMessage());
                 System.out.println("done");
 
