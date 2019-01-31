@@ -44,13 +44,8 @@ public class VoiceCall {
 
     public void deleteXML(String filedir) {
 
-        LoadPPTfile loadPPTfile = new LoadPPTfile();
 
         try {
-
-            //
-            Properties ppt = loadPPTfile.getPptFile();
-            String url = ppt.getProperty("pathXML");
 
             File file = new File(filedir);
             file.delete();

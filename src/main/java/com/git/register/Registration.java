@@ -443,7 +443,7 @@ public class Registration implements Serializable {
 
                 pstmt.setString(1, getPnum());
                 pstmt.setBoolean(2, false);
-                pstmt.setString(3, generateRandom());
+                pstmt.setString(3, lum);
                 pstmt.setString(4, verificationMessage);
                 pstmt.setString(5, filename);
                 pstmt.setBoolean(6, false);
