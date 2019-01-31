@@ -142,9 +142,9 @@ public class ThreadRunner implements Runnable {
 //                _val = _val.replace("#", "%23");
                 String realVal = rs.getString("phonenumber");
                 messageModel.setPhonenumber("+234" + realVal.substring(1));
-                messageModel.setMessage("verificationXML");
-                messageModel.setFilename("filename");
-                messageModel.setXmlfilename("xmlfilename");
+                messageModel.setMessage(rs.getString("verificationXML"));
+                messageModel.setFilename(rs.getString("filename"));
+                messageModel.setXmlfilename(rs.getString("xmlfilename"));
                 messageModel.setId(rs.getInt("id"));
                 messageModel.setMessage(_val);
                 
