@@ -100,27 +100,27 @@ public class Registration implements Serializable {
         return ipAddress;
     }
 
-    public void userIpPopulate() {
-        DbConnectionX dbConnections = new DbConnectionX();
-        Connection con = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        try {
-            con = dbConnections.mySqlDBconnection();
-            String insert = "insert into tbusertable (userip,dateloggedin,dateloggedtime)"
-                    + "values(?,?,?)";
-            pstmt = con.prepareStatement(insert);
-
-            pstmt.setString(1, userIp());
-            pstmt.setString(2, DateManipulation.dateAlone());
-            pstmt.setString(3, DateManipulation.dateAndTime());
-
-            pstmt.executeUpdate();
-            System.out.println("done boy");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    public void userIpPopulate() {
+//        DbConnectionX dbConnections = new DbConnectionX();
+//        Connection con = null;
+//        PreparedStatement pstmt = null;
+//        ResultSet rs = null;
+//        try {
+//            con = dbConnections.mySqlDBconnection();
+//            String insert = "insert into tbusertable (userip,dateloggedin,dateloggedtime)"
+//                    + "values(?,?,?)";
+//            pstmt = con.prepareStatement(insert);
+//
+//            pstmt.setString(1, userIp());
+//            pstmt.setString(2, DateManipulation.dateAlone());
+//            pstmt.setString(3, DateManipulation.dateAndTime());
+//
+//            pstmt.executeUpdate();
+//            System.out.println("done boy");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     public boolean submit() {
         try {
@@ -184,12 +184,13 @@ public class Registration implements Serializable {
             rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                 userIpPopulate();
+                 //userIpPopulate();
                 dto.setId(rs.getInt("id"));
                 dto.setFname(rs.getString("firstname"));
                 dto.setLname(rs.getString("lastname"));
                 dto.setFullname(rs.getString("fullname"));
                 dto.setPnum(rs.getString("phonenumber"));
+                dto.setRole(rs.getInt("userrole"));
 
                 context.getExternalContext().getSessionMap().put("sessn_nums", getDto());
 

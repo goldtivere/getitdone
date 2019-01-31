@@ -17,6 +17,7 @@ public class UserDetails implements Serializable{
     private String lname;
     private String fullname;
     private String pnum;
+    private int role;
 
     public int getId() {
         return id;
@@ -57,6 +58,14 @@ public class UserDetails implements Serializable{
 
     public void setPnum(String pnum) {
         this.pnum = pnum;
+    }
+
+    public int getRole() {
+        return role;
+    }
+
+    public void setRole(int role) {
+        this.role = role;
     }
     
     
