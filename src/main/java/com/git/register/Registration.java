@@ -389,25 +389,25 @@ public class Registration implements Serializable {
 
         for (String n : p) {
             if (n.equalsIgnoreCase("0")) {
-                sdp.append(values()[0]).append(" ");
+                sdp.append(values()[0]).append(", ");
             } else if (n.equalsIgnoreCase("1")) {
-                sdp.append(values()[1]).append(" ");
+                sdp.append(values()[1]).append(", ");
             } else if (n.equalsIgnoreCase("2")) {
-                sdp.append(values()[2]).append(" ");
+                sdp.append(values()[2]).append(", ");
             } else if (n.equalsIgnoreCase("3")) {
-                sdp.append(values()[3]).append(" ");
+                sdp.append(values()[3]).append(", ");
             } else if (n.equalsIgnoreCase("4")) {
-                sdp.append(values()[4]).append(" ");
+                sdp.append(values()[4]).append(", ");
             } else if (n.equalsIgnoreCase("5")) {
-                sdp.append(values()[5]).append(" ");
+                sdp.append(values()[5]).append(", ");
             } else if (n.equalsIgnoreCase("6")) {
-                sdp.append(values()[6]).append(" ");
+                sdp.append(values()[6]).append(", ");
             } else if (n.equalsIgnoreCase("7")) {
-                sdp.append(values()[7]).append(" ");
+                sdp.append(values()[7]).append(", ");
             } else if (n.equalsIgnoreCase("8")) {
-                sdp.append(values()[8]).append(" ");
+                sdp.append(values()[8]).append(", ");
             } else if (n.equalsIgnoreCase("9")) {
-                sdp.append(values()[9]).append(" ");
+                sdp.append(values()[9]).append(", ");
             }
 
             System.out.println(n + " Hippee");
@@ -434,11 +434,11 @@ public class Registration implements Serializable {
                 String num = lum + "voice.xml";
                 String filename = loadPPT.xmlFolder() + num;
                 String xmlPath = loadPPT.xmlPath() + num;
-                String verificationMessage = " Your verification code is: " + wordEquivalent(lum) + ". Thank you.";
+                String verificationMessage = " Your verification code is: " + wordEquivalent(lum) + ". Your verification code is: " + wordEquivalent(lum) + ". Thank you.";
                 System.out.println(loadPPT.xmlPath() + num + " done***");
                 xmlcr.xmlCreate(verificationMessage, loadPPT.xmlPath() + num);
-                String insertemail = "insert into tbtempregistration (phonenumber,verified,verificationcode,verificationxml,filename,phoneverified,createdon,xmlfilename)"
-                        + "values(?,?,?,?,?,?,?,?)";
+                String insertemail = "insert into tbtempregistration (phonenumber,verified,verificationcode,verificationxml,filename,phoneverified,createdon,xmlfilename,iscalled)"
+                        + "values(?,?,?,?,?,?,?,?,?)";
                 pstmt = con.prepareStatement(insertemail);
 
                 pstmt.setString(1, getPnum());
@@ -449,6 +449,7 @@ public class Registration implements Serializable {
                 pstmt.setBoolean(6, false);
                 pstmt.setString(7, DateManipulation.dateAndTime());
                 pstmt.setString(8, xmlPath);
+                pstmt.setBoolean(9, false);
                 pstmt.executeUpdate();
 
                 setFirstPanel(false);
