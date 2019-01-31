@@ -121,7 +121,7 @@ public class ThreadRunner implements Runnable {
             String querySMSDetails = "select * from tbtempregistration "
                     + "where verified=false and iscalled=false";
             //
-            pstmt = con.prepareStatement(querySMSDetails);            
+            pstmt = con.prepareStatement(querySMSDetails);
             rs = pstmt.executeQuery();
 
             //
@@ -213,7 +213,7 @@ public class ThreadRunner implements Runnable {
             pstmt.setString(2, phonenumber);
             pstmt.setInt(3, id);
             pstmt.executeUpdate();
-
+            System.out.println(phonenumber + "  *** " + id);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -230,7 +230,7 @@ public class ThreadRunner implements Runnable {
                 updateTab(messageModel.getPhonenumber(), messageModel.getId());
                 call.deleteXML(messageModel.getXmlfilename());
 
-                updateSmsTable(val, messageModel.getMessage(), messageModel.getPhonenumber(), messageModel.getId() );
+                updateSmsTable(val, messageModel.getMessage(), messageModel.getPhonenumber(), messageModel.getId());
                 System.out.println("ID: " + messageModel.getPhonenumber() + " sent. Message: " + messageModel.getMessage());
                 System.out.println("done");
 
