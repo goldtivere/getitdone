@@ -331,8 +331,8 @@ public class Registration implements Serializable {
 
             String pass = AESencrp.encrypt(getPwd());
             if (checkIfVerExists()) {
-                String insert = "insert into tbregistration (firstname,lastname,fullname,phonenumber,password,datecreated,isdeleted)"
-                        + "values(?,?,?,?,?,?,?)";
+                String insert = "insert into tbregistration (firstname,lastname,fullname,phonenumber,password,datecreated,isdeleted,userrole)"
+                        + "values(?,?,?,?,?,?,?,?)";
                 pstmt = con.prepareStatement(insert);
 
                 pstmt.setString(1, getFname());
@@ -342,6 +342,7 @@ public class Registration implements Serializable {
                 pstmt.setString(5, pass);
                 pstmt.setString(6, DateManipulation.dateAndTime());
                 pstmt.setBoolean(7, false);
+                pstmt.setInt(8, 3);
                 pstmt.executeUpdate();
 
                 String update = "update tbtempregistration set phoneverified=? where phonenumber=? and verificationcode=? order by createdon desc limit 1";
