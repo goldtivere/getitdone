@@ -78,7 +78,7 @@ public class filter implements Filter {
 
             if (reqURI.contains("/faces/index.xhtml") || (ses != null && ses.getAttribute("sessn_nums") != null) || reqURI.contains("javax.faces.resource")) {
                 chain.doFilter(request, response);
-            } else if (reqURI.contains("/faces/success/success.xhtml")) {
+            } else if (reqURI.contains("/faces/pages/success/success.xhtml")) {
                 chain.doFilter(request, response);
             } else {
                 resp.sendRedirect(reqt.getContextPath() + "/faces/index.xhtml");
