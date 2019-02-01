@@ -355,7 +355,7 @@ public class Registration implements Serializable {
 
                 NavigationHandler nav = context.getApplication().getNavigationHandler();
 
-                String url_ = "/pages/success/index.xhtml?faces-redirect=true";
+                String url_ = "/pages/success/success.xhtml?faces-redirect=true";
                 nav.handleNavigation(context, null, url_);
                 context.renderResponse();
 
