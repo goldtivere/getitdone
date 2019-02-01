@@ -25,7 +25,10 @@
                 <img src="../../images/success.png" alt="" style="height: 100px; width: 100px;"/>                
                 <br/>
                 <h2>Registration Successful!!</h2>
-                  <p:commandLink style="font-size: 12px;" value="Back To Registration Page" action="#{registration.backtoRegister()}"/>
+                <h:outputLink style="font-size: 12px;"  value="#{request.contextPath}/faces/index.xhtml">
+                    Back To Registration Page
+                </h:outputLink>
+
             </div>
         </div>
 
