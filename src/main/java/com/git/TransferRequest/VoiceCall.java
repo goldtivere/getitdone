@@ -32,12 +32,10 @@ public class VoiceCall {
 
         String from = loadFile.from();
         //String to = "+2348123757061";
-        String to = pnum;
-        System.out.println(pnum + " sent   " + location);
+        String to = pnum;        
         Call call = Call.creator(new PhoneNumber(to), new PhoneNumber(from),
                 new URI(location)).create();
-
-        System.out.println(call.getSid() + " sent");
+        
         return call.getSid();
 
     }

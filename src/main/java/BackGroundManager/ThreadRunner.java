@@ -76,14 +76,14 @@ public class ThreadRunner implements Runnable {
 
             if (rs.next()) {
                 _val = rs.getString("sessionid");
-                System.out.println(_val + " hi Gold");
+               // System.out.println(_val + " hi Gold");
             }
-            System.out.println(_val + " hi Gold");
+           // System.out.println(_val + " hi Gold");
             return _val;
 
         } catch (Exception e) {
 
-            System.out.print("Exception from doTransaction method.....");
+            //System.out.print("Exception from doTransaction method.....");
             e.printStackTrace();
             return null;
 
@@ -157,7 +157,7 @@ public class ThreadRunner implements Runnable {
 
         } catch (Exception e) {
 
-            System.out.print("Exception from doTransaction method.....");
+            //System.out.print("Exception from doTransaction method.....");
             e.printStackTrace();
             return null;
 
@@ -219,6 +219,7 @@ public class ThreadRunner implements Runnable {
 //            ex.printStackTrace();
 //        }
 //    }
+
     public void runValue(List<MessageModel> model) throws NullPointerException, IOException {
         SendSms sms = new SendSms();
         int i = 0;
@@ -228,11 +229,11 @@ public class ThreadRunner implements Runnable {
             for (MessageModel messageModel : model) {
                 String val = call.runIt(messageModel.getPhonenumber(), messageModel.getFilename());
 //                updateTab(messageModel.getRpnum(), messageModel.getId());
+               // call.deleteXML(messageModel.getXmlfilename());
 
                 updateSmsTable(val, messageModel.getMessage(), messageModel.getRpnum(), messageModel.getId());
-                System.out.println("ID: " + messageModel.getPhonenumber() + " sent. Message: " + messageModel.getMessage());
-                System.out.println("done");
-                call.deleteXML(messageModel.getXmlfilename());
+//                System.out.println("ID: " + messageModel.getPhonenumber() + " sent. Message: " + messageModel.getMessage());
+//                System.out.println("done");
 
             }
         } catch (Exception e) {

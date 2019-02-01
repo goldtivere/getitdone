@@ -48,7 +48,7 @@ public class ConfirmPaystackPayment implements Runnable {
             return dbval;
         } catch (Exception e) {
 
-            System.out.print("Exception from doTransaction method.....");
+           // System.out.print("Exception from doTransaction method.....");
             e.printStackTrace();
             return null;
 
@@ -129,7 +129,7 @@ public class ConfirmPaystackPayment implements Runnable {
             pstmt.setString(9, confirm.getData().getCreatedAt());
             pstmt.setString(10, DateManipulation.dateAndTime());
             pstmt.executeUpdate();
-            System.out.println("the eye big: ");
+           // System.out.println("the eye big: ");
         } catch (Exception e) {
             e.printStackTrace();
 

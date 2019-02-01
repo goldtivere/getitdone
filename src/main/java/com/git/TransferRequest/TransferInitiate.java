@@ -84,7 +84,7 @@ public class TransferInitiate implements Runnable {
 
         } catch (Exception e) {
 
-            System.out.print("Exception from doTransaction method.....");
+            //System.out.print("Exception from doTransaction method.....");
             e.printStackTrace();
             return null;
 
@@ -145,7 +145,7 @@ public class TransferInitiate implements Runnable {
 
         } catch (Exception e) {
 
-            System.out.print("Exception from doTransaction method.....");
+            //System.out.print("Exception from doTransaction method.....");
             e.printStackTrace();
             return null;
 
@@ -224,7 +224,7 @@ public class TransferInitiate implements Runnable {
     public void sendToAdmin(String sessionid, Smsmodel sms, String vals) throws ProtocolException, MalformedURLException, IOException {
         SendSms smss = new SendSms();
         String val = null;
-        System.out.println("hello boy " + vals);
+       // System.out.println("hello boy " + vals);
         String sender = "DND_BYPASSGetItDone";
         String respond = smss.sendMessage(sessionid, sms.getVendorMessage(), sender, vals);
     }
@@ -243,9 +243,9 @@ public class TransferInitiate implements Runnable {
                     JSONObject bn = trans.initializeTranfer(sms.Balance, "Fund transfer for service delivered", amount, sms.getRecipientCode());
                     ObjectMapper mapp = new ObjectMapper();
                     InitiateTransfer initial = mapp.readValue(bn.toString(), InitiateTransfer.class);
-                    System.out.println(bn+ " hello"+ amount);
+                    //System.out.println(bn+ " hello"+ amount);
                     if (initial.getStatus().equalsIgnoreCase("successful") || initial.getStatus().equalsIgnoreCase("Accepted")) {
-                        System.out.println(amount + "  " + sms.getRecipientCode() + " " + sms.Balance + " * * * * * * *" + bn);
+                        //System.out.println(amount + "  " + sms.getRecipientCode() + " " + sms.Balance + " * * * * * * *" + bn);
                         sms.setAmount(amount);
                         updateTransfer(sms, initial);
                         updatePayment(sms);
