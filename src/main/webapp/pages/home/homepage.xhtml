@@ -55,7 +55,9 @@
                         <p:commandButton type="button" value="More" icon="pi pi-chevron-circle-down"/>
                     </f:facet>
                     <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
+                        <div class="card">
                         <p:graphicImage name="images/lctWater/water.png" height="100" width="100" class="img img-responsive" />                             
+                       <div class="card-body">
                         <p:outputPanel class="pull-left" style="margin-right: 600px; font-size: 15px;">                                
                             <h:panelGrid columns="1"  cellpadding="5">                                    
                                 <span style="font-weight: bold;"> <h:outputText value="#{req.corporatename}" style="font-weight: bold;" ></h:outputText></span>                                    
@@ -66,6 +68,8 @@
 
                             </h:panelGrid>
                         </p:outputPanel>
+                        </div>
+                        </div>
                     </h:panelGrid>
                     <h:outputText class="pull-right" value="Status: #{req.requestStat}"  style="color: #007fff;"/><br/>                                        
                     <p:selectBooleanCheckbox value="#{req.select}" rendered="#{req.edit}" class="pull-right" label="Ajax">

@@ -25,6 +25,7 @@ public class RequestModel implements Serializable{
     private boolean edit;
     private double finalSum;
     private boolean trxnpaid;
+    private int quan;
 
     public int getVendorfk() {
         return vendorfk;
@@ -128,6 +129,14 @@ public class RequestModel implements Serializable{
 
     public void setTrxnpaid(boolean trxnpaid) {
         this.trxnpaid = trxnpaid;
+    }
+
+    public int getQuan() {
+        return quan;
+    }
+
+    public void setQuan(int quan) {
+        this.quan = quan;
     }
      
     

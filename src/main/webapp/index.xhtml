@@ -24,7 +24,7 @@
         <h:outputStylesheet name="main/css/style_1.css" />  
         <script src='https://www.google.com/recaptcha/api.js'></script>        
     </h:head>
-    <h:body>
+    <h:body style="background-image: url('resources/main/images/3.jpg')" >
         <h:form>
             <p:growl showDetail="true" id="msg"/>
 
@@ -55,7 +55,7 @@
                                 <div class="row register-form">
                                     <h4>Register and start making requests</h4>
                                     <div class="col-md-9" >                                                                                  
-                                        <p:panel visible="#{registration.firstPanel}" id="fpanel" style="border: none;">
+                                        <p:panel visible="#{registration.firstPanel}" id="fpanel" style="border: none; background: none;">
                                             <div class="form-group">
                                                 <p:inputText placeholder="First name" style="font-size: 13px;"  required="true" value="#{registration.fname}" requiredMessage="First Name is required" id="fname" class="form-control"/>                                          
 
