@@ -71,7 +71,7 @@
                                             <div class="g-recaptcha" data-sitekey="6LcIpI0UAAAAADRoZEoDkyt87QiSWrDW71sggUQv"></div>
                                             <p:commandButton class="btn btn-primary btnRegister"  style="font-size: 13px;" actionListener="#{registration.nextPage()}" process="@this fname,lname,pnum" update="fpanel,spanel,msg" value="Next"/>                                        
                                         </p:panel>
-                                        <p:panel visible="#{registration.secondPanel}" id="spanel" style="border: none;">
+                                        <p:panel visible="#{registration.secondPanel}" id="spanel" style="border: none; background: none;">
                                             <div class="form-group">
                                                 <p:outputLabel value="Please enter code from the call to your number" for="code"/>
                                                 <p:inputText placeholder="Verification code" style="font-size: 13px;" required="true" value="#{registration.verCode}" requiredMessage="Verification code is required" id="code" class="form-control"/>                                          
@@ -87,7 +87,7 @@
                                             </div>                                            
                                             <p:commandButton value="Submit" class="btn btn-primary"  style="font-size: 13px;" action="#{registration.register()}" update="msg" process="@this code,repass,pass"/>
                                         </p:panel>
-                                        <p:panel visible="#{registration.thirdPanel}" id="tpanel" style="border: none;">
+                                        <p:panel visible="#{registration.thirdPanel}" id="tpanel" style="border: none; background: none;">
                                             <div class="form-group">
 
                                                 <p:inputText placeholder="Phone Number"  style="font-size: 13px;" required="true" value="#{registration.logUsername}" requiredMessage="Phone number is required" id="phone" class="form-control"/>                                          
