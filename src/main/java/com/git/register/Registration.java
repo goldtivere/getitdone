@@ -70,6 +70,7 @@ public class Registration implements Serializable {
     private String verCode;
     private String pwd;
     private UserDetails dto = new UserDetails();
+    private boolean menuStatus;
 
     @PostConstruct
     public void init() {
@@ -88,7 +89,7 @@ public class Registration implements Serializable {
         setSecondPanel(false);
     }
 
-    public static String userIp(HttpServletRequest request) {       
+    public static String userIp(HttpServletRequest request) {
         String ipAddress = "";
 
         if (request != null) {
@@ -121,7 +122,6 @@ public class Registration implements Serializable {
 //            e.printStackTrace();
 //        }
 //    }
-
     public boolean submit() {
         try {
             Transactions trxn = new Transactions();
@@ -184,13 +184,19 @@ public class Registration implements Serializable {
             rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                 //userIpPopulate();
+                //userIpPopulate();
                 dto.setId(rs.getInt("id"));
                 dto.setFname(rs.getString("firstname"));
                 dto.setLname(rs.getString("lastname"));
                 dto.setFullname(rs.getString("fullname"));
                 dto.setPnum(rs.getString("phonenumber"));
                 dto.setRole(rs.getInt("userrole"));
+
+                if (dto.getRole() != 1) {
+                    setMenuStatus(false);
+                } else if (dto.getRole() == 1) {
+                    setMenuStatus(true);
+                }
 
                 context.getExternalContext().getSessionMap().put("sessn_nums", getDto());
 
@@ -199,7 +205,7 @@ public class Registration implements Serializable {
                 String url_ = "/pages/home/homepage.xhtml?faces-redirect=true";
                 nav.handleNavigation(context, null, url_);
                 context.renderResponse();
-               
+
             } else {
 
                 context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Invalid login details", "Invalid login details"));
@@ -464,41 +470,40 @@ public class Registration implements Serializable {
         }
     }
 
-    public void testResult() {
-        Connection conn = null;
-
-        String url = "jdbc:mysql://localhost:3306/bookings";
-        //String dbName = "bookings";
-        Statement stmt = null;
-        ResultSet rs = null;
-        PreparedStatement pstmt;
-        String driver = "com.mysql.jdbc.Driver";
-        String databaseUserName = "root";
-        String databasePassword = "Caroline93*";
-        try {
-            Class.forName(driver);
-            conn = DriverManager.getConnection(url, databaseUserName, "Caroline93*");
-            System.out.println("this " + conn);
-
-            String querySMSDetails = "select * from tbtempregistration "
-                    + "where verified=?";
-            //
-            pstmt = conn.prepareStatement(querySMSDetails);
-            pstmt.setBoolean(1, false);
-            rs = pstmt.executeQuery();
-
-            //
-            String _val = null;
-
-            while (rs.next()) {
-                System.out.println(rs.getString("verificationcode") + "  ok");
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
+//    public void testResult() {
+//        Connection conn = null;
+//
+//        String url = "jdbc:mysql://localhost:3306/bookings";
+//        //String dbName = "bookings";
+//        Statement stmt = null;
+//        ResultSet rs = null;
+//        PreparedStatement pstmt;
+//        String driver = "com.mysql.jdbc.Driver";
+//        String databaseUserName = "root";
+//        String databasePassword = "Caroline93*";
+//        try {
+//            Class.forName(driver);
+//            conn = DriverManager.getConnection(url, databaseUserName, "Caroline93*");
+//            System.out.println("this " + conn);
+//
+//            String querySMSDetails = "select * from tbtempregistration "
+//                    + "where verified=?";
+//            //
+//            pstmt = conn.prepareStatement(querySMSDetails);
+//            pstmt.setBoolean(1, false);
+//            rs = pstmt.executeQuery();
+//
+//            //
+//            String _val = null;
+//
+//            while (rs.next()) {
+//                System.out.println(rs.getString("verificationcode") + "  ok");
+//            }
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
     public boolean isFirstPanel() {
         return firstPanel;
     }
@@ -585,6 +590,14 @@ public class Registration implements Serializable {
 
     public void setDto(UserDetails dto) {
         this.dto = dto;
+    }
+
+    public boolean isMenuStatus() {
+        return menuStatus;
+    }
+
+    public void setMenuStatus(boolean menuStatus) {
+        this.menuStatus = menuStatus;
     }
 
 }

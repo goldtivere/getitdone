@@ -43,7 +43,7 @@
 
                             </li>
                             <li>
-                            <h:outputLink value="#{request.contextPath}/faces/pages/home/homepage.xhtml">
+                            <h:outputLink  value="#{request.contextPath}/faces/pages/home/homepage.xhtml">
                                 <i class="fa fa-home"></i> <span class="nav-label">Cart</span>
                             </h:outputLink>                                                             
                             </li>
@@ -54,17 +54,17 @@
                             </h:outputLink>                             
                             </li>
                             <li>  
-                            <h:outputLink  value="#{request.contextPath}/faces/pages/register/item.xhtml">
+                            <h:outputLink rendered="#{registration.menuStatus}"  value="#{request.contextPath}/faces/pages/register/item.xhtml">
                                 <i class="fa fa-user-plus"></i> <span class="nav-label">Add Item</span>
                             </h:outputLink>                             
                             </li> 
                             <li>  
-                            <h:outputLink  value="#{request.contextPath}/faces/pages/register/vendor.xhtml">
+                            <h:outputLink rendered="#{registration.menuStatus}"  value="#{request.contextPath}/faces/pages/register/vendor.xhtml">
                                 <i class="fa fa-user-plus"></i> <span class="nav-label">Add Vendor</span>
                             </h:outputLink>                             
                             </li> 
                             <li>  
-                            <h:outputLink  value="#{request.contextPath}/faces/pages/service/service.xhtml">
+                            <h:outputLink rendered="#{registration.menuStatus}"   value="#{request.contextPath}/faces/pages/service/service.xhtml">
                                 <i class="fa fa-android"></i> <span class="nav-label">Add Service</span>
                             </h:outputLink>                             
                             </li> 
