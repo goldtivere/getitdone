@@ -225,7 +225,7 @@ public class vendor implements Serializable {
                 msg = new FacesMessage(FacesMessage.SEVERITY_INFO, getMessangerOfTruth(), getMessangerOfTruth());
                 context.addMessage(null, msg);
             } else {
-                String insertLogin = "insert into tbregistration (firstname,lastname,fullname,phonenumber,role,createdby,datecreated,datetimecreated)"
+                String insertLogin = "insert into tbregistration (firstname,lastname,fullname,phonenumber,userrole,createdby,datecreated,datetimecreated)"
                         + "values(?,?,?,?,?,?,?,?)";
 
                 pstmt = con.prepareStatement(insertLogin);
@@ -233,7 +233,7 @@ public class vendor implements Serializable {
                 pstmt.setString(2, vendor.getLname());
                 pstmt.setString(3, vendor.getLname() + " " + vendor.getFname());
                 pstmt.setString(4, vendor.getBpnum());
-                pstmt.setInt(5, 3);
+                pstmt.setInt(5, 2);
                 pstmt.setInt(6, createdBy);
                 pstmt.setString(7, DateManipulation.dateAlone());
                 pstmt.setString(8, DateManipulation.dateAndTime());

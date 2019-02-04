@@ -67,11 +67,65 @@ public class ViewTransactions implements Serializable {
             con = dbConnections.mySqlDBconnection();
             String query = "select p.*,t.datecreated as created,t.userfk,v.*,vi.* from tbpayment p inner join tbtransaction t on p.trxnreference=t.reference "
                     + " inner join tbvendor v on p.vendorfk=v.id inner join tbvendoritem vi "
-                    + " on p.vendorfk=vi.vendorfk where p.ispaid=? and p.trxncompleted=? and t.userfk=?";
+                    + " on p.vendorfk=vi.vendorfk where p.ispaid=? and p.trxncompleted=? and t.userfk=? ";
             pstmt = con.prepareStatement(query);
             pstmt.setBoolean(1, trxnSent);
             pstmt.setBoolean(2, trxnpaid);
             pstmt.setInt(3, userfk);
+            rs = pstmt.executeQuery();
+            List<TrxnModel> model = new ArrayList<>();
+            //
+            while (rs.next()) {
+                TrxnModel mode = new TrxnModel();
+                mode.setId(rs.getInt("id"));
+                mode.setVendorfk(rs.getInt("vendorfk"));
+                mode.setRef(rs.getString("trxnreference"));
+                mode.setVendorName(rs.getString("corporatename"));
+                mode.setAmount(rs.getDouble("amount"));
+                mode.setPercent(rs.getDouble("agentpercentage"));
+                mode.setDatecompleted(rs.getDate("created"));
+                mode.setDatedelivered(rs.getDate("datetrxncompleted"));
+
+                model.add(mode);
+            }
+            return model;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+
+        } finally {
+
+            if (!(con == null)) {
+                con.close();
+                con = null;
+            }
+            if (!(pstmt == null)) {
+                pstmt.close();
+                pstmt = null;
+            }
+
+        }
+    }
+
+    public List<TrxnModel> viewTrxnVendor(boolean trxnSent, boolean trxnpaid, int vendorfk) throws SQLException {
+        FacesContext context = FacesContext.getCurrentInstance();
+
+        DbConnectionX dbConnections = new DbConnectionX();
+        Connection con = null;
+        ResultSet rs = null;
+        PreparedStatement pstmt = null;
+
+        try {
+
+            con = dbConnections.mySqlDBconnection();
+            String query = "select p.*,t.datecreated as created,t.userfk,v.*,vi.* from tbpayment p inner join tbtransaction t on p.trxnreference=t.reference "
+                    + " inner join tbvendor v on p.vendorfk=v.id inner join tbvendoritem vi "
+                    + " on p.vendorfk=vi.vendorfk where p.ispaid=? and p.trxncompleted=? and p.vendorfk=? ";
+            pstmt = con.prepareStatement(query);
+            pstmt.setBoolean(1, trxnSent);
+            pstmt.setBoolean(2, trxnpaid);
+            pstmt.setInt(3, vendorfk);
             rs = pstmt.executeQuery();
             List<TrxnModel> model = new ArrayList<>();
             //
@@ -126,10 +180,18 @@ public class ViewTransactions implements Serializable {
                 setStatus("Completed Transaction(s)");
                 setCheckStatus(false);
                 trxn = viewTrxn(true, true, userObj.getId());
-            } else if (getValueStatus() == 2) {
+            } else if (getValueStatus() == 2 && userObj.getRole() == 3) {
+                setStatus("Pending Transaction(s)");
+                setCheckStatus(false);
+                trxn = viewTrxn(true, false, userObj.getId());
+            } else if (getValueStatus() == 2 && userObj.getRole() == 3) {
                 setStatus("Pending Transaction(s)");
                 setCheckStatus(true);
-                trxn = viewTrxn(true, false, userObj.getId());
+                trxn = viewTrxnVendor(true, false, userObj.getId());
+            } else if (getValueStatus() == 2 && userObj.getRole() ==1) {
+                setStatus("Pending Transaction(s)");
+                setCheckStatus(true);
+                trxn = viewTrxnVendor(true, false, userObj.getId());
             }
         }
     }
@@ -160,7 +222,7 @@ public class ViewTransactions implements Serializable {
 
                     pstmt = con.prepareStatement(updateTrxn);
                     for (TrxnModel ta : selectedtrxn) {
-                        pstmt.setBoolean(1, true);                        
+                        pstmt.setBoolean(1, true);
                         pstmt.setString(2, DateManipulation.dateAndTime());
                         pstmt.setString(3, ta.getRef());
                         pstmt.setInt(4, ta.getId());
