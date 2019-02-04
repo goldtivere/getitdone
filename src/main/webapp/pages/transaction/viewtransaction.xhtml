@@ -37,7 +37,7 @@
                         <f:facet name="header">
                             <p:outputLabel value="#{viewTransactions.status}" />
                         </f:facet>
-                        <p:column selectionMode="multiple" visible="#{viewTransactions.checkStatus}" style="width:30px;text-align:center"/>
+                        <p:column selectionMode="multiple" visible="#{registration.menuStatus}" rendered="#{viewTransactions.checkStatus}" style="width:30px;text-align:center"/>
                         <p:column headerText="Payment Reference" >
                             <h:outputText value="#{itema.ref}" />
                         </p:column>  
@@ -53,7 +53,7 @@
                         <p:column headerText="Date Delivered" >
                             <h:outputText value="#{itema.datedelivered}" />
                         </p:column> 
-                        <f:facet name="footer">
+                        <f:facet name="footer" rendered="#{registration.menuStatus}">
                             <p:commandButton value="Confirm Delivery" update=":templateForm:messages,itema" rendered="#{viewTransactions.checkStatus}" process="@this itema" actionListener="#{viewTransactions.confirmDelivery()}"  >
                                 <p:confirm header="Confirm Delivery" message="Are you sure service has been delivered?" icon="ui-icon-alert" />
                             </p:commandButton>
