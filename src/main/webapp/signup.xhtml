@@ -46,11 +46,11 @@
                             <p:inputText placeholder="Phone Number" style="font-size: 13px;"  id="pnum" size="11" value="#{registration.pnum}" required="true" requiredMessage="Phone number is required" class="form-control"/>
                         </div>  
 
-                        <div class="g-recaptcha" data-sitekey="6LcIpI0UAAAAADRoZEoDkyt87QiSWrDW71sggUQv"></div>
+<!--                        <div class="g-recaptcha" data-sitekey="6LcIpI0UAAAAADRoZEoDkyt87QiSWrDW71sggUQv"></div>-->
 
                         <div class="input-group">
                                                           
-                            <p:commandButton value="Next" class="btn btn-primary btn-link btn-wd btn-lg" style="font-size: 12px;" action="#{registration.nextPage()}" process="@this fname,lname,pnum" update="fpanel,spanel,msg"/>                        
+                            <p:commandButton value="Next" class="btn btn-primary btn-link btn-wd btn-lg" style="font-size: 12px;" actionListener="#{registration.nextPage()}" process="@this fname,lname,pnum" update="fpanel,spanel,msg"/>                        
 
                         </div>  
                     </div>
@@ -62,7 +62,7 @@
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">
-                                    <i class="material-icons">profile</i>
+                                    <i class="material-icons">perm_identity</i>
                                 </span>
                             </div>
 
