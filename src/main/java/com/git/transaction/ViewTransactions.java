@@ -73,7 +73,7 @@ public class ViewTransactions implements Serializable {
             pstmt.setBoolean(2, trxnpaid);
             pstmt.setInt(3, userfk);
             rs = pstmt.executeQuery();
-            List<TrxnModel> model = new ArrayList<>();
+            List<TrxnModel> model = new ArrayList<>();            
             //
             while (rs.next()) {
                 TrxnModel mode = new TrxnModel();
