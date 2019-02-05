@@ -462,8 +462,6 @@ public class Registration implements Serializable {
                 setFirstPanel(false);
                 setSecondPanel(true);
                 System.out.println("This is it: " + generateRandom());
-            } else {
-                context.addMessage(null, new FacesMessage("Something went wrong!!"));
             }
         } catch (Exception e) {
             e.printStackTrace();
