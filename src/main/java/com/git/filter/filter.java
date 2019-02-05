@@ -74,14 +74,17 @@ public class filter implements Filter {
 //                    resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
 //                }
             }
-            
 
             if (reqURI.contains("/faces/index.xhtml") || (ses != null && ses.getAttribute("sessn_nums") != null) || reqURI.contains("javax.faces.resource")) {
                 chain.doFilter(request, response);
             } else if (reqURI.contains("/faces/pages/success/success.xhtml")) {
                 chain.doFilter(request, response);
+            } else if (reqURI.contains("/faces/index.xhtml")) {
+                chain.doFilter(request, response);
+            } else if (reqURI.contains("/faces/signup.xhtml")) {
+                chain.doFilter(request, response);
             } else {
-                resp.sendRedirect(reqt.getContextPath() + "/faces/index.xhtml");
+                resp.sendRedirect(reqt.getContextPath() + "/index.html");
             }
 
         } catch (Exception e) {

@@ -1,123 +1,52 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template2.xhtml">
 
 
 
-    <h:head>
-
-        <f:facet name="first">
-            <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
-            <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-            <title>WeDeyCome</title>
-        </f:facet>     
-
-        <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"/>
-        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <link href='https://fonts.googleapis.com/css?family=Sofia' rel='stylesheet' />
-        <!--        <link href="css/style.css" rel="stylesheet" type="text/css"/>-->
-        <h:outputStylesheet name="main/css/style_1.css" />  
-        <script src='https://www.google.com/recaptcha/api.js'></script>        
-    </h:head>
-    <h:body style="background-image: url('resources/main/images/3.jpg')" >
-        <h:form>
-            <p:growl showDetail="true" id="msg"/>
-
-            <div class="container register">
-                <div class="row">                   
-                    <div class="col-md-3 register-left">
-                        <span style="font-family: 'Sofia'; "><h3> WeDeyCome</h3> </span> is always at your beck and call when you
-                        need special items delivered to you right at your door step.
-                        All you have to do is:
-                        <ul>
-                            <li>Register</li>
-                            <li>Sign In</li>
-                            <li>Request for Services Rendered</li>
-                            <li>Pay Online</li>
-                            <li>Get Service Delivered</li>
-                        </ul>
+    <ui:define name="content">  
+        <p:growl showDetail="true" id="msg" sticky="true"/>
 
 
+        <div class="col-lg-4 col-md-6 ml-auto mr-auto">
+            <div class="card card-login">
 
-
-                    </div>
-
-                    <div class="col-md-9 register-right">                    
-                        <div class="tab-content" id="myTabContent">
-                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-
-
-                                <div class="row register-form">
-                                    <h4>Register and start making requests</h4>
-                                    <div class="col-md-9" >                                                                                  
-                                        <p:panel visible="#{registration.firstPanel}" id="fpanel" style="border: none; background: none;">
-                                            <div class="form-group">
-                                                <p:inputText placeholder="First name" style="font-size: 13px;"  required="true" value="#{registration.fname}" requiredMessage="First Name is required" id="fname" class="form-control"/>                                          
-
-                                            </div>
-                                            <div class="form-group">
-                                                <p:inputText placeholder="Last Name" style="font-size: 13px;"  id="lname" required="true" value="#{registration.lname}" requiredMessage="Last Name is required" class="form-control"/>
-
-                                            </div>
-                                            <div class="form-group">
-                                                <p:inputText placeholder="Phone Number" style="font-size: 13px;"  id="pnum" size="11" value="#{registration.pnum}" required="true" requiredMessage="Phone number is required" class="form-control"/>
-
-                                            </div>                                                                                  
-                                            <div class="g-recaptcha" data-sitekey="6LcIpI0UAAAAADRoZEoDkyt87QiSWrDW71sggUQv"></div>
-                                            <p:commandButton class="btn btn-primary btnRegister"  style="font-size: 13px;" actionListener="#{registration.nextPage()}" process="@this fname,lname,pnum" update="fpanel,spanel,msg" value="Next"/>                                        
-                                        </p:panel>
-                                        <p:panel visible="#{registration.secondPanel}" id="spanel" style="border: none; background: none;">
-                                            <div class="form-group">
-                                                <p:outputLabel value="Please enter code from the call to your number" for="code"/>
-                                                <p:inputText placeholder="Verification code" style="font-size: 13px;" required="true" value="#{registration.verCode}" requiredMessage="Verification code is required" id="code" class="form-control"/>                                          
-
-                                            </div>
-                                            <div class="form-group">
-                                                <p:password placeholder="Enter Password" style="font-size: 13px;"  id="pass" match="repass" validatorMessage="Password do not match" required="true" value="#{registration.pwd}" requiredMessage="Pssword is required" class="form-control"/>
-
-                                            </div>
-                                            <div class="form-group">
-                                                <p:password placeholder="Retype Password"   style="font-size: 13px;" id="repass" required="true" value="#{registration.pwd}" requiredMessage="Password is required" class="form-control"/>
-
-                                            </div>                                            
-                                            <p:commandButton value="Submit" class="btn btn-primary"  style="font-size: 13px;" action="#{registration.register()}" update="msg" process="@this code,repass,pass"/>
-                                        </p:panel>
-                                        <p:panel visible="#{registration.thirdPanel}" id="tpanel" style="border: none; background: none;">
-                                            <div class="form-group">
-
-                                                <p:inputText placeholder="Phone Number"  style="font-size: 13px;" required="true" value="#{registration.logUsername}" requiredMessage="Phone number is required" id="phone" class="form-control"/>                                          
-
-                                            </div>
-                                            <div class="form-group">
-                                                <p:password placeholder="Enter Password"  id="password" style="font-size: 13px;" required="true" value="#{registration.logPassword}" requiredMessage="Pssword is required" class="form-control"/>
-
-                                            </div>  
-
-                                            <p:commandButton value="Login" class="btn btn-primary" style="font-size: 12px;" action="#{registration.login()}" process="@this phone,password" update="msg" />
-                                            <p:commandLink style="font-size: 12px;" value="New here? Register" action="#{registration.backtoRegister()}" process="@this" update="fpanel,spanel,tpanel"/>
-                                            <br/>
-                                            <p:commandLink style="font-size: 12px;" value="Forgot Password?" action="#{registration.backtoRegister()}" process="@this" update="fpanel,spanel,tpanel"/>
-                                        </p:panel>
-
-
-
-                                    </div>
-                                    <div class="col-md-3">
-                                        <p:commandButton value="Log In" class="btn btn-primary" style="font-size: 12px;" action="#{registration.getIn()}" process="@this" update="fpanel,spanel,tpanel"/>  
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
+                <div class="text-center">
+                    <h4 class="card-title">Login</h4>
                 </div>
 
+                <div class="card-body">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="material-icons">phone</i>
+                            </span>
+                        </div>
+                        <p:inputText placeholder="Phone Number"  style="font-size: 13px;" required="true" value="#{registration.logUsername}" requiredMessage="Phone number is required" id="phone" class="form-control"/>                                          
+
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="material-icons">lock_outline</i>
+                            </span>
+                        </div>
+                        <p:password placeholder="Enter Password"  id="password" style="font-size: 13px;" required="true" value="#{registration.logPassword}" requiredMessage="Pssword is required" class="form-control"/>
+                    </div>                       
+                </div>
+                <div class="input-group">
+                    <p:commandButton value="Login" class="btn btn-primary btn-link btn-wd btn-lg" style="font-size: 12px;" action="#{registration.login()}" process="@this phone,password" update="msg" />
+                    <br/>
+                    <p:commandLink style="font-size: 12px;" value="Forgot Password?" action="#{registration.backtoRegister()}" process="@this"/>
+
+                </div>   
+
+
             </div>
-        </h:form>
-    </h:body>
-</html>
+        </div>       
+    </ui:define>
+
+</ui:composition>
