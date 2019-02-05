@@ -435,7 +435,7 @@ public class Registration implements Serializable {
 
             if (checkIfNumExists()) {
                 context.addMessage(null, new FacesMessage("Phone number aready registered!!"));
-            } else if (submit()) {
+            } else {
                 System.out.println("Hello Gold");
                 String lum = generateRandom();
                 String num = lum + "voice.xml";
