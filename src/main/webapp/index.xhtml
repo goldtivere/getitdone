@@ -17,32 +17,34 @@
                 <div class="text-center">
                     <h4 class="card-title">Login</h4>
                 </div>
+                <h:panelGroup style="border: none; background:none">
+                    <div class="card-body">
 
-                <div class="card-body">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">
-                                <i class="material-icons">phone</i>
-                            </span>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="material-icons">phone</i>
+                                </span>
+                            </div>
+                            <p:inputText placeholder="Phone Number"  style="font-size: 13px;" required="true" value="#{registration.logUsername}" requiredMessage="Phone number is required" id="phone" class="form-control"/>                                          
+
                         </div>
-                        <p:inputText placeholder="Phone Number"  style="font-size: 13px;" required="true" value="#{registration.logUsername}" requiredMessage="Phone number is required" id="phone" class="form-control"/>                                          
-
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="material-icons">lock_outline</i>
+                                </span>
+                            </div>
+                            <p:password placeholder="Enter Password"  id="password" style="font-size: 13px;" required="true" value="#{registration.logPassword}" requiredMessage="Pssword is required" class="form-control"/>
+                        </div>                       
                     </div>
                     <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">
-                                <i class="material-icons">lock_outline</i>
-                            </span>
-                        </div>
-                        <p:password placeholder="Enter Password"  id="password" style="font-size: 13px;" required="true" value="#{registration.logPassword}" requiredMessage="Pssword is required" class="form-control"/>
-                    </div>                       
-                </div>
-                <div class="input-group">
-                    <p:commandButton value="Login" class="btn btn-primary btn-link btn-wd btn-lg" style="font-size: 12px;" action="#{registration.login()}" process="@this phone,password" update="msg" />
-                    <br/>
-                    <p:commandLink style="font-size: 12px;" value="Forgot Password?" action="#{registration.backtoRegister()}" process="@this"/>
+                        <p:commandButton value="Login" class="btn btn-primary btn-link btn-wd btn-lg" style="font-size: 12px;" action="#{registration.login()}" process="@this phone,password" update="msg" />
+                        <br/>
+                        <p:commandLink style="font-size: 12px;" value="Forgot Password?" action="#{registration.backtoRegister()}" process="@this"/>
 
-                </div>   
+                    </div>
+                </h:panelGroup>>
 
 
             </div>

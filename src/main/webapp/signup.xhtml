@@ -17,7 +17,7 @@
                 <div class="text-center">
                     <h4 class="card-title">Sign Up</h4>
                 </div>
-                <p:panel visible="#{registration.firstPanel}" class="panel panel-default" id="fpanel" style=" border: none; background: none;">
+                <h:panelGroup rendered="#{registration.firstPanel}" class="panel panel-default" id="fpanel" style=" border: none; background: none;">
                     <div class="card-body">
                         <div class="input-group">
                             <div class="input-group-prepend">
@@ -54,9 +54,9 @@
 
                         </div>  
                     </div>
-                </p:panel>
+                </h:panelGroup>
 
-                <p:panel visible="#{registration.secondPanel}" id="spanel" style="border: none; background: none;">
+                <h:panelGroup rendered="#{registration.secondPanel}" id="spanel" style="border: none; background: none;">
                     <div class="card-body">
                         <p:outputLabel value="Please enter code from the call to your number" for="code"/>
                         <div class="input-group">
@@ -92,7 +92,7 @@
                         </div>
                         <p:commandButton value="Submit" class="btn btn-primary btn-link btn-wd btn-lg"  action="#{registration.register()}" update="msg" process="@this code,repass,pass"/>
                     </div>
-                </p:panel>
+                </h:panelGroup>
 
             </div>
         </div>       
