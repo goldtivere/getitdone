@@ -11,26 +11,26 @@ package com.git.forgotpassword;
  */
 public class ForgotPassword {
     
-    public boolean checkIfNumExists() {
-        DbConnectionX dbConnections = new DbConnectionX();
-        Connection con = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        con = dbConnections.mySqlDBconnection();
-        try {
-            String queryProfile = "select * from tbtempregistration "
-                    + "where phonenumber=? and phoneverified=?";
-            pstmt = con.prepareStatement(queryProfile);
-            pstmt.setString(1, getPnum());
-            pstmt.setBoolean(2, true);
-            rs = pstmt.executeQuery();
-
-            return rs.next();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-
-    }
+//    public boolean checkIfNumExists() {
+//        DbConnectionX dbConnections = new DbConnectionX();
+//        Connection con = null;
+//        PreparedStatement pstmt = null;
+//        ResultSet rs = null;
+//        con = dbConnections.mySqlDBconnection();
+//        try {
+//            String queryProfile = "select * from tbtempregistration "
+//                    + "where phonenumber=? and phoneverified=?";
+//            pstmt = con.prepareStatement(queryProfile);
+//            pstmt.setString(1, getPnum());
+//            pstmt.setBoolean(2, true);
+//            rs = pstmt.executeQuery();
+//
+//            return rs.next();
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return false;
+//        }
+//
+//    }
 }
