@@ -48,7 +48,7 @@ public class ConfirmPaystackPayment implements Runnable {
             return dbval;
         } catch (Exception e) {
 
-           // System.out.print("Exception from doTransaction method.....");
+            // System.out.print("Exception from doTransaction method.....");
             e.printStackTrace();
             return null;
 
@@ -81,14 +81,13 @@ public class ConfirmPaystackPayment implements Runnable {
             String updateStatus = "update tbtransaction set iscompleted=true where reference=?";
 
             String statusUpdate = "update tbpayment set ispaid=true where trxnreference=?";
-            int i = 0;            
+            int i = 0;
             for (String val : referenceName()) {
                 JSONObject bn = trans.verifyTransaction(val);
                 ObjectMapper mapp = new ObjectMapper();
-                ConfirmPayment confirm = mapp.readValue(bn.toString(), ConfirmPayment.class);
-
-                if (("successful").equalsIgnoreCase(confirm.getData().getGateway_response()) || 
-                      ("approved").equalsIgnoreCase(confirm.getData().getGateway_response()) ) {
+                ConfirmPayment confirm = mapp.readValue(bn.toString(), ConfirmPayment.class);                
+                if (("successful").equalsIgnoreCase(confirm.getData().getGateway_response())
+                        || ("approved").equalsIgnoreCase(confirm.getData().getGateway_response())) {
                     pstmt = con.prepareStatement(updateStatus);
                     pstmt.setString(1, val);
                     pstmt.executeUpdate();
@@ -96,8 +95,8 @@ public class ConfirmPaystackPayment implements Runnable {
                     pstmt = con.prepareStatement(statusUpdate);
                     pstmt.setString(1, val);
                     pstmt.executeUpdate();
-                   
-                    confirmPayment(confirm);                    
+
+                    confirmPayment(confirm);
                 }
 
             }
@@ -129,7 +128,7 @@ public class ConfirmPaystackPayment implements Runnable {
             pstmt.setString(9, confirm.getData().getCreatedAt());
             pstmt.setString(10, DateManipulation.dateAndTime());
             pstmt.executeUpdate();
-           // System.out.println("the eye big: ");
+            // System.out.println("the eye big: ");
         } catch (Exception e) {
             e.printStackTrace();
 
@@ -150,7 +149,7 @@ public class ConfirmPaystackPayment implements Runnable {
         }
 
     }
-    
+
 //      public void smsDetail() throws SQLException {
 //        FacesContext context = FacesContext.getCurrentInstance();
 //        DbConnectionX dbConnections = new DbConnectionX();
