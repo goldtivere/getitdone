@@ -244,7 +244,7 @@ public class TransferInitiate implements Runnable {
                     ObjectMapper mapp = new ObjectMapper();
                     InitiateTransfer initial = mapp.readValue(bn.toString(), InitiateTransfer.class);
                     //System.out.println(bn+ " hello");
-                    if (initial.getStatus().equalsIgnoreCase("true")) {
+                    if (initial.getStatus().equalsIgnoreCase("true") || initial.getData().getStatus().equalsIgnoreCase("pending")) {
                         //System.out.println(amount + "  " + sms.getRecipientCode() + " " + sms.Balance + " * * * * * * *" + bn);
                         sms.setAmount(amount);
                         updateTransfer(sms, initial);
