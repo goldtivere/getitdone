@@ -125,10 +125,10 @@ public class GetRequest implements Serializable {
         try {
 
             con = dbConnections.mySqlDBconnection();
-            String query = "select g.vendorfk,g.category,g.quantity,p.corporatename,p.coveragelocation,l.trxnpaid, g.amount,l.vendorfk as requestId,l.ispaid,l.trxncompleted from "
+            String query = "select distinct g.vendorfk,g.category,g.quantity,p.corporatename,p.coveragelocation,l.trxnpaid, g.amount,l.vendorfk as requestId,l.ispaid,l.trxncompleted from "
                     + "tbvendoritem g inner join tbvendor p on g.vendorfk=p.id left OUTER join "
                     + "tbpayment l on l.vendorfk=g.vendorfk "
-                    + " where p.isdeleted=false and g.category=? and g.locationfk=? order by l.trxncompleted=false";
+                    + " where p.isdeleted=false and g.category=? and g.locationfk=? and by l.trxncompleted=true";
             pstmt = con.prepareStatement(query);
             pstmt.setInt(1, val);
             pstmt.setInt(2, getLocationfk());
