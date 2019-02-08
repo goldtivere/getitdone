@@ -87,8 +87,8 @@ public class ConfirmPaystackPayment implements Runnable {
                 ObjectMapper mapp = new ObjectMapper();
                 ConfirmPayment confirm = mapp.readValue(bn.toString(), ConfirmPayment.class);
 
-                if (confirm.getData().getGateway_response().equalsIgnoreCase("successful") || 
-                        confirm.getData().getGateway_response().equalsIgnoreCase("Approved")) {
+                if (("successful").equalsIgnoreCase(confirm.getData().getGateway_response()) || 
+                      ("approved").equalsIgnoreCase(confirm.getData().getGateway_response()) ) {
                     pstmt = con.prepareStatement(updateStatus);
                     pstmt.setString(1, val);
                     pstmt.executeUpdate();
