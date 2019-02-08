@@ -143,8 +143,8 @@ public class PaymentDetails implements Serializable {
                 pstmt.setBoolean(14, false);
                 pstmt.executeUpdate();
 
-                String insertPayment = "insert into tbpayment (vendorfk,trxnreference,amount,ispaid,trxncompleted,trxnpaid,smssent,smscontent)"
-                        + "values(?,?,?,?,?,?,?,?)";
+                String insertPayment = "insert into tbpayment (vendorfk,trxnreference,amount,ispaid,trxncompleted,trxnpaid,smssent,smscontent,itemname)"
+                        + "values(?,?,?,?,?,?,?,?,?)";
                 for (RequestModel mode : value()) {
                     String smscontent = "Hello " + mode.getCorporatename() + ", kindly supply " + model.getName()
                             + " at " + model.getAddress() + ". You can call on " + model.getPhone();
@@ -157,6 +157,7 @@ public class PaymentDetails implements Serializable {
                     pstmt.setBoolean(6, false);
                     pstmt.setBoolean(7, false);
                     pstmt.setString(8, smscontent);
+                    pstmt.setString(9, mode.getItemname());
                     pstmt.executeUpdate();
                 }
 

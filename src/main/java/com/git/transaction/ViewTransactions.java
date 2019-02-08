@@ -67,7 +67,7 @@ public class ViewTransactions implements Serializable {
             con = dbConnections.mySqlDBconnection();
             String query = "select p.*,t.datecreated as created,t.userfk,v.*,vi.* from tbpayment p inner join tbtransaction t on p.trxnreference=t.reference "
                     + " inner join tbvendor v on p.vendorfk=v.id inner join tbvendoritem vi "
-                    + " on p.vendorfk=vi.vendorfk where p.ispaid=? and p.trxncompleted=? and t.userfk=? ";
+                    + " on p.vendorfk=vi.vendorfk where p.ispaid=? and p.trxncompleted=? and t.userfk=? and p.itemname=vi.itemname ";
             pstmt = con.prepareStatement(query);
             pstmt.setBoolean(1, trxnSent);
             pstmt.setBoolean(2, trxnpaid);

@@ -11,7 +11,7 @@ import java.io.Serializable;
  *
  * @author Gold
  */
-public class RequestModel implements Serializable{
+   public class RequestModel implements Serializable{
     private int vendorfk;
     private String corporatename;
     private double amount;
@@ -26,6 +26,7 @@ public class RequestModel implements Serializable{
     private double finalSum;
     private boolean trxnpaid;
     private int quan;
+    private String itemname;
 
     public int getVendorfk() {
         return vendorfk;
@@ -137,6 +138,14 @@ public class RequestModel implements Serializable{
 
     public void setQuan(int quan) {
         this.quan = quan;
+    }
+
+    public String getItemname() {
+        return itemname;
+    }
+
+    public void setItemname(String itemname) {
+        this.itemname = itemname;
     }
      
     
