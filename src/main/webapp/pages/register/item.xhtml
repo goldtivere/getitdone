@@ -70,11 +70,11 @@
                 </div> 
                 <div class="col-md-9">
                    <p:outputLabel value="Quantity Available: " for="quan"/>
-                   <p:spinner id="basic" value="#{item.mode.quantity}" />
+                   <p:spinner id="quan" value="#{item.mode.quantity}" />
                 </div>
             </div>  
             <div class="row pull-left" >
-                <p:commandButton value="Add Item" class="pull-right" action="#{item.saveItem()}" update="messages,firstPanel" process="@this cat,business,loc,dd,punit,percent,descript" />  
+                <p:commandButton value="Add Item" class="pull-right" action="#{item.saveItem()}" update="messages,firstPanel" process="@this cat,business,loc,dd,punit,percent,descript,quan" />  
             </div>  
         </p:panel>      
     </ui:define>
