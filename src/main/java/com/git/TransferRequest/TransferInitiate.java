@@ -121,7 +121,7 @@ public class TransferInitiate implements Runnable {
             //
             List<TransferinitiateModel> mode = new ArrayList<>();
             String queryPayment = "SELECT p.id,p.vendorfk,p.trxnreference,r.recepientcode,v.amount,v.agentpercentage FROM tbpayment p inner join tbrecepient r on p.vendorfk=r.vendorfk inner join "
-                    + "tbvendoritem v on p.vendorfk=v.vendorfk where p.ispaid=true and p.trxncompleted=true and p.trxnpaid=false";
+                    + "tbvendoritem v on p.vendorfk=v.vendorfk where p.ispaid=true and p.trxncompleted=true and p.trxnpaid=false and p.itemname=v.itemname";
             //
             pstmt = con.prepareStatement(queryPayment);
 
