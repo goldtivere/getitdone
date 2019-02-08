@@ -73,7 +73,7 @@ public class ViewTransactions implements Serializable {
             pstmt.setBoolean(2, trxnpaid);
             pstmt.setInt(3, userfk);
             rs = pstmt.executeQuery();
-            List<TrxnModel> model = new ArrayList<>();            
+            List<TrxnModel> model = new ArrayList<>();
             //
             while (rs.next()) {
                 TrxnModel mode = new TrxnModel();
@@ -121,7 +121,7 @@ public class ViewTransactions implements Serializable {
             con = dbConnections.mySqlDBconnection();
             String query = "select p.*,t.datecreated as created,t.userfk,v.*,vi.* from tbpayment p inner join tbtransaction t on p.trxnreference=t.reference "
                     + " inner join tbvendor v on p.vendorfk=v.id inner join tbvendoritem vi "
-                    + " on p.vendorfk=vi.vendorfk where p.ispaid=? and p.trxncompleted=? and p.vendorfk=? ";
+                    + " on p.vendorfk=vi.vendorfk where p.ispaid=? and p.trxncompleted=? and p.vendorfk=? and p.itemname=vi.itemname";
             pstmt = con.prepareStatement(query);
             pstmt.setBoolean(1, trxnSent);
             pstmt.setBoolean(2, trxnpaid);
@@ -188,7 +188,7 @@ public class ViewTransactions implements Serializable {
                 setStatus("Pending Transaction(s)");
                 setCheckStatus(true);
                 trxn = viewTrxnVendor(true, false, userObj.getId());
-            } else if (getValueStatus() == 2 && userObj.getRole() ==1) {
+            } else if (getValueStatus() == 2 && userObj.getRole() == 1) {
                 setStatus("Pending Transaction(s)");
                 setCheckStatus(true);
                 trxn = viewTrxnVendor(true, false, userObj.getId());
