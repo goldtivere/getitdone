@@ -91,7 +91,7 @@ public class ForgotPassword implements Serializable {
                     + "where phonenumber=? and isdeleted=?";
             pstmt = con.prepareStatement(queryProfile);
             pstmt.setString(1, pnum);
-            pstmt.setBoolean(2, true);
+            pstmt.setBoolean(2, false);
             rs = pstmt.executeQuery();
 
             return rs.next();
@@ -130,7 +130,7 @@ public class ForgotPassword implements Serializable {
                     + "where password=? and isdeleted=?";
             pstmt = con.prepareStatement(queryProfile);
             pstmt.setString(1, password);
-            pstmt.setBoolean(2, true);
+            pstmt.setBoolean(2, false);
             rs = pstmt.executeQuery();
 
             return rs.next();
