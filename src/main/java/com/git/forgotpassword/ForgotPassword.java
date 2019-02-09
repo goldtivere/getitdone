@@ -238,7 +238,7 @@ public class ForgotPassword implements Serializable {
                         + " and isdeleted=?";
                 pstmt = con.prepareStatement(updat);
 
-                pstmt.setString(1, forgot.getPassword());
+                pstmt.setString(1, pass);
                 pstmt.setString(2, DateManipulation.dateAlone());
                 pstmt.setString(3, DateManipulation.dateAndTime());
                 pstmt.setString(4, forgot.getPhonenumber());
