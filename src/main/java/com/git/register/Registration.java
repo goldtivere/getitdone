@@ -155,6 +155,11 @@ public class Registration implements Serializable {
         return "/index.xhtml?faces-redirect=true";
 
     }
+    
+    public String forgotpassword()
+    {
+         return "/forgotpassword.xhtml?faces-redirect=true";
+    }
 
     //login code
     public void login() throws Exception {
@@ -384,7 +389,7 @@ public class Registration implements Serializable {
         XMLCreator xmlcr = new XMLCreator();
         con = dbConnections.mySqlDBconnection();
         LoadPPTfile loadPPT = new LoadPPTfile();
-        RandomWordEquivalent ran= new RandomWordEquivalent();
+        RandomWordEquivalent ran = new RandomWordEquivalent();
         try {
 
             if (checkIfNumExists()) {

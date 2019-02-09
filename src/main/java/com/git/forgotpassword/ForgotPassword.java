@@ -32,12 +32,10 @@ import javax.faces.context.FacesContext;
 @ViewScoped
 public class ForgotPassword implements Serializable {
 
-    private String phoneNumber;
+    private ForgotPasswordModel forgot = new ForgotPasswordModel();
     private String messangerOfTruth;
     private boolean firstPanel;
     private boolean secondPanel;
-    private String password;
-    private String code;
 
     @PostConstruct
     public void init() {
@@ -119,6 +117,45 @@ public class ForgotPassword implements Serializable {
 
     }
 
+    public boolean checkIfPassowrd(String pass) throws SQLException {
+        DbConnectionX dbConnections = new DbConnectionX();
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            String password = AESencrp.encrypt(pass);
+            con = dbConnections.mySqlDBconnection();
+            String queryProfile = "select * from tbregistration "
+                    + "where password=? and isdeleted=?";
+            pstmt = con.prepareStatement(queryProfile);
+            pstmt.setString(1, password);
+            pstmt.setBoolean(2, true);
+            rs = pstmt.executeQuery();
+
+            return rs.next();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+
+            if (!(con == null)) {
+                con.close();
+            }
+
+            if (!(pstmt == null)) {
+                pstmt.close();
+            }
+
+            if (!(rs == null)) {
+                rs.close();
+            }
+
+        }
+
+    }
+
     public void executeForgot() throws SQLException, IOException {
         FacesContext context = FacesContext.getCurrentInstance();
 
@@ -131,7 +168,7 @@ public class ForgotPassword implements Serializable {
         XMLCreator xmlcr = new XMLCreator();
         try {
             con = dbConnections.mySqlDBconnection();
-            if (checkIfNumExists(getPhoneNumber())) {
+            if (checkIfNumExists(forgot.getPhonenumber())) {
                 System.out.println("Hello Gold");
                 String lum = ran.generateRandom();
                 String num = lum + "forgot.xml";
@@ -144,7 +181,7 @@ public class ForgotPassword implements Serializable {
                         + "values(?,?,?,?,?,?,?,?,?)";
                 pstmt = con.prepareStatement(insertemail);
 
-                pstmt.setString(1, getPhoneNumber());
+                pstmt.setString(1, forgot.getPhonenumber());
                 pstmt.setBoolean(2, false);
                 pstmt.setString(3, lum);
                 pstmt.setString(4, verificationMessage);
@@ -177,6 +214,13 @@ public class ForgotPassword implements Serializable {
         }
     }
 
+    public void refresh() {
+        forgot.setCode("");
+        forgot.setOldPassword("");
+        forgot.setPassword("");
+        forgot.setPhonenumber("");
+    }
+
     public void saveUpdate() throws SQLException {
 
         FacesContext context = FacesContext.getCurrentInstance();
@@ -187,16 +231,19 @@ public class ForgotPassword implements Serializable {
         try {
             con = dbConnections.mySqlDBconnection();
 
-            String pass = AESencrp.encrypt(getPassword());
-            if (checkIfVerExists(getCode(), getPhoneNumber())) {
+            String pass = AESencrp.encrypt(forgot.getPassword());
+
+            if (!checkIfPassowrd(forgot.getOldPassword())) {
+                context.addMessage(null, new FacesMessage("incorrect Old Password!!"));
+            } else if (checkIfVerExists(forgot.getCode(), forgot.getPhonenumber()) && checkIfPassowrd(forgot.getOldPassword())) {
                 String updat = "update tbregistration set password=?,dateupdated=?,datetimeupdated=? where phonenumber=?"
                         + " and isdeleted=?";
                 pstmt = con.prepareStatement(updat);
 
-                pstmt.setString(1, getPassword());
+                pstmt.setString(1, forgot.getPassword());
                 pstmt.setString(2, DateManipulation.dateAlone());
                 pstmt.setString(3, DateManipulation.dateAndTime());
-                pstmt.setString(4, getPhoneNumber());
+                pstmt.setString(4, forgot.getPhonenumber());
                 pstmt.setBoolean(5, false);
                 pstmt.executeUpdate();
 
@@ -204,15 +251,11 @@ public class ForgotPassword implements Serializable {
                 pstmt = con.prepareStatement(update);
 
                 pstmt.setBoolean(1, true);
-                pstmt.setString(2, getPhoneNumber());
-                pstmt.setString(3, getCode());
+                pstmt.setString(2, forgot.getPhonenumber());
+                pstmt.setString(3, forgot.getCode());
                 pstmt.executeUpdate();
-
-                NavigationHandler nav = context.getApplication().getNavigationHandler();
-
-                String url_ = "/pages/success/success.xhtml?faces-redirect=true";
-                nav.handleNavigation(context, null, url_);
-                context.renderResponse();
+                refresh();
+                context.addMessage(null, new FacesMessage("Password Changed!!"));
 
             } else {
                 context.addMessage(null, new FacesMessage("incorrect verification code!!"));
@@ -232,14 +275,6 @@ public class ForgotPassword implements Serializable {
 
         }
 
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
     }
 
     public String getMessangerOfTruth() {
@@ -266,20 +301,12 @@ public class ForgotPassword implements Serializable {
         this.secondPanel = secondPanel;
     }
 
-    public String getPassword() {
-        return password;
+    public ForgotPasswordModel getForgot() {
+        return forgot;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
+    public void setForgot(ForgotPasswordModel forgot) {
+        this.forgot = forgot;
     }
 
 }

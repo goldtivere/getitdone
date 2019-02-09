@@ -85,6 +85,8 @@ public class filter implements Filter {
                 chain.doFilter(request, response);
             } else if (reqURI.contains("/faces/contact.xhtml")) {
                 chain.doFilter(request, response);
+            } else if (reqURI.contains("/faces/forgotpassword.xhtml")) {
+                chain.doFilter(request, response);
             } else {
                 resp.sendRedirect(reqt.getContextPath() + "/index.html");
             }
