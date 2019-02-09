@@ -233,9 +233,7 @@ public class ForgotPassword implements Serializable {
 
             String pass = AESencrp.encrypt(forgot.getPassword());
 
-            if (!checkIfPassowrd(forgot.getOldPassword())) {
-                context.addMessage(null, new FacesMessage("incorrect Old Password!!"));
-            } else if (checkIfVerExists(forgot.getCode(), forgot.getPhonenumber()) && checkIfPassowrd(forgot.getOldPassword())) {
+            if (checkIfVerExists(forgot.getCode(), forgot.getPhonenumber())) {
                 String updat = "update tbregistration set password=?,dateupdated=?,datetimeupdated=? where phonenumber=?"
                         + " and isdeleted=?";
                 pstmt = con.prepareStatement(updat);
