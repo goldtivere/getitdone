@@ -39,9 +39,9 @@
                         </div>                       
                     </div>
                     <div class="input-group">
-                        <h:link value="Forgot Password" outcome="faces/forgotpassword.xhtml" />                        
-                        
-                        <p:commandLink style="font-size: 12px;" value="Forgot Password?" action="#{registration.forgotpassword()}" process="@this"/>
+                        <p:commandButton value="Login" class="btn btn-primary btn-link btn-wd btn-lg" style="font-size: 12px;" action="#{registration.login()}" process="@this phone,password" update="msg" />
+                        <br/>
+                        <h:link value="Forgot Password" outcome="faces/forgotpassword.xhtml" />                                                                        
 
                     </div>
                 </h:panelGroup>
