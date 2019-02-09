@@ -42,7 +42,7 @@ public class ContactUs implements Serializable {
         PreparedStatement pstmt = null;
         try {
             con = dbConnections.mySqlDBconnection();
-            String insertemail = "insert into tbcontactus (emailaddress,subject,body,datesent,datetimesent,read)"
+            String insertemail = "insert into tbcontactus (emailaddress,subject,body,datesent,datetimesent,read) "
                     + "values(?,?,?,?,?,?)";
             pstmt = con.prepareStatement(insertemail);
 
