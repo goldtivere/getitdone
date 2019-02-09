@@ -39,7 +39,7 @@
                         </div>                       
                     </div>
                     <div class="input-group">
-                        <p:commandButton value="Login" class="btn btn-primary btn-link btn-wd btn-lg" style="font-size: 12px;" action="#{registration.login()}" process="@this phone,password" update="msg" />
+                        <h:link value="link" outcome="faces/forgotpassword.xhtml" />                        
                         <br/>
                         <p:commandLink style="font-size: 12px;" value="Forgot Password?" action="#{registration.forgotpassword()}" process="@this"/>
 
