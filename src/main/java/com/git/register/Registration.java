@@ -12,6 +12,7 @@ import com.git.dbcon.AESencrp;
 import com.git.dbcon.DateManipulation;
 import com.git.dbcon.DbConnectionX;
 import com.git.dbcon.LoadPPTfile;
+import com.git.getitdone.RandomWordEquivalent;
 import com.git.getitdone.XMLCreator;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -374,54 +375,6 @@ public class Registration implements Serializable {
 
     }
 
-    //this method generates validation code for the phonenumber
-    public String generateRandom() {
-        Random rnd = new Random();
-        int a = 100000 + rnd.nextInt(900000);
-
-        return String.valueOf(a);
-    }
-
-    //returns array string of word equivalent
-    public static String[] values() {
-        String values[] = {"Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"};
-        return values;
-
-    }
-
-    // returns word equivalent of code generated
-    public String wordEquivalent(String random) {
-        String[] p = random.split("(?!^)");
-        StringBuilder sdp = new StringBuilder();
-
-        for (String n : p) {
-            if (n.equalsIgnoreCase("0")) {
-                sdp.append(values()[0]).append(", ");
-            } else if (n.equalsIgnoreCase("1")) {
-                sdp.append(values()[1]).append(", ");
-            } else if (n.equalsIgnoreCase("2")) {
-                sdp.append(values()[2]).append(", ");
-            } else if (n.equalsIgnoreCase("3")) {
-                sdp.append(values()[3]).append(", ");
-            } else if (n.equalsIgnoreCase("4")) {
-                sdp.append(values()[4]).append(", ");
-            } else if (n.equalsIgnoreCase("5")) {
-                sdp.append(values()[5]).append(", ");
-            } else if (n.equalsIgnoreCase("6")) {
-                sdp.append(values()[6]).append(", ");
-            } else if (n.equalsIgnoreCase("7")) {
-                sdp.append(values()[7]).append(", ");
-            } else if (n.equalsIgnoreCase("8")) {
-                sdp.append(values()[8]).append(", ");
-            } else if (n.equalsIgnoreCase("9")) {
-                sdp.append(values()[9]).append(", ");
-            }
-
-            System.out.println(n + " Hippee");
-        }
-        return sdp.toString();
-    }
-
     public void nextPage() {
         FacesContext context = FacesContext.getCurrentInstance();
         DbConnectionX dbConnections = new DbConnectionX();
@@ -431,17 +384,18 @@ public class Registration implements Serializable {
         XMLCreator xmlcr = new XMLCreator();
         con = dbConnections.mySqlDBconnection();
         LoadPPTfile loadPPT = new LoadPPTfile();
+        RandomWordEquivalent ran= new RandomWordEquivalent();
         try {
 
             if (checkIfNumExists()) {
                 context.addMessage(null, new FacesMessage("Phone number aready registered!!"));
             } else {
                 System.out.println("Hello Gold");
-                String lum = generateRandom();
+                String lum = ran.generateRandom();
                 String num = lum + "voice.xml";
                 String filename = loadPPT.xmlFolder() + num;
                 String xmlPath = loadPPT.xmlPath() + num;
-                String verificationMessage = " Your verification code is: " + wordEquivalent(lum) + ". Your verification code is: " + wordEquivalent(lum) + ". Thank you.";
+                String verificationMessage = " Your verification code is: " + ran.wordEquivalent(lum) + ". Your verification code is: " + ran.wordEquivalent(lum) + ". Thank you.";
                 System.out.println(loadPPT.xmlPath() + num + " done***");
                 xmlcr.xmlCreate(verificationMessage, loadPPT.xmlPath() + num);
                 String insertemail = "insert into tbtempregistration (phonenumber,verified,verificationcode,verificationxml,filename,phoneverified,createdon,xmlfilename,iscalled)"
@@ -461,7 +415,7 @@ public class Registration implements Serializable {
 
                 setFirstPanel(false);
                 setSecondPanel(true);
-                System.out.println("This is it: " + generateRandom());
+                System.out.println("This is it: " + ran.generateRandom());
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -43,7 +43,7 @@ public class ThreadRunner implements Runnable {
     public void run() {
         try {
             
-            runValue(doTransaction());
+            //runValue(doTransaction());
             
         } catch (Exception e) {
             e.printStackTrace();
