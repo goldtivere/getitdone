@@ -39,8 +39,8 @@
                         </div>                       
                     </div>
                     <div class="input-group">
-                        <h:outputLink  value="#{request.contextPath}/faces/forgotpassword.xhtml" />                        
-                        <br/>
+                        <h:link value="Forgot Password" outcome="faces/forgotpassword.xhtml" />                        
+                        
                         <p:commandLink style="font-size: 12px;" value="Forgot Password?" action="#{registration.forgotpassword()}" process="@this"/>
 
                     </div>
