@@ -61,6 +61,7 @@ public class GetRequest implements Serializable {
     public void onLocationChange() {
         try {
             setShow(true);
+            setPanelVisible(false);
             mode = loc.dropCategory();
 
         } catch (Exception e) {

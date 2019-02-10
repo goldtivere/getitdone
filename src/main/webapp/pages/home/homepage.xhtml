@@ -15,7 +15,7 @@
         <div class="row">
             <p:outputLabel value="Select Location " for="loc"/>
             <p:selectOneMenu id="loc" class="form-control" value="#{getRequest.locationfk}" required="true" requiredMessage="Location is required">                            
-                <p:ajax listener="#{getRequest.onLocationChange()}" update="check" />
+                <p:ajax listener="#{getRequest.onLocationChange()}" update="check,viewOrder" />
                 <f:selectItem itemLabel="--Select Location--" itemValue="" noSelectionOption="true"/>
                 <f:selectItems value="#{getRequest.listMode}"
                                var="singlevalue"  
