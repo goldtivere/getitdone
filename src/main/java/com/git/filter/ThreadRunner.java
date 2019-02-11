@@ -43,7 +43,7 @@ public class ThreadRunner implements Runnable {
     public void run() {
         try {
             
-            //runValue(doTransaction());
+            runValue(doTransaction());
             
         } catch (Exception e) {
             e.printStackTrace();
@@ -131,7 +131,7 @@ public class ThreadRunner implements Runnable {
                 Smsmodel sms = new Smsmodel();
                 
                 String value = rs.getString("smscontent");
-                String content = "Kindly click on the link to Confirm Successful Service Delivery: " + load.transactionConfirm() + "?ref=" + rs.getString("trxnreference");
+                String content = "Kindly click on the link to Confirm Successful Service Delivery: ";
                 String vendormess = "kindly call " + rs.getString("phonenumber") + " to supply " + value + " on " + rs.getString("receiverphone");
                 _val = value.replace(" ", "%20");
                 _val = _val.replace(",", "%2C");
@@ -307,7 +307,7 @@ public class ThreadRunner implements Runnable {
                         in.close();
                         String responseCod = response.toString();
                         sendToAdmin(sessionIdGet(), sms, vals);
-                        sendToRequester(sessionIdGet(), sms);
+                        //sendToRequester(sessionIdGet(), sms);
 
                         updateSmsTable(sms.getTrxnref(), sms.getId(), responseCod);
                         
