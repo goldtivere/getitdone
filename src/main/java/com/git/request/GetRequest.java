@@ -143,12 +143,8 @@ public class GetRequest implements Serializable {
                 coun.setVendorfk(rs.getInt("vendorfk"));
                 coun.setCatId(rs.getInt("category"));
                 coun.setAmount(rs.getDouble("amount"));
-                coun.setCorporatename(rs.getString("corporatename"));
-                coun.setRequestedId(rs.getString("requestid"));
-                coun.setRequestStatus(rs.getBoolean("ispaid"));
-                coun.setCompleted(rs.getBoolean("trxncompleted"));
-                coun.setCoverageLocation(rs.getString("coveragelocation"));
-                coun.setTrxnpaid(rs.getBoolean("trxnpaid"));
+                coun.setCorporatename(rs.getString("corporatename"));              
+                coun.setCoverageLocation(rs.getString("coveragelocation"));                
                 coun.setQuan(rs.getInt("quantity"));
                 coun.setItemname(rs.getString("itemname"));
                 System.out.println(coun.isCompleted() + " hi " + coun.isRequestStatus() + " yeah " + coun.isTrxnpaid());
