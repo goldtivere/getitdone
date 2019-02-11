@@ -71,7 +71,7 @@
                             </div>
                         </div>
                     </h:panelGrid>
-                    <h:outputText class="pull-right" rendered="#{getRequest}" id='stat' value="Status: #{req.requestStat}"  style="color: #007fff;"/><br/>                                        
+                    <h:outputText class="pull-right" rendered="#{getRequest.status}" id='stat' value="Status: #{req.requestStat}"  style="color: #007fff;"/><br/>                                        
                     <p:panel id='stat1' style="border: none; background: none;" visible="#{getRequest.status1}">
                         <p:selectBooleanCheckbox value="#{req.select}" rendered="#{req.edit}" class="pull-right" label="Ajax">
                             <p:ajax listener="#{getRequest.vex(req)}" />
