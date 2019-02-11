@@ -60,7 +60,7 @@
                        <div class="card-body">
                         <p:outputPanel class="pull-left" style="margin-right: 600px; font-size: 15px;">                                
                             <h:panelGrid columns="1"  cellpadding="5">                                    
-                                <span style="font-weight: bold;"> <h:outputText value="#{req.corporatename}" style="font-weight: bold;" ></h:outputText></span>                                    
+                                <span style="font-weight: bold;"> <h:outputText value="#{req.corporatename}  's #{req.itemname}" style="font-weight: bold;" ></h:outputText></span>                                    
                                 <h:outputText value="Amount: N#{req.amount}">
                                     <f:convertNumber pattern="###.###,00" />
                                 </h:outputText>
