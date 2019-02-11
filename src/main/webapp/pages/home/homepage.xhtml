@@ -49,34 +49,35 @@
         </div>
         <div class="row">
             <p:panel id="viewOrder" style="border: none;" visible="#{getRequest.panelVisible}">
-                <span class="pull-right"> <p:outputLabel value="Request "/> <p:commandButton  icon="fa fa-credit-card" action="#{getRequest.redirect()}" /></span>
+                <span class="pull-right"> <p:commandButton value='Make Payment'  icon="fa fa-credit-card" action="#{getRequest.redirect()}" /></span>
                 <p:dataScroller value="#{getRequest.requestList}" var="req" chunkSize="10">  
                     <f:facet name="loader">
                         <p:commandButton type="button" value="More" icon="pi pi-chevron-circle-down"/>
                     </f:facet>
                     <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
                         <div class="card">
-                        <p:graphicImage name="images/lctWater/water.png" height="100" width="100" class="img img-responsive" />                             
-                       <div class="card-body">
-                        <p:outputPanel class="pull-left" style="margin-right: 600px; font-size: 15px;">                                
-                            <h:panelGrid columns="1"  cellpadding="5">                                    
-                                <span style="font-weight: bold;"> <h:outputText value="#{req.corporatename}" style="font-weight: bold;" ></h:outputText></span>                                    
-                                <h:outputText value="Amount: N#{req.amount}">
-                                    <f:convertNumber pattern="###.###,00" />
-                                </h:outputText>
-                                <h:outputText value="Coverage Area: #{req.coverageLocation}" class="pull-right" style="color: #19aa8d;"/>
+                            <p:graphicImage name="images/lctWater/water.png" height="100" width="100" class="img img-responsive" />                             
+                            <div class="card-body">
+                                <p:outputPanel class="pull-left" style="margin-right: 600px; font-size: 15px;">                                
+                                    <h:panelGrid columns="1"  cellpadding="5">                                    
+                                        <span style="font-weight: bold;"> <h:outputText value="#{req.corporatename}" style="font-weight: bold;" ></h:outputText></span>                                    
+                                        <h:outputText value="Amount: N#{req.amount}">
+                                            <f:convertNumber pattern="###.###,00" />
+                                        </h:outputText>
+                                        <p:commandButton value='check status' update="stat,stat1" actionListener="#{getRequest.checkStatus(req)}" class="pull-right" style="color: #19aa8d;"/>
 
-                            </h:panelGrid>
-                        </p:outputPanel>
-                        </div>
+                                    </h:panelGrid>
+                                </p:outputPanel>
+                            </div>
                         </div>
                     </h:panelGrid>
-                    <h:outputText class="pull-right" value="Status: #{req.requestStat}"  style="color: #007fff;"/><br/>                                        
-                    <p:selectBooleanCheckbox value="#{req.select}" rendered="#{req.edit}" class="pull-right" label="Ajax">
-                        <p:ajax listener="#{getRequest.vex(req)}" />
-                    </p:selectBooleanCheckbox>
-                    <h:outputText class="pull-right" value="Add To Cart" rendered="#{req.edit}" />                                
-
+                    <h:outputText class="pull-right" rendered="#{getRequest}" id='stat' value="Status: #{req.requestStat}"  style="color: #007fff;"/><br/>                                        
+                    <p:panel id='stat1' style="border: none; background: none;" visible="#{getRequest.status1}">
+                        <p:selectBooleanCheckbox value="#{req.select}" rendered="#{req.edit}" class="pull-right" label="Ajax">
+                            <p:ajax listener="#{getRequest.vex(req)}" />
+                        </p:selectBooleanCheckbox>
+                        <h:outputText class="pull-right" value="Add To Cart" rendered="#{req.edit}" />                                
+                    </p:panel>
                 </p:dataScroller>
             </p:panel>
         </div>

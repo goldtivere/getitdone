@@ -15,6 +15,7 @@ import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -45,6 +46,8 @@ public class GetRequest implements Serializable {
     private String messangerOfTruth;
     private int locationfk;
     private boolean show;
+    private boolean status;
+    private boolean status1;
 
     @PostConstruct
     public void init() {
@@ -52,6 +55,8 @@ public class GetRequest implements Serializable {
             listMode = loc.Location();
             setPanelVisible(false);
             setShow(false);
+            setStatus(false);
+            setStatus1(false);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -219,6 +224,55 @@ public class GetRequest implements Serializable {
         System.out.println(m.getAmount() + " okay oo " + m.isSelect() + " " + System.getProperty("user.home") + " hello");
     }
 
+    public boolean checkActive(RequestModel m) throws SQLException {
+        FacesContext context = FacesContext.getCurrentInstance();
+
+        DbConnectionX dbConnections = new DbConnectionX();
+        Connection con = null;
+        ResultSet rs = null;
+        PreparedStatement pstmt = null;
+        SessionTest test = new SessionTest();
+
+        try {
+
+            con = dbConnections.mySqlDBconnection();
+            String query = "select distinct * from tbpayment where trxncompleted=false and vendorfk=? and itemname=?";
+            pstmt = con.prepareStatement(query);
+            pstmt.setInt(1, m.getVendorfk());
+            pstmt.setString(2, m.getItemname());
+            rs = pstmt.executeQuery();
+            //
+
+            return rs.next();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+
+        } finally {
+
+            if (!(con == null)) {
+                con.close();
+                con = null;
+            }
+            if (!(pstmt == null)) {
+                pstmt.close();
+                pstmt = null;
+            }
+
+        }
+    }
+
+    public void checkStatus(RequestModel m) throws SQLException {
+
+        if (checkActive(m)) {
+            setStatus(true);
+            setStatus1(false);
+        } else {
+            setStatus(false);
+            setStatus1(true);
+        }
+    }
+
     public void valueO() {
         for (RequestModel b : reques) {
             System.out.println(b.getAmount() + " hi Dude " + b.getCorporatename());
@@ -280,6 +334,22 @@ public class GetRequest implements Serializable {
 
     public void setMode(List<CategoryModel> mode) {
         this.mode = mode;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
+    public boolean isStatus1() {
+        return status1;
+    }
+
+    public void setStatus1(boolean status1) {
+        this.status1 = status1;
     }
 
 }
