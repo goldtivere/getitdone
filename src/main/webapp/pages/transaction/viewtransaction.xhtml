@@ -33,7 +33,7 @@
                 </div>  
                 <div class="col-md-8">
 
-                    <p:dataTable id="itema" var="itema" value="#{viewTransactions.trxn}" selection="#{viewTransactions.selectedtrxn}" rowKey="#{itema.id}" style="margin-bottom:0">
+                    <p:dataTable id="itema" var="itema" class='table table-responsive table-primary' value="#{viewTransactions.trxn}" selection="#{viewTransactions.selectedtrxn}" rowKey="#{itema.id}" style="margin-bottom:0">
                         <f:facet name="header">
                             <p:outputLabel value="#{viewTransactions.status}" />
                         </f:facet>

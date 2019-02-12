@@ -180,10 +180,11 @@ public class ViewTransactions implements Serializable {
                 setStatus("Completed Transaction(s)");
                 setCheckStatus(false);
                 trxn = viewTrxn(true, true, userObj.getId());
-            } else if (getValueStatus() == 2 && userObj.getRole() == 3) {
-                setStatus("Pending Transaction(s)");
-                setCheckStatus(false);
-                trxn = viewTrxn(true, false, userObj.getId());
+//            } else if (getValueStatus() == 2 && userObj.getRole() == 3) {
+//                setStatus("Pending Transaction(s)");
+//                setCheckStatus(false);
+//                trxn = viewTrxn(true, false, userObj.getId());
+//            } 
             } else if (getValueStatus() == 2 && userObj.getRole() == 3) {
                 setStatus("Pending Transaction(s)");
                 setCheckStatus(true);
