@@ -26,8 +26,8 @@
                             <p:inputText id='rphone' required='true' requiredMessage="Phone number is required" value="#{paymentDetails.model.phone}" maxlength="11" placeholder="Receiver's phone" class='form-control' />
                             
                             <p:outputLabel for='remail' value="Active Email Address: " />
-                            <p:inputText id="remail" required="true" value="#{paymentDetails.model.emailAddress}"  class="form-control" label="email" size="40"
-                                         requiredMessage="Please enter your email address."
+                            <p:inputText id="remail" value="#{paymentDetails.model.emailAddress}"  class="form-control" label="email" size="40"
+                                        
                                          validatorMessage="Invalid email format"
                                          >
 

@@ -35,12 +35,12 @@ import org.json.JSONObject;
 @ManagedBean
 @ViewScoped
 public class PaymentDetails implements Serializable {
-
+    
     private String messangerOfTruth;
     private List<RequestModel> mode;
     private double sumValue;
     private SenderModel model = new SenderModel();
-
+    
     @PostConstruct
     public void init() {
         double sum = 0;
@@ -51,15 +51,15 @@ public class PaymentDetails implements Serializable {
         mode = value();
         System.out.println("Hi got here");
     }
-
+    
     public List<RequestModel> value() {
         try {
             FacesContext ctx = FacesContext.getCurrentInstance();
             FacesMessage msg;
-
+            
             String stuValue = null;
             List<RequestModel> request = (List<RequestModel>) ctx.getExternalContext().getApplicationMap().get("request");
-
+            
             if (request != null || !request.isEmpty()) {
                 return request;
             } else {
@@ -68,30 +68,30 @@ public class PaymentDetails implements Serializable {
                 ctx.addMessage(null, msg);
                 return null;
             }
-
+            
         } catch (Exception ex) {
             ex.printStackTrace();
             return null;
         }
     }
-
+    
     public String generateRefNo() {
-
+        
         try {
-
+            
             String timeStamp = new SimpleDateFormat("yyMMddHHmmss").format(Calendar.getInstance().getTime());
-
+            
             int rnd = new Random().nextInt(99999753);
             String temp_val = String.valueOf(rnd).concat(timeStamp);
             return temp_val;
-
+            
         } catch (Exception ex) {
-
+            
             ex.printStackTrace();
             return null;
-
+            
         }
-
+        
     }//end generateRefNo(...)
 
     public void makepayment() throws SQLException {
@@ -104,19 +104,23 @@ public class PaymentDetails implements Serializable {
         FacesMessage msg;
         Transactions trans = new Transactions();
         LoadPPTfile load = new LoadPPTfile();
-
+        
         try {
             con = dbConnections.mySqlDBconnection();
             UserDetails userObj = (UserDetails) context.getExternalContext().getSessionMap().get("sessn_nums");
             String on = String.valueOf(userObj);
             int createdby = userObj.getId();
-
+            
             if (userObj == null) {
                 setMessangerOfTruth("Expired Session, please - login " + on);
                 msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
                         getMessangerOfTruth(), getMessangerOfTruth());
                 context.addMessage(null, msg);
             } else {
+                
+                if (model.getEmailAddress().isEmpty() || model.getEmailAddress() == null) {
+                    model.setEmailAddress("goldtive@gmail.com");
+                }
                 String tranAmount = String.valueOf(getSumValue() * 100);
                 String ref = userObj.getId() + generateRefNo();
                 JSONObject bn = trans.initializeTransaction(ref, tranAmount, model.getEmailAddress(), null, load.callback());
@@ -125,7 +129,7 @@ public class PaymentDetails implements Serializable {
                 String insertemail = "insert into tbtransaction (reference,userfk,amount,iscompleted,datecreated,accesscode,authorisationurl,message,status,"
                         + " receivername,receiverphone,receiveremail,receiveraddress,istrxncompleted)"
                         + "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-
+                
                 pstmt = con.prepareStatement(insertemail);
                 pstmt.setString(1, initial.getData().getReference());
                 pstmt.setInt(2, userObj.getId());
@@ -142,7 +146,7 @@ public class PaymentDetails implements Serializable {
                 pstmt.setString(13, model.getAddress());
                 pstmt.setBoolean(14, false);
                 pstmt.executeUpdate();
-
+                
                 String insertPayment = "insert into tbpayment (vendorfk,trxnreference,amount,ispaid,trxncompleted,trxnpaid,smssent,smscontent,itemname)"
                         + "values(?,?,?,?,?,?,?,?,?)";
                 for (RequestModel mode : value()) {
@@ -160,11 +164,11 @@ public class PaymentDetails implements Serializable {
                     pstmt.setString(9, mode.getItemname());
                     pstmt.executeUpdate();
                 }
-
+                
                 System.out.println("I am here big hhhead: " + bn + " " + initial.getData().getAuthorization_url());
                 FacesContext.getCurrentInstance().getExternalContext().redirect(initial.getData().getAuthorization_url());
             }
-
+            
         } catch (NullPointerException n) {
             setMessangerOfTruth("No service selected for payment");
             msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
@@ -172,9 +176,9 @@ public class PaymentDetails implements Serializable {
             context.addMessage(null, msg);
         } catch (Exception e) {
             e.printStackTrace();
-
+            
         } finally {
-
+            
             if (!(con == null)) {
                 con.close();
                 con = null;
@@ -183,41 +187,41 @@ public class PaymentDetails implements Serializable {
                 pstmt.close();
                 pstmt = null;
             }
-
+            
         }
-
+        
     }
-
+    
     public List<RequestModel> getMode() {
         return mode;
     }
-
+    
     public void setMode(List<RequestModel> mode) {
         this.mode = mode;
     }
-
+    
     public String getMessangerOfTruth() {
         return messangerOfTruth;
     }
-
+    
     public void setMessangerOfTruth(String messangerOfTruth) {
         this.messangerOfTruth = messangerOfTruth;
     }
-
+    
     public double getSumValue() {
         return sumValue;
     }
-
+    
     public void setSumValue(double sumValue) {
         this.sumValue = sumValue;
     }
-
+    
     public SenderModel getModel() {
         return model;
     }
-
+    
     public void setModel(SenderModel model) {
         this.model = model;
     }
-
+    
 }
