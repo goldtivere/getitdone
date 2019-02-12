@@ -155,10 +155,9 @@ public class Registration implements Serializable {
         return "/index.xhtml?faces-redirect=true";
 
     }
-    
-    public String forgotpassword()
-    {
-         return "/forgotpassword.xhtml?faces-redirect=true";
+
+    public String forgotpassword() {
+        return "/forgotpassword.xhtml?faces-redirect=true";
     }
 
     //login code
@@ -198,10 +197,10 @@ public class Registration implements Serializable {
                 dto.setPnum(rs.getString("phonenumber"));
                 dto.setRole(rs.getInt("userrole"));
 
-                if (dto.getRole() != 1) {
-                    setMenuStatus(false);
-                } else if (dto.getRole() == 1 ||  dto.getRole() == 3 ) {
+                if (dto.getRole() == 1 || dto.getRole() == 3) {
                     setMenuStatus(true);
+                } else {
+                    setMenuStatus(false);
                 }
 
                 context.getExternalContext().getSessionMap().put("sessn_nums", getDto());
