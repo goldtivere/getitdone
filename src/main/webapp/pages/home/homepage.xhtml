@@ -64,15 +64,17 @@
                                         <h:outputText value="Amount: N#{req.amount}">
                                             <f:convertNumber pattern="###.###,00" />
                                         </h:outputText>
-                                        <p:commandButton value='check status' update="stat,stat1" actionListener="#{getRequest.checkStatus(req)}" class="pull-right" style="color: #19aa8d;"/>
+                                        <p:commandButton value='check status' update="stat,ok" actionListener="#{getRequest.checkStatus(req)}" class="pull-right" style="color: #19aa8d;"/>
 
                                     </h:panelGrid>
                                 </p:outputPanel>
                             </div>
                         </div>
                     </h:panelGrid>
-                    <h:outputText class="pull-right" rendered="#{getRequest.status}" id='stat' value="Status: #{req.requestStat}"  style="color: #007fff;"/><br/>                                        
-                    <p:panel id='stat1' style="border: none; background: none;" visible="#{getRequest.status1}">
+                    <p:panel id='ok' style="border: none; background: none;" visible="#{getRequest.status}">
+                        <h:outputText class="pull-right"  id='stat' value="Currently on a trip"  style="color: #007fff;"/><br/>                                        
+                    </p:panel>
+                    <p:panel id='stat' style="border: none; background: none;" visible="#{getRequest.status1}">
                         <p:selectBooleanCheckbox value="#{req.select}" rendered="#{req.edit}" class="pull-right" label="Ajax">
                             <p:ajax listener="#{getRequest.vex(req)}" />
                         </p:selectBooleanCheckbox>
