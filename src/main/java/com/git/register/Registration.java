@@ -200,7 +200,7 @@ public class Registration implements Serializable {
 
                 if (dto.getRole() != 1) {
                     setMenuStatus(false);
-                } else if (dto.getRole() == 1) {
+                } else if (dto.getRole() == 1 && dto.getRole() == 3 ) {
                     setMenuStatus(true);
                 }
 
