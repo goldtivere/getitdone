@@ -108,7 +108,7 @@ public class ViewTransactions implements Serializable {
         }
     }
 
-    public List<TrxnModel> viewTrxnVendor(boolean trxnSent, boolean trxnpaid, int vendorfk) throws SQLException {
+    public List<TrxnModel> viewTrxnVendor(boolean trxnSent, boolean trxnpaid) throws SQLException {
         FacesContext context = FacesContext.getCurrentInstance();
 
         DbConnectionX dbConnections = new DbConnectionX();
@@ -121,11 +121,11 @@ public class ViewTransactions implements Serializable {
             con = dbConnections.mySqlDBconnection();
             String query = "select p.*,t.datecreated as created,t.userfk,v.*,vi.* from tbpayment p inner join tbtransaction t on p.trxnreference=t.reference "
                     + " inner join tbvendor v on p.vendorfk=v.id inner join tbvendoritem vi "
-                    + " on p.vendorfk=vi.vendorfk where p.ispaid=? and p.trxncompleted=? and p.vendorfk=? and p.itemname=vi.itemname";
+                    + " on p.vendorfk=vi.vendorfk where p.ispaid=? and p.trxncompleted=? and p.itemname=vi.itemname";
             pstmt = con.prepareStatement(query);
             pstmt.setBoolean(1, trxnSent);
             pstmt.setBoolean(2, trxnpaid);
-            pstmt.setInt(3, vendorfk);
+//            pstmt.setInt(3, vendorfk);
             rs = pstmt.executeQuery();
             List<TrxnModel> model = new ArrayList<>();
             //
@@ -188,11 +188,11 @@ public class ViewTransactions implements Serializable {
             } else if (getValueStatus() == 2 && userObj.getRole() == 3) {
                 setStatus("Pending Transaction(s)");
                 setCheckStatus(true);
-                trxn = viewTrxnVendor(true, false, userObj.getId());
+                trxn = viewTrxn(true, false, userObj.getId());
             } else if (getValueStatus() == 2 && userObj.getRole() == 1) {
                 setStatus("Pending Transaction(s)");
                 setCheckStatus(true);
-                trxn = viewTrxnVendor(true, false, userObj.getId());
+                trxn = viewTrxnVendor(true, false);
             }
         }
     }
