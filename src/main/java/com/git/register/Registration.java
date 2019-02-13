@@ -102,27 +102,28 @@ public class Registration implements Serializable {
         return ipAddress;
     }
 
-//    public void userIpPopulate() {
-//        DbConnectionX dbConnections = new DbConnectionX();
-//        Connection con = null;
-//        PreparedStatement pstmt = null;
-//        ResultSet rs = null;
-//        try {
-//            con = dbConnections.mySqlDBconnection();
-//            String insert = "insert into tbusertable (userip,dateloggedin,dateloggedtime)"
-//                    + "values(?,?,?)";
-//            pstmt = con.prepareStatement(insert);
-//
-//            pstmt.setString(1, userIp());
-//            pstmt.setString(2, DateManipulation.dateAlone());
-//            pstmt.setString(3, DateManipulation.dateAndTime());
-//
-//            pstmt.executeUpdate();
-//            System.out.println("done boy");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
+    public void userIpPopulate(int userfk) {
+        DbConnectionX dbConnections = new DbConnectionX();
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            con = dbConnections.mySqlDBconnection();
+            String insert = "insert into tbusertable (userfk,dateloggedin,dateloggedtime)"
+                    + "values(?,?,?)";
+            pstmt = con.prepareStatement(insert);
+
+            pstmt.setInt(1, userfk);
+            pstmt.setString(2, DateManipulation.dateAlone());
+            pstmt.setString(3, DateManipulation.dateAndTime());
+
+            pstmt.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public boolean submit() {
         try {
             Transactions trxn = new Transactions();
@@ -155,10 +156,9 @@ public class Registration implements Serializable {
         return "/index.xhtml?faces-redirect=true";
 
     }
-    
-    public String forgotpassword()
-    {
-         return "/forgotpassword.xhtml?faces-redirect=true";
+
+    public String forgotpassword() {
+        return "/forgotpassword.xhtml?faces-redirect=true";
     }
 
     //login code
@@ -200,10 +200,10 @@ public class Registration implements Serializable {
 
                 if (dto.getRole() != 1) {
                     setMenuStatus(false);
-                } else if (dto.getRole() == 1 ) {
+                } else if (dto.getRole() == 1) {
                     setMenuStatus(true);
                 }
-
+                userIpPopulate(dto.getId());
                 context.getExternalContext().getSessionMap().put("sessn_nums", getDto());
 
                 NavigationHandler nav = context.getApplication().getNavigationHandler();
