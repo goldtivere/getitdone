@@ -109,7 +109,7 @@ public class Registration implements Serializable {
         ResultSet rs = null;
         try {
             con = dbConnections.mySqlDBconnection();
-            String insert = "insert into tbusertable (userfk,dateloggedin,dateloggedtime)"
+            String insert = "insert into tbusertable (userfk,dateloggedin,datetimelogged)"
                     + "values(?,?,?)";
             pstmt = con.prepareStatement(insert);
 
