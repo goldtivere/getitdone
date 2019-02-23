@@ -17,7 +17,7 @@ public class RandomWordEquivalent {
 
     public String generateRandom() {
         Random rnd = new Random();
-        int a = 100000 + rnd.nextInt(900000);
+        int a = 1000 + rnd.nextInt(9000);
 
         return String.valueOf(a);
     }
