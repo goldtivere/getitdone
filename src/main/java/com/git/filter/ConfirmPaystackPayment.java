@@ -26,7 +26,11 @@ public class ConfirmPaystackPayment implements Runnable {
 
     @Override
     public void run() {
-        checkIfTrue();
+        try {
+            checkIfTrue();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public List<String> referenceName() throws SQLException {
@@ -70,7 +74,7 @@ public class ConfirmPaystackPayment implements Runnable {
 
     }//end doTransaction...
 
-    public void checkIfTrue() {
+    public void checkIfTrue() throws SQLException {
         Connection con = null;
         DbConnectionX dbCon = new DbConnectionX();
         ResultSet rs = null;
@@ -85,7 +89,7 @@ public class ConfirmPaystackPayment implements Runnable {
             for (String val : referenceName()) {
                 JSONObject bn = trans.verifyTransaction(val);
                 ObjectMapper mapp = new ObjectMapper();
-                ConfirmPayment confirm = mapp.readValue(bn.toString(), ConfirmPayment.class);                
+                ConfirmPayment confirm = mapp.readValue(bn.toString(), ConfirmPayment.class);
                 if (("successful").equalsIgnoreCase(confirm.getData().getGateway_response())
                         || ("approved").equalsIgnoreCase(confirm.getData().getGateway_response())) {
                     pstmt = con.prepareStatement(updateStatus);
@@ -102,6 +106,20 @@ public class ConfirmPaystackPayment implements Runnable {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+
+            if (!(con == null)) {
+                con.close();
+            }
+
+            if (!(pstmt == null)) {
+                pstmt.close();
+            }
+
+            if (!(rs == null)) {
+                rs.close();
+            }
+
         }
     }
 

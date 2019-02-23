@@ -48,10 +48,11 @@ public class DbConnectionX implements Serializable {
 
             setTestconnection(false);
             setMessangerOfTruth("Error from DbConnection.class " + e.getMessage());
-            e.printStackTrace();
+            e.printStackTrace();            
             return null;
 
         } 
+        
     }
 
     public Connection mySqlDBconnections() {
@@ -78,6 +79,7 @@ public class DbConnectionX implements Serializable {
             return null;
 
         }
+        
 
     }//end myConnection()
 

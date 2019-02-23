@@ -167,7 +167,7 @@ public class TransferInitiate implements Runnable {
 
     }//end doTransaction...
 
-    public void updatePayment(TransferinitiateModel tran) {
+    public void updatePayment(TransferinitiateModel tran) throws SQLException{
         DbConnectionX dbConnections = new DbConnectionX();
         Connection con = null;
         ResultSet rs = null;
@@ -185,9 +185,24 @@ public class TransferInitiate implements Runnable {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+        finally {
+
+            if (!(con == null)) {
+                con.close();
+            }
+
+            if (!(pstmt == null)) {
+                pstmt.close();
+            }
+
+            if (!(rs == null)) {
+                rs.close();
+            }
+
+        }
     }
 
-    public void updateTransfer(TransferinitiateModel mode, InitiateTransfer tran) {
+    public void updateTransfer(TransferinitiateModel mode, InitiateTransfer tran) throws SQLException{
         DbConnectionX dbConnections = new DbConnectionX();
         Connection con = null;
         ResultSet rs = null;
@@ -217,6 +232,21 @@ public class TransferInitiate implements Runnable {
 
         } catch (Exception ex) {
             ex.printStackTrace();
+        }
+        finally {
+
+            if (!(con == null)) {
+                con.close();
+            }
+
+            if (!(pstmt == null)) {
+                pstmt.close();
+            }
+
+            if (!(rs == null)) {
+                rs.close();
+            }
+
         }
     }
 

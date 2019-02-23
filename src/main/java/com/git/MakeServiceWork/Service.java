@@ -26,7 +26,7 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @ViewScoped
-public class Service implements Serializable{
+public class Service implements Serializable {
 
     /**
      * this class will be used to create an image directory to store all
@@ -40,13 +40,13 @@ public class Service implements Serializable{
 
     @PostConstruct
     public void init() {
-        
+
         System.out.println(System.getProperty("user.home") + " how far boss big head");
     }
 
     private boolean checkFileExist() {
         directoryFolder = "serviceImage";
-        File file = new File(System.getProperty("user.home") + "/"+directoryFolder);
+        File file = new File(System.getProperty("user.home") + "/" + directoryFolder);
         if (file.exists()) {
             setButtonVisible(false);
             return false;
@@ -98,6 +98,20 @@ public class Service implements Serializable{
 
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+
+            if (!(con == null)) {
+                con.close();
+            }
+
+            if (!(pstmt == null)) {
+                pstmt.close();
+            }
+
+            if (!(rs == null)) {
+                rs.close();
+            }
+
         }
     }
 

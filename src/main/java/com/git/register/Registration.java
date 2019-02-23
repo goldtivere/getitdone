@@ -23,6 +23,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Collection;
 import java.util.Enumeration;
@@ -102,7 +103,7 @@ public class Registration implements Serializable {
         return ipAddress;
     }
 
-    public void userIpPopulate(int userfk) {
+    public void userIpPopulate(int userfk) throws SQLException {
         DbConnectionX dbConnections = new DbConnectionX();
         Connection con = null;
         PreparedStatement pstmt = null;
@@ -121,6 +122,20 @@ public class Registration implements Serializable {
 
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+
+            if (!(con == null)) {
+                con.close();
+            }
+
+            if (!(pstmt == null)) {
+                pstmt.close();
+            }
+
+            if (!(rs == null)) {
+                rs.close();
+            }
+
         }
     }
 
@@ -285,7 +300,7 @@ public class Registration implements Serializable {
     }//end getLogout
     //check if verCodeExist
 
-    public boolean checkIfVerExists() {
+    public boolean checkIfVerExists()  throws SQLException{
         DbConnectionX dbConnections = new DbConnectionX();
         Connection con = null;
         PreparedStatement pstmt = null;
@@ -305,11 +320,25 @@ public class Registration implements Serializable {
         } catch (Exception e) {
             e.printStackTrace();
             return false;
+        } finally {
+
+            if (!(con == null)) {
+                con.close();
+            }
+
+            if (!(pstmt == null)) {
+                pstmt.close();
+            }
+
+            if (!(rs == null)) {
+                rs.close();
+            }
+
         }
 
     }
 
-    public boolean checkIfNumExists() {
+    public boolean checkIfNumExists() throws SQLException {
         DbConnectionX dbConnections = new DbConnectionX();
         Connection con = null;
         PreparedStatement pstmt = null;
@@ -328,11 +357,25 @@ public class Registration implements Serializable {
         } catch (Exception e) {
             e.printStackTrace();
             return false;
+        } finally {
+
+            if (!(con == null)) {
+                con.close();
+            }
+
+            if (!(pstmt == null)) {
+                pstmt.close();
+            }
+
+            if (!(rs == null)) {
+                rs.close();
+            }
+
         }
 
     }
 
-    public void register() {
+    public void register() throws SQLException{
         FacesContext context = FacesContext.getCurrentInstance();
         DbConnectionX dbConnections = new DbConnectionX();
         Connection con = null;
@@ -376,11 +419,24 @@ public class Registration implements Serializable {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        } finally {
 
+            if (!(con == null)) {
+                con.close();
+            }
+
+            if (!(pstmt == null)) {
+                pstmt.close();
+            }
+
+            if (!(rs == null)) {
+                rs.close();
+            }
+
+        }
     }
 
-    public void nextPage() {
+    public void nextPage() throws SQLException{
         FacesContext context = FacesContext.getCurrentInstance();
         DbConnectionX dbConnections = new DbConnectionX();
         Connection con = null;
@@ -424,6 +480,20 @@ public class Registration implements Serializable {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+
+            if (!(con == null)) {
+                con.close();
+            }
+
+            if (!(pstmt == null)) {
+                pstmt.close();
+            }
+
+            if (!(rs == null)) {
+                rs.close();
+            }
+
         }
     }
 

@@ -21,8 +21,8 @@ public class AESencrp {
         'm', 's', 'S', 'e', 'c', 'r', 'e', 't', 'K', 'e', 'y'};
      */
     //take this to the property file
-    private static final byte[] keyValue = new byte[]{'S', 'i', 'n', 'g', 'o',
-        'f', 'T', 'h', 'e', 'L', 'O', 'R', 'D', 'G','O','D'};
+    private static final LoadPPTfile loadpptfile= new LoadPPTfile();
+
 
     public static String encrypt(String data) throws Exception {
 
@@ -49,7 +49,7 @@ public class AESencrp {
 
     public static Key generateKey() throws Exception {
 
-        Key key = new SecretKeySpec(keyValue, ALGO);
+        Key key = new SecretKeySpec(loadpptfile.encryptPass(), ALGO);
         return key;
     }
     /**public static void main(String [] args)

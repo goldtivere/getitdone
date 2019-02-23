@@ -60,19 +60,37 @@ public class Confirm implements Serializable {
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        con = dbConnections.mySqlDBconnection();
-        String testguid = "Select * from tbtransaction where reference=?";
-        pstmt = con.prepareStatement(testguid);
-        pstmt.setString(1, someParam);
-        rs = pstmt.executeQuery();
+        try {
+            con = dbConnections.mySqlDBconnection();
+            String testguid = "Select * from tbtransaction where reference=?";
+            pstmt = con.prepareStatement(testguid);
+            pstmt.setString(1, someParam);
+            rs = pstmt.executeQuery();
 
-        if (rs.next()) {
-            correctRef = rs.getString("reference");
-            return true;
+            if (rs.next()) {
+                correctRef = rs.getString("reference");
+                return true;
+
+            }
+            return false;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return false;
+        } finally {
+
+            if (!(con == null)) {
+                con.close();
+            }
+
+            if (!(pstmt == null)) {
+                pstmt.close();
+            }
+
+            if (!(rs == null)) {
+                rs.close();
+            }
 
         }
-        return false;
-
     }
 
     public String getRef() {

@@ -180,7 +180,7 @@ public class ThreadRunner implements Runnable {
 
     }//end doTransaction...
 
-    public void updateSmsTable(String statusCode, String description, String phonenumber, int id) {
+    public void updateSmsTable(String statusCode, String description, String phonenumber, int id) throws SQLException {
         DbConnectionX dbConnections = new DbConnectionX();
         Connection con = null;
         ResultSet rs = null;
@@ -199,6 +199,20 @@ public class ThreadRunner implements Runnable {
 
         } catch (Exception ex) {
             ex.printStackTrace();
+        } finally {
+
+            if (!(con == null)) {
+                con.close();
+            }
+
+            if (!(pstmt == null)) {
+                pstmt.close();
+            }
+
+            if (!(rs == null)) {
+                rs.close();
+            }
+
         }
     }
 

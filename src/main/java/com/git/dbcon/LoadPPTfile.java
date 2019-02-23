@@ -184,6 +184,20 @@ public class LoadPPTfile implements Serializable {
         }
     }
 
+    public byte[] encryptPass(){
+    Properties prop= new Properties();
+    try
+    {
+        prop.load(new FileInputStream(System.getProperty("user.home")+ "/mydb.cfg"));
+        String encryptPass= prop.getProperty("encrypt").toString();
+        return encryptPass.getBytes();
+    }
+    catch(Exception ex)
+    {
+        ex.printStackTrace();
+        return null;
+    }
+}
     public boolean isLoadPPtFile() throws Exception {
 
         //

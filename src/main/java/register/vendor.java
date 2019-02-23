@@ -72,7 +72,7 @@ public class vendor implements Serializable {
 
     }
 
-    public boolean checkRcExist(String rcnum) {
+    public boolean checkRcExist(String rcnum) throws SQLException{
         DbConnectionX dbConnections = new DbConnectionX();
         Connection con = null;
         PreparedStatement pstmt = null;
@@ -92,10 +92,25 @@ public class vendor implements Serializable {
             e.printStackTrace();
             return false;
         }
+        finally {
+
+            if (!(con == null)) {
+                con.close();
+            }
+
+            if (!(pstmt == null)) {
+                pstmt.close();
+            }
+
+            if (!(rs == null)) {
+                rs.close();
+            }
+
+        }
 
     }
 
-    public boolean checkAccountExist(String acctnum, String bankname) {
+    public boolean checkAccountExist(String acctnum, String bankname) throws SQLException {
         DbConnectionX dbConnections = new DbConnectionX();
         Connection con = null;
         PreparedStatement pstmt = null;
@@ -116,10 +131,25 @@ public class vendor implements Serializable {
             e.printStackTrace();
             return false;
         }
+        finally {
+
+            if (!(con == null)) {
+                con.close();
+            }
+
+            if (!(pstmt == null)) {
+                pstmt.close();
+            }
+
+            if (!(rs == null)) {
+                rs.close();
+            }
+
+        }
 
     }
 
-    public boolean checkBusinessExist(String business) {
+    public boolean checkBusinessExist(String business) throws SQLException {
         DbConnectionX dbConnections = new DbConnectionX();
         Connection con = null;
         PreparedStatement pstmt = null;
@@ -139,7 +169,21 @@ public class vendor implements Serializable {
             e.printStackTrace();
             return false;
         }
+finally {
 
+            if (!(con == null)) {
+                con.close();
+            }
+
+            if (!(pstmt == null)) {
+                pstmt.close();
+            }
+
+            if (!(rs == null)) {
+                rs.close();
+            }
+
+        }
     }
 
     public int studentIdCheck(Connection con) throws SQLException {
