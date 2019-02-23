@@ -14,6 +14,7 @@ import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -64,7 +65,7 @@ public class Service implements Serializable {
         return file.mkdirs();
     }
 
-    public void directoryCreated() {
+    public void directoryCreated() throws SQLException{
         if (createFile()) {
             FacesContext context = FacesContext.getCurrentInstance();
             saveDirectory();
@@ -76,7 +77,7 @@ public class Service implements Serializable {
         }
     }
 
-    public void saveDirectory() {
+    public void saveDirectory() throws SQLException {
         FacesContext context = FacesContext.getCurrentInstance();
         DbConnectionX dbConnections = new DbConnectionX();
         Connection con = null;
