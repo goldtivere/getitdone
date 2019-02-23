@@ -194,7 +194,7 @@ public class ForgotPassword implements Serializable {
 
                 setFirstPanel(false);
                 setSecondPanel(true);
-                System.out.println("This is it: " + ran.generateRandom());
+                System.out.println("This is it: " + lum);
             } else {
                 context.addMessage(null, new FacesMessage("Phone number does not exist!!"));
             }
