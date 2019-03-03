@@ -49,7 +49,7 @@ public class DisplayVendor implements Serializable {
             con = dbConnections.mySqlDBconnection();
             String query = "select distinct g.vendorfk,g.category,g.quantity,g.itemname,g.locationfk,p.phonenumber,p.corporatename,p.coveragelocation, g.amount from "
                     + "tbvendoritem g inner join tbvendor p on g.vendorfk=p.id "
-                    + " where p.isdeleted=false and g.category=? and g.locationfk=?";
+                    + " where p.isdeleted=false and g.locationfk=?";
             pstmt = con.prepareStatement(query);
             pstmt.setInt(1, itemModel.getLocationfk());
             rs = pstmt.executeQuery();
