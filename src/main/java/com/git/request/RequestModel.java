@@ -27,6 +27,8 @@ import java.io.Serializable;
     private boolean trxnpaid;
     private int quan;
     private String itemname;
+    private String phoneNumber;
+    private int locationfk;
 
     public int getVendorfk() {
         return vendorfk;
@@ -146,6 +148,22 @@ import java.io.Serializable;
 
     public void setItemname(String itemname) {
         this.itemname = itemname;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public int getLocationfk() {
+        return locationfk;
+    }
+
+    public void setLocationfk(int locationfk) {
+        this.locationfk = locationfk;
     }
      
     

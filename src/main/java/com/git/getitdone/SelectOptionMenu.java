@@ -26,12 +26,11 @@ import javax.faces.context.FacesContext;
 @ViewScoped
 public class SelectOptionMenu implements Serializable {
 
-    
     private List<BankModel> bankMode;
 
     @PostConstruct
     public void init() {
-        try {            
+        try {
             bankMode = dropBank();
         } catch (Exception e) {
             e.printStackTrace();
@@ -134,8 +133,8 @@ public class SelectOptionMenu implements Serializable {
 
         }
     }
-    
-     public List<LocationModel> Location() throws Exception {
+
+    public List<LocationModel> Location() throws Exception {
         FacesContext context = FacesContext.getCurrentInstance();
 
         DbConnectionX dbConnections = new DbConnectionX();
@@ -155,7 +154,7 @@ public class SelectOptionMenu implements Serializable {
 
                 LocationModel coun = new LocationModel();
                 coun.setId(rs.getInt("id"));
-                coun.setLocationName(rs.getString("locationname"));                
+                coun.setLocationName(rs.getString("locationname"));
 
                 //
                 lst.add(coun);
@@ -178,7 +177,49 @@ public class SelectOptionMenu implements Serializable {
             }
 
         }
-    }    
+    }
+
+    public String Location(int locationfk) throws Exception {
+        FacesContext context = FacesContext.getCurrentInstance();
+
+        DbConnectionX dbConnections = new DbConnectionX();
+        Connection con = null;
+        ResultSet rs = null;
+        PreparedStatement pstmt = null;
+
+        try {
+
+            con = dbConnections.mySqlDBconnection();
+            String query = "SELECT * FROM tblocation where id=?";
+            pstmt = con.prepareStatement(query);
+            pstmt.setInt(1, locationfk);
+            rs = pstmt.executeQuery();
+            //
+            List<LocationModel> lst = new ArrayList<>();
+            if (rs.next()) {
+
+                return rs.getString("locationname");
+
+            }
+
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+
+        } finally {
+
+            if (!(con == null)) {
+                con.close();
+                con = null;
+            }
+            if (!(pstmt == null)) {
+                pstmt.close();
+                pstmt = null;
+            }
+
+        }
+    }
 
     public String categoryName(int id) throws SQLException {
         FacesContext context = FacesContext.getCurrentInstance();
@@ -298,7 +339,7 @@ public class SelectOptionMenu implements Serializable {
             }
 
         }
-    }    
+    }
 
     public List<BankModel> getBankMode() {
         return bankMode;

@@ -69,14 +69,46 @@
                     <p:inputTextarea id="descript" class="form-control" value="#{item.mode.itemDescritpion}" required="true" requiredMessage="Description is required"/>
                 </div> 
                 <div class="col-md-9">
-                   <p:outputLabel value="Quantity Available: " for="quan"/>
-                   <p:spinner id="quan" value="#{item.mode.quantity}" />
+                    <p:outputLabel value="Quantity Available: " for="quan"/>
+                    <p:spinner id="quan" value="#{item.mode.quantity}" />
                 </div>
             </div>  
             <div class="row pull-left" >
                 <p:commandButton value="Add Item" class="pull-right" action="#{item.saveItem()}" update="messages,firstPanel" process="@this cat,business,loc,dd,punit,percent,descript,quan" />  
             </div>  
-        </p:panel>      
+        </p:panel>   
+        <div class="row">
+            <p:outputLabel value="Select Location " for="loc"/>
+            <p:selectOneMenu id="loc" class="form-control" value="#{displayVendor.itemModel.locationfk}" required="true" requiredMessage="Location is required">                            
+                <p:ajax listener="#{displayVendor.makeVisible(displayVendor.itemModel.locationfk)}" update="secondPanel" />
+                <f:selectItem itemLabel="--Select Location--" itemValue="" noSelectionOption="true"/>
+                <f:selectItems value="#{item.listMode}"
+                               var="singlevalue"  
+                               itemLabel="#{singlevalue.locationName}"
+                               itemValue="#{singlevalue.id}"/>
+            </p:selectOneMenu> 
+        </div>
+        <p:panel style="border:none" id="secondPanel">           
+            <div class="row">
+                <p:dataTable id="itema" var="itema" class='table table-responsive table-primary' value="#{displayVendor.requestList}" style="margin-bottom:0">                                                
+                    <p:column headerText="Vendor Name" >
+                        <h:outputText value="#{itema.corporatename}" />
+                    </p:column>  
+                    <p:column headerText="Phone Number" >
+                        <h:outputText value="#{itema.phoneNumber}" />
+                    </p:column> 
+                    <p:column headerText="Category" >
+                        <h:outputText value="#{displayVendor.selectOptionMenu.categoryName(itema.catId)}" />
+                    </p:column> 
+                    <p:column headerText="Location" >
+                        <h:outputText value="#{displayVendor.selectOptionMenu.Location(itema.locationfk)}" />
+                    </p:column>  
+                    <p:column headerText="Amount" >
+                        <h:outputText value="#{itema.amount}" />
+                    </p:column>                    
+                </p:dataTable>
+            </div>
+        </p:panel>
     </ui:define>
 
 </ui:composition>
