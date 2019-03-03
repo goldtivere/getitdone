@@ -77,9 +77,13 @@
                 <p:commandButton value="Add Item" class="pull-right" action="#{item.saveItem()}" update="messages,firstPanel" process="@this cat,business,loc,dd,punit,percent,descript,quan" />  
             </div>  
         </p:panel>   
+        <br/>
+        <br/>
         <div class="row">
-            <p:outputLabel value="Select Location " for="loc"/>
-            <p:selectOneMenu id="loc" class="form-control" value="#{displayVendor.itemModel.locationfk}" required="true" requiredMessage="Location is required">                            
+
+
+            <p:outputLabel value="Select Location " for="locs"/>
+            <p:selectOneMenu id="locs" class="form-control" value="#{displayVendor.itemModel.locationfk}" required="true" requiredMessage="Location is required">                            
                 <p:ajax listener="#{displayVendor.makeVisible(displayVendor.itemModel.locationfk)}" update="secondPanel" />
                 <f:selectItem itemLabel="--Select Location--" itemValue="" noSelectionOption="true"/>
                 <f:selectItems value="#{item.listMode}"

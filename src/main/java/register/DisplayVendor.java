@@ -19,6 +19,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import java.io.Serializable;
 
 /**
  *
@@ -26,13 +27,13 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @ViewScoped
-public class DisplayVendor {
+public class DisplayVendor implements Serializable {
 
     private ItemModel itemModel = new ItemModel();
     private List<RequestModel> requestList;
     private String messangerOfTruth;
     private SessionTest test = new SessionTest();
-    private SelectOptionMenu selectOptionMenu= new SelectOptionMenu();
+    private SelectOptionMenu selectOptionMenu = new SelectOptionMenu();
 
     public List<RequestModel> requestLst(int val) throws Exception {
         FacesContext context = FacesContext.getCurrentInstance();
@@ -66,7 +67,7 @@ public class DisplayVendor {
                 coun.setItemname(rs.getString("itemname"));
                 coun.setPhoneNumber(rs.getString("phonenumber"));
                 coun.setLocationfk(rs.getInt("locationfk"));
-                System.out.println(coun.isCompleted() + " hi " + coun.isRequestStatus() + " yeah " + coun.isTrxnpaid());                               
+                System.out.println(coun.isCompleted() + " hi " + coun.isRequestStatus() + " yeah " + coun.isTrxnpaid());
                 //                
                 lst.add(coun);
 
@@ -103,7 +104,7 @@ public class DisplayVendor {
                 setMessangerOfTruth("User Session not found please sign out and back in ");
                 message = new FacesMessage(FacesMessage.SEVERITY_INFO, getMessangerOfTruth(), getMessangerOfTruth());
                 context.addMessage(null, message);
-            }            
+            }
         } catch (NullPointerException e) {
             setMessangerOfTruth("User Session not found please sign out and back in ");
             message = new FacesMessage(FacesMessage.SEVERITY_INFO, getMessangerOfTruth(), getMessangerOfTruth());
