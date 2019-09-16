@@ -19,8 +19,6 @@ public class Data {
     private String transaction_date;
 
     private Authorization authorization;
-    
-    private String order_id;
 
     private String fees;
 
@@ -64,14 +62,7 @@ public class Data {
     {
         return paidAt;
     }
-public String getOrder_id()
-{
-    return order_id;
-}
-    public void setOrder_id(String order_id)
-    {
-        this.order_id=order_id;
-    }
+
     public void setPaidAt (String paidAt)
     {
         this.paidAt = paidAt;
